@@ -1,4 +1,4 @@
-EGG_NAME=clic
+EGG_NAME=clictagger
 SHELL=/bin/bash -o pipefail
 
 all: compile test lint

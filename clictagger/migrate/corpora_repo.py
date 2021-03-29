@@ -1,5 +1,5 @@
 '''
-clic.migrate.corpora_repo: Import books from the CCR corpora repository
+clictagger.migrate.corpora_repo: Import books from the CCR corpora repository
 ***********************************************************************
 '''
 import collections
@@ -8,7 +8,7 @@ import os
 import os.path
 import pybtex.database
 
-from clic.region.utils import regions_flatten, regions_unflatten
+from clictagger.region.utils import regions_flatten, regions_unflatten
 
 
 def parse_corpora_bib(corpora_dir, bib_name='corpora.bib'):

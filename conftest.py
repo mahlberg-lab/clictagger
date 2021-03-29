@@ -64,7 +64,7 @@ def format_cluster(cluster_results):
 
 def run_tagger(content, *fns):
     """Run a tagger function, return region tags that got applied"""
-    from clic.region.utils import regions_flatten
+    from clictagger.region.utils import regions_flatten
 
     book = dict(content=content)
     for fn in fns:

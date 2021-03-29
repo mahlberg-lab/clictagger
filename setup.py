@@ -12,11 +12,11 @@ tests_require = [
 ]
 
 setup(
-    name="clic",
-    description='CLiC web API',
+    name="clictagger",
+    description='CLiC region tagging',
     author='Jamie Lentin',
     author_email='jamie.lentin@shuttlethread.com',
-    url='https://github.com/birmingham-ccr/clic',
+    url='https://github.com/birmingham-ccr/clictagger',
     packages=find_packages(),
     install_requires=requires,
     extras_require=dict(
@@ -24,7 +24,7 @@ setup(
     ),
     entry_points={
         'console_scripts': [
-            'region_preview=clic.migrate.region_preview:script_region_preview',
+            'region_preview=clictagger.migrate.region_preview:script_region_preview',
         ],
     },
 )

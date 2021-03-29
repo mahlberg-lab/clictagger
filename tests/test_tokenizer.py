@@ -1,6 +1,6 @@
 import unittest
 
-from clic.tokenizer import types_from_string
+from clictagger.tokenizer import types_from_string
 
 
 class TestTypesFromString(unittest.TestCase):
