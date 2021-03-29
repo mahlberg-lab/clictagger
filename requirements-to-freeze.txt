@@ -1,6 +1,0 @@
-flake8
-coverage
-psycopg2-binary
-wheel
--e .
-.[testing]
