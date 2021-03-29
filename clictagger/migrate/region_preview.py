@@ -1,32 +1,32 @@
-'''
+"""
 clic.migrate.region_preview: Mark up regions in text with ANSI colour codes
 ***************************************************************************
-'''
+"""
 import subprocess
 
 REGION_COLOURS = [
-    '\x1b[0m',
-    '\x1b[0;37;44m',  # Blue
-    '\x1b[0;37;42m',  # Green
-    '\x1b[0;37;41m',  # Red
-    '\x1b[0;37;45m',  # Magenta
-    '\x1b[0;37;46m',  # Cyan
-    '\x1b[0;37;43m',  # Yellow
+    "\x1b[0m",
+    "\x1b[0;37;44m",  # Blue
+    "\x1b[0;37;42m",  # Green
+    "\x1b[0;37;41m",  # Red
+    "\x1b[0;37;45m",  # Magenta
+    "\x1b[0;37;46m",  # Cyan
+    "\x1b[0;37;43m",  # Yellow
 ]
 DEFAULT_HIGHLIGHT_REGIONS = [
-    'chapter.sentence',
-    'quote.quote',
-    'quote.suspension.short',
-    'quote.suspension.long',
-    'chapter.title',
-    'metadata.title',
-    'metadata.author',
+    "chapter.sentence",
+    "quote.quote",
+    "quote.suspension.short",
+    "quote.suspension.long",
+    "chapter.title",
+    "metadata.title",
+    "metadata.author",
 ]
 
 
 def colourise_book(book, regions_to_highlight):
     """Based on algorithm in client/lib/corpora_utils"""
-    inserts = [(len(book['content']), 0, False)]
+    inserts = [(len(book["content"]), 0, False)]
 
     # Generate a legend
     yield "Legend:-\n"
@@ -48,11 +48,13 @@ def colourise_book(book, regions_to_highlight):
     open_regions = {0: True}
     for insert in inserts:
         if insert[0] > start:
-            for i, part in enumerate(book['content'][start:insert[0]].split("\n")):
+            for i, part in enumerate(book["content"][start : insert[0]].split("\n")):
                 if i > 0:
                     yield "\n"
                 # Set / reset region colours after every newline
-                yield REGION_COLOURS[min(max(open_regions.keys()), len(REGION_COLOURS) - 1)]
+                yield REGION_COLOURS[
+                    min(max(open_regions.keys()), len(REGION_COLOURS) - 1)
+                ]
                 yield part
             start = insert[0]
         if insert[2]:
@@ -63,7 +65,7 @@ def colourise_book(book, regions_to_highlight):
 
 
 def region_preview(cur, book_content=[""], highlight=DEFAULT_HIGHLIGHT_REGIONS):
-    '''
+    """
     Endpoint that will mark up incoming text. This is temporary, and will be
     removed when a full UI is available.
 
@@ -71,22 +73,25 @@ def region_preview(cur, book_content=[""], highlight=DEFAULT_HIGHLIGHT_REGIONS):
 
         curl -v --form 'book_content=@alice.txt' \\
             http://.../api/region/preview? | less -RFi
-    '''
+    """
     from ..region.tag import tagger
     from ..tokenizer import types_from_string
 
     # Create book and tag it
-    book = dict(name='stdin')
-    book['content'] = "".join(book_content)
+    book = dict(name="stdin")
+    book["content"] = "".join(book_content)
     tagger(book)
 
-    if 'tokens' in highlight:
+    if "tokens" in highlight:
         # Return value for tokens is wrong way around, reverse it.
-        book['tokens'] = [(start, end, type) for type, start, end in types_from_string(book['content'])]
+        book["tokens"] = [
+            (start, end, type)
+            for type, start, end in types_from_string(book["content"])
+        ]
 
     return dict(
         response=colourise_book(book, highlight),
-        content_type='text/plain',
+        content_type="text/plain",
     )
 
 
@@ -109,24 +114,29 @@ def script_region_preview():
     from ..region.tag import tagger
     from ..tokenizer import types_from_string
 
-    book_path = sys.argv[1] if len(sys.argv) > 1 else '-'
-    regions_to_highlight = sys.argv[2:] if len(sys.argv) > 2 else DEFAULT_HIGHLIGHT_REGIONS
+    book_path = sys.argv[1] if len(sys.argv) > 1 else "-"
+    regions_to_highlight = (
+        sys.argv[2:] if len(sys.argv) > 2 else DEFAULT_HIGHLIGHT_REGIONS
+    )
 
-    if book_path == '-':
-        book = dict(name='stdin')
-        book['content'] = sys.stdin.read()
+    if book_path == "-":
+        book = dict(name="stdin")
+        book["content"] = sys.stdin.read()
     else:
         book = import_book(book_path)
     tagger(book)
 
-    if 'tokens' in regions_to_highlight:
+    if "tokens" in regions_to_highlight:
         # Return value for tokens is wrong way around, reverse it.
-        book['tokens'] = [(start, end, type) for type, start, end in types_from_string(book['content'])]
+        book["tokens"] = [
+            (start, end, type)
+            for type, start, end in types_from_string(book["content"])
+        ]
 
-    p = subprocess.Popen(['less', '-RFi'], stdin=subprocess.PIPE)
+    p = subprocess.Popen(["less", "-RFi"], stdin=subprocess.PIPE)
     for out in colourise_book(book, regions_to_highlight):
         try:
-            p.stdin.write(out.encode('utf8'))
+            p.stdin.write(out.encode("utf8"))
         except BrokenPipeError:
             # Pager lost interest
             break

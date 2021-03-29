@@ -185,17 +185,20 @@ import icu
 from ..icuconfig import DEFAULT_LOCALE
 
 
-INITIAL_ALPHANUMERIC_REGEX = re.compile(r'^(?:\W|_)*(.)')
+INITIAL_ALPHANUMERIC_REGEX = re.compile(r"^(?:\W|_)*(.)")
 
 
 def tagger_quote_suspension(book):
     """Add quote.suspension tags to (book)"""
-    if len(book.get('quote.suspension.short', [])) > 0 or len(book.get('quote.suspension.long', [])) > 0:
+    if (
+        len(book.get("quote.suspension.short", [])) > 0
+        or len(book.get("quote.suspension.long", [])) > 0
+    ):
         return  # Nothing to do
 
     # Create a word iterator for this book
     bi = icu.BreakIterator.createWordInstance(DEFAULT_LOCALE)
-    bi.setText(book['content'])
+    bi.setText(book["content"])
 
     def count_words(f, t):
         out = 0
@@ -208,37 +211,41 @@ def tagger_quote_suspension(book):
         return out
 
     cur_sent_b = -10  # i.e. a value we'll consider before-range
-    book['quote.suspension.short'] = []
-    book['quote.suspension.long'] = []
+    book["quote.suspension.short"] = []
+    book["quote.suspension.long"] = []
     s_i = 0
-    paragraph_starts = set(r[0] for r in book['chapter.paragraph'])
-    sentence_starts = set(r[0] for r in book['chapter.sentence'])
-    for containing_r in book['quote.nonquote']:
+    paragraph_starts = set(r[0] for r in book["chapter.paragraph"])
+    sentence_starts = set(r[0] for r in book["chapter.sentence"])
+    for containing_r in book["quote.nonquote"]:
         if containing_r[0] in paragraph_starts:
             # Starts with a paragraph break, so not a suspension
             continue
 
         if containing_r[0] in sentence_starts:
-            m = INITIAL_ALPHANUMERIC_REGEX.match(book['content'][containing_r[0]:containing_r[1]])
+            m = INITIAL_ALPHANUMERIC_REGEX.match(
+                book["content"][containing_r[0] : containing_r[1]]
+            )
             if m and m.group(1).isupper():
                 # First alphanumeric is an upper case character, ignore
                 continue
 
-        while cur_sent_b < containing_r[1]:  # while current sentence boundary is before end-of-region
+        while (
+            cur_sent_b < containing_r[1]
+        ):  # while current sentence boundary is before end-of-region
             if cur_sent_b > containing_r[0]:  # If it's after the start-of-region also
                 # There is a sentence boundary after the start of this region, ignore and move on
                 break
             # Find the next end-of-sentence (NB: regions are end-exclusive, so go back one)
             s_i += 1
-            if s_i >= len(book['chapter.sentence']):
+            if s_i >= len(book["chapter.sentence"]):
                 # Run out of sentences, move to end of book.
-                cur_sent_b = len(book['content'])
+                cur_sent_b = len(book["content"])
             else:
-                cur_sent_b = book['chapter.sentence'][s_i][1] - 1
+                cur_sent_b = book["chapter.sentence"][s_i][1] - 1
         else:
             # Considered all potential sentence boundaries and none found, this is a suspension.
             word_count = count_words(*containing_r)
             if word_count >= 5:
-                book['quote.suspension.long'].append(containing_r)
+                book["quote.suspension.long"].append(containing_r)
             elif word_count >= 1:
-                book['quote.suspension.short'].append(containing_r)
+                book["quote.suspension.short"].append(containing_r)

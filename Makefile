@@ -17,7 +17,7 @@ test: compile
 	./bin/pytest $(EGG_NAME) tests
 
 lint: lib/.requirements
-	./bin/flake8 --ignore=E501 $(EGG_NAME)/ tests/
+	./bin/black $(EGG_NAME)/ tests/
 
 coverage: compile
 	./bin/coverage run ./bin/py.test $(EGG_NAME)/ tests/

@@ -133,30 +133,38 @@ import unidecode
 
 from .icuconfig import DEFAULT_LOCALE
 
-HYPHEN_WORD_PARTS = set((
-    # Hyphens from note in http://www.unicode.org/reports/tr29/
-    '\u002D',  # HYPHEN-MINUS
-    '\u2010',  # HYPHEN
-))
+HYPHEN_WORD_PARTS = set(
+    (
+        # Hyphens from note in http://www.unicode.org/reports/tr29/
+        "\u002D",  # HYPHEN-MINUS
+        "\u2010",  # HYPHEN
+    )
+)
 
-APOSTROPHE_WORD_PARTS = set((
-    "’",
-    "'",
-))
+APOSTROPHE_WORD_PARTS = set(
+    (
+        "’",
+        "'",
+    )
+)
 
 #: A list of words that, if prepended with an apostrophe, we should consider
 #: the apostrophe part of the token, rather than the start of a quote.
-INITIAL_ABBREVIATIONS = set((
-    'em',  # e.g. alice.txt: "No, tie ’em together first"
-    'tis',
-    'twas',
-    'twill',
-    'twould',
-))
+INITIAL_ABBREVIATIONS = set(
+    (
+        "em",  # e.g. alice.txt: "No, tie ’em together first"
+        "tis",
+        "twas",
+        "twill",
+        "twould",
+    )
+)
 INITIAL_ABBREVIATIONS_MAXLEN = max(len(x) for x in INITIAL_ABBREVIATIONS)
-INITIAL_ABBREVIATIONS_REGEX = re.compile(r"^(?:%s)\W" % '|'.join(INITIAL_ABBREVIATIONS), re.I)
+INITIAL_ABBREVIATIONS_REGEX = re.compile(
+    r"^(?:%s)\W" % "|".join(INITIAL_ABBREVIATIONS), re.I
+)
 
-REGEX_WORD_REMOVALS = re.compile(r'^_|_$')
+REGEX_WORD_REMOVALS = re.compile(r"^_|_$")
 
 
 def word_boundary_type(s, bi, last_b, additional_word_parts=set()):
@@ -180,17 +188,20 @@ def word_boundary_type(s, bi, last_b, additional_word_parts=set()):
         # Out: over-, handled--
         def is_wordy(ch):
             return ch in additional_word_parts or ch.isalpha() or ch.isnumeric()
-        if not is_wordy(s[b - 2:b - 1]) or not is_wordy(s[b:b + 1]):
+
+        if not is_wordy(s[b - 2 : b - 1]) or not is_wordy(s[b : b + 1]):
             return 0
         return 200
 
     if word in APOSTROPHE_WORD_PARTS:
         # ICU will handle apostrophe's in words, but not ones before/after.
         # Open-quotes should not be trailing possessives, e.g. cows' milk
-        if s[b - 2:b - 1] == 's':
+        if s[b - 2 : b - 1] == "s":
             return 200
         # For select words, hyphen should be part of the word
-        if re.search(INITIAL_ABBREVIATIONS_REGEX, s[b:b + INITIAL_ABBREVIATIONS_MAXLEN + 1]):
+        if re.search(
+            INITIAL_ABBREVIATIONS_REGEX, s[b : b + INITIAL_ABBREVIATIONS_MAXLEN + 1]
+        ):
             return 200
 
     return 0
@@ -201,11 +212,12 @@ def types_from_string(s, offset=0, additional_word_parts=set()):
     Extract tuples of (type, start, end) from s, optionally adding (offset) to
     the start and end values
     """
+
     def get_token(word_start, word_end):
         """Return (type, start, end)"""
         ttype = s[word_start:word_end].lower()
         ttype = unidecode.unidecode(ttype)
-        ttype = re.sub(REGEX_WORD_REMOVALS, '', ttype)
+        ttype = re.sub(REGEX_WORD_REMOVALS, "", ttype)
         return (
             ttype,
             word_start + offset,

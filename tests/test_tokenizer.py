@@ -15,17 +15,18 @@ class TestTypesFromString(unittest.TestCase):
 
     def test_offsets(self):
         # Crange returned
-        self.assertEqual(list(types_from_string('I am a "cat"')), [
-            ('i', 0, 1),
-            ('am', 2, 4),
-            ('a', 5, 6),
-            ('cat', 8, 11)
-        ])
+        self.assertEqual(
+            list(types_from_string('I am a "cat"')),
+            [("i", 0, 1), ("am", 2, 4), ("a", 5, 6), ("cat", 8, 11)],
+        )
 
         # Can add  an offset to all values
-        self.assertEqual(list(types_from_string('I am a "cat"', offset=1000)), [
-            ('i', 1000, 1001),
-            ('am', 1002, 1004),
-            ('a', 1005, 1006),
-            ('cat', 1008, 1011)
-        ])
+        self.assertEqual(
+            list(types_from_string('I am a "cat"', offset=1000)),
+            [
+                ("i", 1000, 1001),
+                ("am", 1002, 1004),
+                ("a", 1005, 1006),
+                ("cat", 1008, 1011),
+            ],
+        )

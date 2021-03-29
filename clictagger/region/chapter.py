@@ -218,59 +218,65 @@ from .utils import region_append_without_whitespace
 
 
 PART_BREAK_REGEX = re.compile(
-    '^' +
-    '(PART|BOOK)' +
-    ' ([0-9IVXLC]+)\.' +
-    '.*', re.MULTILINE)
+    "^" + "(PART|BOOK)" + " ([0-9IVXLC]+)\." + ".*", re.MULTILINE
+)
 
 CHAPTER_BREAK_REGEX = re.compile(
-    '^' +
-    '(APPENDIX|INTRODUCTION|PREFACE|CHAPTER|CONCLUSION|PROLOGUE|PRELUDE|EPILOGUE|MORAL)' +
-    '\s?' +
-    '([0-9IVXLC]*)\.' +
-    '.*', re.MULTILINE)
+    "^"
+    + "(APPENDIX|INTRODUCTION|PREFACE|CHAPTER|CONCLUSION|PROLOGUE|PRELUDE|EPILOGUE|MORAL)"
+    + "\s?"
+    + "([0-9IVXLC]*)\."
+    + ".*",
+    re.MULTILINE,
+)
 
-PARAGRAPH_BREAK_REGEX = re.compile(r'\n\n')
+PARAGRAPH_BREAK_REGEX = re.compile(r"\n\n")
 
 
 def tagger_chapter_part(book):
     """Add chapter.part tags to (book)"""
-    if len(book.get('chapter.part', [])) > 0:
+    if len(book.get("chapter.part", [])) > 0:
         return  # Nothing to do
-    book['chapter.part'] = [
+    book["chapter.part"] = [
         m.span() + (i + 1,)
-        for i, m in enumerate(re.finditer(PART_BREAK_REGEX, book['content']))
+        for i, m in enumerate(re.finditer(PART_BREAK_REGEX, book["content"]))
     ]
 
 
 def tagger_chapter_title(book):
     """Add chapter.title tags to (book)"""
-    if len(book.get('chapter.title', [])) > 0:
+    if len(book.get("chapter.title", [])) > 0:
         return  # Nothing to do
-    book['chapter.title'] = [
+    book["chapter.title"] = [
         m.span() + (i + 1,)
-        for i, m in enumerate(re.finditer(CHAPTER_BREAK_REGEX, book['content']))
+        for i, m in enumerate(re.finditer(CHAPTER_BREAK_REGEX, book["content"]))
     ]
 
 
 def tagger_chapter_text(book):
     """Add chapter.text tags to (book)"""
-    if len(book.get('chapter.text', [])) > 0:
+    if len(book.get("chapter.text", [])) > 0:
         return  # Nothing to do
-    book['chapter.text'] = []
+    book["chapter.text"] = []
 
     # Gather anything together that shouldn't be part of a chapter, sort in document order
-    headings = (book.get('metadata.title', []) + book.get('metadata.author', []) +
-                book.get('chapter.part', []) + book.get('chapter.title', []) +
-                [(len(book['content']), len(book['content']))])
+    headings = (
+        book.get("metadata.title", [])
+        + book.get("metadata.author", [])
+        + book.get("chapter.part", [])
+        + book.get("chapter.title", [])
+        + [(len(book["content"]), len(book["content"]))]
+    )
     headings.sort(key=lambda r: (r[0], -r[1]))
 
     # Add everything outside headings to a chapter.text section, numbering with chapter counts
     last_b = 0
     chapter_num = 0
     for r in headings:
-        region_append_without_whitespace(book, 'chapter.text', last_b, r[0], chapter_num)
-        if r in book.get('chapter.title', []):
+        region_append_without_whitespace(
+            book, "chapter.text", last_b, r[0], chapter_num
+        )
+        if r in book.get("chapter.title", []):
             # Text should have the same chapter number as it's title
             chapter_num = r[2]
         last_b = r[1]
@@ -278,35 +284,41 @@ def tagger_chapter_text(book):
 
 def tagger_chapter_paragraph(book):
     """Add chapter.paragraph tags to (book)"""
-    if len(book.get('chapter.paragraph', [])) > 0:
+    if len(book.get("chapter.paragraph", [])) > 0:
         return  # Nothing to do
 
-    book['chapter.paragraph'] = []
-    for containing_r in book['chapter.text']:
+    book["chapter.paragraph"] = []
+    for containing_r in book["chapter.text"]:
         last_b = containing_r[0]
         i = 1
-        for m in PARAGRAPH_BREAK_REGEX.finditer(book['content'], containing_r[0], containing_r[1]):
+        for m in PARAGRAPH_BREAK_REGEX.finditer(
+            book["content"], containing_r[0], containing_r[1]
+        ):
             b = m.start()
-            if region_append_without_whitespace(book, 'chapter.paragraph', last_b, b, i):
+            if region_append_without_whitespace(
+                book, "chapter.paragraph", last_b, b, i
+            ):
                 i += 1
             last_b = b
 
         # Mark anything remaining as a paragraph too
         b = containing_r[1]
-        region_append_without_whitespace(book, 'chapter.paragraph', last_b, b, i)
+        region_append_without_whitespace(book, "chapter.paragraph", last_b, b, i)
 
 
 def tagger_chapter_sentence(book):
     """Add chapter.sentence tags to (book)"""
-    if len(book.get('chapter.sentence', [])) > 0:
+    if len(book.get("chapter.sentence", [])) > 0:
         return  # Nothing to do
 
     # Create a sentence iterator for this book
     bi = icu.BreakIterator.createSentenceInstance(DEFAULT_LOCALE)
-    bi.setText(re.sub(r'\n(?!\n)', ' ', book['content']))  # Turn single newlines into spaces, so ICU ignores them.
+    bi.setText(
+        re.sub(r"\n(?!\n)", " ", book["content"])
+    )  # Turn single newlines into spaces, so ICU ignores them.
 
-    book['chapter.sentence'] = []
-    for containing_r in book['chapter.text']:
+    book["chapter.sentence"] = []
+    for containing_r in book["chapter.text"]:
         last_b = containing_r[0]
         i = 1
 
@@ -316,13 +328,13 @@ def tagger_chapter_sentence(book):
             if b > containing_r[1]:
                 # Outside the chapter now, so stop
                 break
-            if region_append_without_whitespace(book, 'chapter.sentence', last_b, b, i):
+            if region_append_without_whitespace(book, "chapter.sentence", last_b, b, i):
                 i += 1
             last_b = b
 
         # Mark anything remaining as a sentence too
         b = containing_r[1]
-        region_append_without_whitespace(book, 'chapter.sentence', last_b, b, i)
+        region_append_without_whitespace(book, "chapter.sentence", last_b, b, i)
 
 
 def tagger_chapter(book):

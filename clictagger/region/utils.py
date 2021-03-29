@@ -15,16 +15,19 @@ def region_append_without_whitespace(book, rclass, start, end, *extra):
     if start is None:
         return
 
-    if start >= len(book['content']):
-        return (-1, -1) + extra  # Outside the range, return something that will get ignored
+    if start >= len(book["content"]):
+        return (
+            -1,
+            -1,
+        ) + extra  # Outside the range, return something that will get ignored
 
-    while book['content'][start].isspace():
+    while book["content"][start].isspace():
         start += 1
-        if start >= len(book['content']):
+        if start >= len(book["content"]):
             # Fallen off the end of the book, this isn't a useful region
             return
 
-    while book['content'][end - 1].isspace():
+    while book["content"][end - 1].isspace():
         end -= 1
         if end < 0:
             # Fallen off the start of the book, this isn't a useful region
@@ -77,22 +80,28 @@ def regions_flatten(book):
     example_length = 20
 
     def short_string(s):
-        return s if len(s) < example_length * 2 else s[0:example_length] + '...' + s[-example_length:]
+        return (
+            s
+            if len(s) < example_length * 2
+            else s[0:example_length] + "..." + s[-example_length:]
+        )
 
     out = []
     for rclass in book.keys():
-        if rclass == 'name':
+        if rclass == "name":
             continue
-        if rclass == 'content':
+        if rclass == "content":
             continue
         for r in book[rclass]:
-            out.append((
-                rclass,
-                r[0],
-                r[1],
-                r[2] if len(r) > 2 else None,
-                short_string(book['content'][r[0]:r[1]]),
-            ))
+            out.append(
+                (
+                    rclass,
+                    r[0],
+                    r[1],
+                    r[2] if len(r) > 2 else None,
+                    short_string(book["content"][r[0] : r[1]]),
+                )
+            )
     # Sort by start ascending, then end descending
     return sorted(out, key=lambda x: (x[1], -x[2], x[0]))
 
@@ -107,12 +116,16 @@ def regions_unflatten(regions):
     for r in regions:
         if r[0] not in out:
             out[r[0]] = []
-        out[r[0]].append((
-            int(r[1]),  # Start
-            int(r[2]),  # End
-        ) if len(r) < 4 or r[3] is None or r[3] == '' else (
-            int(r[1]),  # Start
-            int(r[2]),  # End
-            int(r[3]),  # rvalue
-        ))
+        out[r[0]].append(
+            (
+                int(r[1]),  # Start
+                int(r[2]),  # End
+            )
+            if len(r) < 4 or r[3] is None or r[3] == ""
+            else (
+                int(r[1]),  # Start
+                int(r[2]),  # End
+                int(r[3]),  # rvalue
+            )
+        )
     return out

@@ -290,8 +290,8 @@ from .utils import region_append_without_whitespace, regions_invert
 
 
 QUOTES = {
-    '“': '”',  # English double.
-    '‘': '’',  # English Single.
+    "“": "”",  # English double.
+    "‘": "’",  # English Single.
     '"': '"',  # Double universal.
     "'": "'",  # Single universal.
 }
@@ -305,38 +305,41 @@ def is_quote(s, q_start, q_end, wc):
     if wc >= 5 and s[q_start] not in set(("’", "'")):
         return True
     # ... select punctuation before the quote
-    if re.search(r'(?:\-\-|\(|,|:|;)\s*$', s[q_start - 4: q_start]):
+    if re.search(r"(?:\-\-|\(|,|:|;)\s*$", s[q_start - 4 : q_start]):
         return True
     # ... select punctuation at the start
-    if re.search(r'^\s*(?:\-\-)', s[q_start + 1: q_start + 6]):
+    if re.search(r"^\s*(?:\-\-)", s[q_start + 1 : q_start + 6]):
         return True
     # ... select punctuation before the end
-    if re.search(r'--\s*$|[,?.!-;_]$', s[q_end - 5:q_end - 1]):
+    if re.search(r"--\s*$|[,?.!-;_]$", s[q_end - 5 : q_end - 1]):
         return True
     # ... select punctuation after the quote
-    if re.search(r'^\s*--', s[q_end:q_end + 5]):
+    if re.search(r"^\s*--", s[q_end : q_end + 5]):
         return True
     return False
 
 
 def tagger_quote_quote(book):
     """Add quote.quote tags to (book)"""
-    if len(book.get('quote.quote', [])) > 0:
+    if len(book.get("quote.quote", [])) > 0:
         return  # Nothing to do
 
     # Create a word iterator for this book
     bi = icu.BreakIterator.createWordInstance(DEFAULT_LOCALE)
-    bi.setText(book['content'])
+    bi.setText(book["content"])
 
-    book['quote.quote'] = []
-    book['quote.embedded'] = []
+    book["quote.quote"] = []
+    book["quote.embedded"] = []
     open_quote = None  # NB: Don't reset last-open-quote on each paragraph
     embedded_quote = None
     word_count = 0
-    for containing_r in book['chapter.paragraph']:
+    for containing_r in book["chapter.paragraph"]:
         last_b = containing_r[0]
 
-        if open_quote and not(book['content'][containing_r[0]:containing_r[0] + 1] in QUOTES or book['content'][containing_r[0] - 3:containing_r[0]] == '   '):
+        if open_quote and not (
+            book["content"][containing_r[0] : containing_r[0] + 1] in QUOTES
+            or book["content"][containing_r[0] - 3 : containing_r[0]] == "   "
+        ):
             # Continuing an open_quote from a previous paragarph, but paragraph didn't start with a quote marker or indent, ditch.
             open_quote = None
 
@@ -347,9 +350,9 @@ def tagger_quote_quote(book):
                 # Outside the chapter now, so stop. Leave any open quotes still open, assume any embedded quotes broken
                 embedded_quote = None
                 break
-            word = book['content'][last_b:b]
+            word = book["content"][last_b:b]
 
-            if word_boundary_type(book['content'], bi, last_b):
+            if word_boundary_type(book["content"], bi, last_b):
                 # Text up to this boundary is "wordy", this includes our own extras, such as:
                 # * Posessives, "3 days' work".
                 # * Abbreviations, "'twas a dark and stormy night"
@@ -358,8 +361,13 @@ def tagger_quote_quote(book):
 
             elif embedded_quote and word == embedded_quote[0]:
                 # Found the closing quote for an embedded quote
-                if is_quote(book['content'], embedded_quote[1], b, word_count - embedded_quote[2]):
-                    book['quote.embedded'].append((embedded_quote[1], b))
+                if is_quote(
+                    book["content"],
+                    embedded_quote[1],
+                    b,
+                    word_count - embedded_quote[2],
+                ):
+                    book["quote.embedded"].append((embedded_quote[1], b))
                 embedded_quote = None  # Clear open-quote regardless, we matched a pair of scare-quotes
 
             elif open_quote and last_b == containing_r[0]:
@@ -368,8 +376,10 @@ def tagger_quote_quote(book):
 
             elif open_quote and word == open_quote[0]:
                 # Found the closing quote we were looking for
-                if is_quote(book['content'], open_quote[1], b, word_count - open_quote[2]):
-                    book['quote.quote'].append((open_quote[1], b))
+                if is_quote(
+                    book["content"], open_quote[1], b, word_count - open_quote[2]
+                ):
+                    book["quote.quote"].append((open_quote[1], b))
                     if embedded_quote:
                         # Ditch any still-open embedded quote
                         embedded_quote = None
@@ -387,18 +397,20 @@ def tagger_quote_quote(book):
 
 def tagger_quote_nonquote(book):
     """Add quote.nonquote tags to (book)"""
-    if len(book.get('quote.nonquote', [])) > 0:
+    if len(book.get("quote.nonquote", [])) > 0:
         return  # Nothing to do
 
-    book['quote.nonquote'] = []
+    book["quote.nonquote"] = []
     # Combine quotes and everything not in a chapter
-    quotes_and_nonchaps = book['quote.quote'][:]
-    quotes_and_nonchaps.extend(regions_invert(book['chapter.text'], len(book['content'])))
+    quotes_and_nonchaps = book["quote.quote"][:]
+    quotes_and_nonchaps.extend(
+        regions_invert(book["chapter.text"], len(book["content"]))
+    )
     quotes_and_nonchaps.sort(key=lambda r: (r[0], -r[1]))
 
     # Non-quotes are the opposite of this
-    for last_b, b in regions_invert(quotes_and_nonchaps, len(book['content'])):
-        region_append_without_whitespace(book, 'quote.nonquote', last_b, b)
+    for last_b, b in regions_invert(quotes_and_nonchaps, len(book["content"])):
+        region_append_without_whitespace(book, "quote.nonquote", last_b, b)
 
 
 def tagger_quote(book):
