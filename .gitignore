@@ -1,0 +1,14 @@
+*.pyc
+/clic.egg-info/
+/pip-selfcheck.json
+/bin
+/include
+/lib
+/local
+/share
+/.cache
+/lib64
+/pyvenv.cfg
+/appconfig.py
+/.coverage
+/htmlcov/
