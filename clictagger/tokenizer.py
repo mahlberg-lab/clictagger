@@ -247,3 +247,16 @@ def types_from_string(s, offset=0, additional_word_parts=set()):
     # Convert token list to types
     # NB: This needs to be developed in lock-step with client/lib/concordance_utils.js
     return (unidecode.unidecode(s.lower()) for s in out)
+
+
+def tagger_tokens(book):
+    """
+    Add tokens tags to (book)
+    """
+    if len(book.get("tokens", [])) > 0:
+        return  # Nothing to do
+
+    # Return value for tokens is wrong way around, reverse it.
+    book["tokens"] = [
+        (start, end, type) for type, start, end in types_from_string(book["content"])
+    ]
