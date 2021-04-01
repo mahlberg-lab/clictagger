@@ -17,7 +17,7 @@ test: compile
 	./bin/pytest $(EGG_NAME) tests
 
 lint: lib/.requirements
-	./bin/black $(EGG_NAME)/ tests/
+	./bin/black --diff $(EGG_NAME)/ tests/
 
 coverage: compile
 	./bin/coverage run ./bin/py.test $(EGG_NAME)/ tests/
