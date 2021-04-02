@@ -24,7 +24,7 @@ setup(
     ),
     entry_points={
         'console_scripts': [
-            'region_preview=clictagger.migrate.region_preview:script_region_preview',
+            'clictagger=clictagger.script:clictagger',
         ],
     },
 )
