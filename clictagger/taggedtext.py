@@ -45,6 +45,7 @@ from .region.chapter import tagger_chapter
 from .region.quote import tagger_quote
 from .region.suspension import tagger_quote_suspension
 
+from .markup import TaggedTextRegionMarkup
 from .table import TaggedTextRegionTable
 
 
@@ -131,6 +132,11 @@ class TaggedText:
 
     def region_classes(self):
         return list(self.regions.keys())
+
+    def markup(self, highlight=DEFAULT_HIGHLIGHT_REGIONS):
+        if len(highlight) == 0:
+            highlight = DEFAULT_HIGHLIGHT_REGIONS
+        return TaggedTextRegionMarkup(self, highlight)
 
     def table(self, highlight=DEFAULT_HIGHLIGHT_REGIONS, display="html"):
         if len(highlight) == 0:
