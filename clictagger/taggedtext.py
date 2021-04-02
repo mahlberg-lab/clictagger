@@ -23,6 +23,19 @@ clictagger.taggedtext: Region-tag text
         quote.quote=1
         quote.embedded=1
         tokens=65
+
+    >>> print("".join(tt.table().gen_csv()))
+    "Region class","Start","End","Region value","Content"
+    metadata.title,0,28,"","The Dove in the Eagle's Nest"
+    metadata.author,29,47,"","Charlotte M. Yonge"
+    chapter.sentence,49,77,"1","“Thou find’st it out, child?"
+    chapter.sentence,79,151,"2","Ay, ’tis worth all the feather-beds and pouncet-boxes in Ulm; is it not?"
+    chapter.sentence,153,215,"3","That accursed Italian fever never left me till I came up here."
+    chapter.sentence,217,280,"4","A man can scarce draw breath in your foggy meadows below there."
+    chapter.sentence,282,316,"5","Now then, ‘here is the view open.’"
+    chapter.sentence,318,354,"6","What think you of the Eagle’s Nest?”"
+    quote.quote,49,354,"","“Thou find’st it out, child?  Ay, ’tis worth all the feather-beds and pouncet-boxes in Ulm; is it not?  That accursed Italian fever never left me till I came up here.  A man can scarce draw breath in your foggy meadows below there.  Now then, ‘here is the view open.’  What think you of the Eagle’s Nest?”"
+    <BLANKLINE>
 """
 import sys
 
@@ -31,6 +44,8 @@ from .region.metadata import tagger_metadata
 from .region.chapter import tagger_chapter
 from .region.quote import tagger_quote
 from .region.suspension import tagger_quote_suspension
+
+from .table import TaggedTextRegionTable
 
 
 DEFAULT_HIGHLIGHT_REGIONS = [
@@ -116,3 +131,8 @@ class TaggedText:
 
     def region_classes(self):
         return list(self.regions.keys())
+
+    def table(self, highlight=DEFAULT_HIGHLIGHT_REGIONS, display="html"):
+        if len(highlight) == 0:
+            highlight = DEFAULT_HIGHLIGHT_REGIONS
+        return TaggedTextRegionTable(self, highlight, display=display)
