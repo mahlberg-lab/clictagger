@@ -26,4 +26,9 @@ coverage: compile
 	ln -frs htmlcov ../client/www/coverage/server
 	echo Visit http://$(WWW_SERVER_NAME)/coverage/server/index.html
 
-.PHONY: compile test lint coverage
+notebook: bin/pip
+	./bin/pip install notebook ipywidgets
+	./bin/jupyter nbextension enable --py widgetsnbextension --sys-prefix
+	./bin/jupyter notebook --ip='0.0.0.0'
+
+.PHONY: compile test lint coverage notebook

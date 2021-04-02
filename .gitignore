@@ -8,6 +8,8 @@
 /share
 /.cache
 /lib64
+/etc
+/.ipynb_checkpoints/
 /pyvenv.cfg
 /appconfig.py
 /.coverage
