@@ -1,0 +1,10 @@
+name: clictagger
+channels:
+  - conda-forge
+dependencies:
+  - icu
+  - pyicu
+  - python>=3.6
+  - pip
+  - pip:
+    - -e .
