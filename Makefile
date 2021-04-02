@@ -6,9 +6,9 @@ all: compile test lint
 bin/pip:
 	python3 -m venv .
 
-lib/.requirements: requirements.txt setup.py bin/pip
+lib/.requirements: dev-requirements.txt setup.py bin/pip
 	# Install requirements
-	./bin/pip install -r requirements.txt
+	./bin/pip install -r dev-requirements.txt
 	touch lib/.requirements
 
 compile: lib/.requirements
