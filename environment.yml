@@ -4,7 +4,6 @@ channels:
 dependencies:
   - icu
   - pyicu
-  - python>=3.6
   - pip
   - pip:
-    - -e .
+    - .
