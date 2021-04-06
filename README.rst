@@ -31,6 +31,8 @@ See the example notebook here: https://mybinder.org/v2/gh/birmingham-ccr/clictag
 Command line
 ------------
 
+![Animation of command_line usage](commandline_example.svg)
+
 You should now have the ``clictagger`` command available. See ``--help`` for usage.
 Some examples follow.
 
