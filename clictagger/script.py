@@ -1,6 +1,7 @@
 import argparse
 import http.server
 import subprocess
+import shutil
 import sys
 
 from .taggedtext import TaggedText
@@ -106,9 +107,10 @@ def clictagger():
         out_path = "-"
 
     pager = None
-    if out_path == "-" and sys.stdout.isatty():  # Wrap direct TTY output with a pager
+    less_path = shutil.which("less")
+    if out_path == "-" and less_path is not None and sys.stdout.isatty():  # Wrap direct TTY output with a pager
         pager = subprocess.Popen(
-            ["less", "-RSFi"], stdin=subprocess.PIPE, encoding="utf8"
+            [less_path, "-RSFi"], stdin=subprocess.PIPE, encoding="utf8"
         )
         out_f = pager.stdin
     elif out_path == "-":
