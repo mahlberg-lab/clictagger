@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 requires = [
-    'pyicu',
+    'pyicu>=2.6',
     'unidecode',
 ]
 
