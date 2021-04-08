@@ -1,0 +1,23 @@
+name: clictagger
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - icu>=68.1  # NB: No PyICU in conda-forge for windows
+  - Python~=3.9.0  # Pin python version to match our wheel
+  - pip
+  - git
+  - pip:
+    # Wheel saved from https://www.lfd.uci.edu/~gohlke/pythonlibs/#pyicu, who don't want direct linking
+    - https://github.com/birmingham-ccr/clictagger/raw/main/PyICU-2.6-cp39-cp39-win_amd64.whl
+    - git+https://github.com/birmingham-ccr/clictagger
+
+
+# To install PyICU by building yourself:-
+#
+# Install Visual Studio: https://wiki.python.org/moin/WindowsCompilers#Microsoft_Visual_C.2B-.2B-_14.2_standalone:_Build_Tools_for_Visual_Studio_2019_.28x86.2C_x64.2C_ARM.2C_ARM64.29
+# conda env create -n clictagger
+# conda activate clictagger
+# conda install -c conda-forge icu==68.1 pip git
+# conda env config vars set ICU_VERSION=68.1
+# pip install git+https://github.com/birmingham-ccr/clictagger
