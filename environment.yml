@@ -1,9 +1,11 @@
 name: clictagger
 channels:
   - conda-forge
+  - defaults
 dependencies:
-  - icu
+  - icu>=68.1
   - pyicu
   - pip
+  - git
   - pip:
-    - .
+    - git+https://github.com/birmingham-ccr/clictagger
