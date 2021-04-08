@@ -1,0 +1,45 @@
+name: Test / lint
+on:
+  push:
+     branches:
+       - main
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macOS-latest]
+        python-version: [3.9]
+    name: clictagger CI ${{ matrix.os }} / ${{ matrix.python-version }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup conda
+        uses: s-weigand/setup-conda@v1
+        with:
+          update-conda: true
+          python-version: ${{ matrix.python-version }}
+          conda-channels: anaconda, conda-forge
+      - name: Install clictagger for UNIX
+        run: |
+          conda install icu>=68.1 pyicu>=2.6 Python~=3.9.0 pip
+          pip install .
+        if: ${{ matrix.os != 'windows-latest' }}
+      - name: Install clictagger for Windows
+        # NB: We can't use an enviroment for this, since we can't easily activate it in following steps
+        run: |
+          conda install icu>=68.1 Python~=3.9.0 pip
+          pip install https://github.com/birmingham-ccr/clictagger/raw/main/PyICU-2.6-cp39-cp39-win_amd64.whl
+          pip install .
+        if: ${{ matrix.os == 'windows-latest' }}
+      - name: Tests
+        run: |
+          pip install pytest
+          pytest clictagger tests
+      - name: Lint
+        run: |
+          pip install black
+          black --diff clictagger/ tests/
+        if: ${{ matrix.os == 'ubuntu-latest' }}
+#      - name: Setup tmate session
+#        uses: mxschmitt/action-tmate@v3
+#        if: ${{ failure() }}
