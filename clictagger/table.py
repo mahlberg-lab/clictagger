@@ -43,11 +43,12 @@ class TaggedTextRegionTable:
         if self.display == "html":
             return "".join(self.gen_html())
         elif self.display == "csv-download":
-            return '<a download="%s" href="data:text/csv;base64,%s" target="_blank">Download CSV file</a>' % (
+            return '<a download="%s" href="data:text/csv;base64,%s" target="_blank">Download %s</a>' % (
                 (self.tt.name or "regions") + ".csv",
                 base64.b64encode("".join(self.gen_csv()).encode("utf8")).decode(
                     "ascii"
                 ),
+                (self.tt.name or "regions") + ".csv",
             )
         else:
             raise ValueError(
