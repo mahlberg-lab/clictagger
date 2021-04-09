@@ -89,16 +89,19 @@ class TaggedText:
             return cls(f.read(), name=text_path)
 
     @classmethod
-    def from_corpora(cls, corpora_path, tag="master"):
-        """e.g. TaggedText.from_corpora('ChiLit/alice')"""
+    def from_github(cls, file_path, repo="birmingham-ccr/corpora", tag="master"):
+        """e.g. TaggedText.from_github("ChiLit/alice.txt", tag = "80d00e4")"""
+        if repo == "birmingham-ccr/corpora" and not file_path.endswith(".txt"):
+            file_path += ".txt"
+        return cls.from_url("/".join(('https://raw.githubusercontent.com', repo, tag, file_path)))
+
+    @classmethod
+    def from_url(cls, url):
+        """e.g. TaggedText.from_url("http://www.gutenberg.org/files/36/36-0.txt")"""
         import urllib.request
 
-        corpora_url = (
-            "https://raw.githubusercontent.com/birmingham-ccr/corpora/%s/%s.txt"
-            % (tag, corpora_path)
-        )
-        with urllib.request.urlopen(corpora_url) as f:
-            return cls(f.read().decode("utf8"), name=corpora_url)
+        with urllib.request.urlopen(url) as f:
+            return cls(f.read().decode("utf8"), name=url)
 
     def __str__(self):
         str_parts = [
