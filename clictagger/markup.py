@@ -19,6 +19,23 @@ HTML_CSS = """
   float: right;
 }
 
+#tt-ID .highlight-chapter-sentence {
+    border-top: 1px solid #555;
+    border-bottom: 1px solid #555;
+}
+
+#tt-ID .highlight-chapter-sentence:first-child {
+    border-inline-start: 1px solid #555;
+}
+
+#tt-ID :not(.highlight-chapter-sentence) + .highlight-chapter-sentence {
+    border-inline-start: 1px solid #555;
+}
+
+#tt-ID .highlight-chapter-sentence-close {
+    border-inline-end: 1px solid #555;
+}
+
 #tt-ID .highlight-0 { background: cornflowerblue }
 #tt-ID .highlight-1 { background: yellowgreen }
 #tt-ID .highlight-2 { background: palevioletred }
@@ -108,6 +125,9 @@ class TaggedTextRegionMarkup:
         css = "<style>%s</style>" % html.escape(HTML_CSS.replace("#tt-ID", "#" + tt_id))
         for i, rclass in enumerate(self.highlight):
             css = css.replace(".highlight-%d" % i, "." + rclass_css(rclass))
+            css = css.replace(
+                ".highlight-%s" % rclass_css(rclass), "." + rclass_css(rclass)
+            )
         yield css
 
         start = 0
@@ -115,9 +135,10 @@ class TaggedTextRegionMarkup:
         yield '<div class="clictagger-tt" id="%s">' % tt_id
         yield '<ul class="legend">'
         for rclass in self.highlight:
-            yield '<li class="%s">%s</li>' % (
+            yield '<li><span class="%s">%s</span><span class="%s"></span></li>' % (
                 rclass_css(rclass),
                 html.escape(rclass),
+                rclass_css(rclass) + "-close",
             )
         yield "</ul>"
         yield "<span>"
@@ -133,6 +154,11 @@ class TaggedTextRegionMarkup:
             if insert.opening:
                 open_regions[insert.rclass] = insert
             else:
+                if insert.rclass == "chapter.sentence":
+                    # NB: We need closing markers since CSS can't say "a sentence that is followed by non-sentence"
+                    yield '</span><span class="%s">' % (
+                        rclass_css(insert.rclass) + "-close",
+                    )
                 del open_regions[insert.rclass]
         yield "</span></div>"
 
