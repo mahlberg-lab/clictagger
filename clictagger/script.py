@@ -3,6 +3,7 @@ import http.server
 import subprocess
 import shutil
 import sys
+import webbrowser
 
 from .taggedtext import TaggedText
 
@@ -26,8 +27,13 @@ def serve_method(fn):
 
     server_address = ("0.0.0.0", 8080)
     httpd = http.server.HTTPServer(server_address, RequestHandler)
-    print("Starting server. Visit http://localhost:%d/" % server_address[1])
+    print("Starting webserver. Press Ctrl-C to stop.")
+    print(
+        "Visit http://localhost:%d/ in your webbrowser to view output"
+        % server_address[1]
+    )
     try:
+        webbrowser.open("http://localhost:%d/" % server_address[1])
         httpd.serve_forever()
     except KeyboardInterrupt:
         httpd.server_close()
