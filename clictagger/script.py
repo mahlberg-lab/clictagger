@@ -108,7 +108,9 @@ def clictagger():
 
     pager = None
     less_path = shutil.which("less")
-    if out_path == "-" and less_path is not None and sys.stdout.isatty():  # Wrap direct TTY output with a pager
+    if (
+        out_path == "-" and less_path is not None and sys.stdout.isatty()
+    ):  # Wrap direct TTY output with a pager
         pager = subprocess.Popen(
             [less_path, "-RSFi"], stdin=subprocess.PIPE, encoding="utf8"
         )
