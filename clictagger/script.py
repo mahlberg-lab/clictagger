@@ -90,6 +90,16 @@ def clictagger():
         serve_method(serve_iter)
         exit(0)
 
+    if args.input == "-" and sys.stdin.isatty():
+        print(
+            "You have selected to tag STDIN without piping another command into clictagger, this is probably a mistake."
+        )
+        print("To use STDIN input, use a pipe. For example:")
+        print("    curl http://.../alice.txt | clictagger")
+        print("For more help:")
+        print("    clictagger --help")
+        exit(1)
+
     if args.csv is not None:
         out_iter = (
             TaggedText.from_file(args.input).table(highlight=args.region).gen_csv()
