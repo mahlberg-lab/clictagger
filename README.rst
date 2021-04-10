@@ -50,17 +50,5 @@ Command line
     :alt: Animation of command_line usage
 
 You should now have the ``clictagger`` command available. See ``--help`` for usage.
-Some examples follow.
 
-To see the contents of ``alice.txt`` with regions coloured::
-
-    clictagger alice.txt
-
-Output all suspensions in ``alice.txt`` into ``alice.csv``::
-
-    clictagger --csv alice.csv alice.txt quote.suspension.short quote.suspension.long
-
-Start a webserver to view the contents of ``alice.txt`` with regions coloured.
-Whenever the page is reloaded, ``alice.txt`` will be re-read::
-
-    clictagger --serve alice.txt
+For more examples, see the `clictagger.script <https://birmingham-ccr.github.io/clictagger/clictagger.script>`__ documentation.

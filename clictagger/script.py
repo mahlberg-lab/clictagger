@@ -1,6 +1,38 @@
 """
 clictagger.script: Command line interface
 *****************************************
+
+Once clictagger is installed, you will have a command-line interface ``clictagger`` available.
+
+Basic examples
+--------------
+
+To see the contents of ``alice.txt`` with default regions coloured::
+
+    clictagger alice.txt
+
+To see the contents of ``alice.txt`` with quotes coloured::
+
+    clictagger alice.txt quote.quote
+
+Output all suspensions in ``alice.txt`` into ``alice.csv``::
+
+    clictagger --csv alice.csv alice.txt quote.suspension.short quote.suspension.long
+
+Using clictagger as a webserver for cleaning text
+-------------------------------------------------
+
+For optimal use with clictagger, text needs to be cleaned up first.
+For instance, text downloaded from the Gutenberg project will have large sections of non-authorial text.
+The standard process `is outlined here <https://github.com/birmingham-ccr/corpora#cleaning-of-corpora-texts>`.
+
+clictagger can be used to assist this process with the following steps, given a text file ``new.txt``:
+
+1. Open ``new.txt`` in a text-editor, e.g. Notepad.
+2. In a terminal window, run ``clictagger --serve new.txt``
+3. If a web-browser window hasn't automatically opened, open http://localhost:8080/ in your web browser.
+
+Now you can make edits to ``new.txt``, reload your browser window, and changes will be visible.
 """
 import argparse
 import http.server
@@ -12,7 +44,7 @@ import webbrowser
 from .taggedtext import TaggedText
 
 
-def serve_method(fn):
+def _serve_method(fn):
     """Start a server that serves the single-page result. fn is a function that returns an iterator"""
 
     class RequestHandler(http.server.BaseHTTPRequestHandler):
@@ -45,6 +77,7 @@ def serve_method(fn):
 
 
 def clictagger():
+    """:meta private: Entry point for command line interface"""
     ap = argparse.ArgumentParser()
     ap_mode = ap.add_mutually_exclusive_group()
     ap_mode.add_argument(
@@ -97,7 +130,7 @@ def clictagger():
 
             yield "</body></html>\n"
 
-        serve_method(serve_iter)
+        _serve_method(serve_iter)
         exit(0)
 
     if args.input == "-" and sys.stdin.isatty():
