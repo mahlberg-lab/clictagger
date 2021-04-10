@@ -17,3 +17,6 @@
 
 /*.txt
 /*.csv
+
+/docs/clictagger.*.rst
+/docs/_build

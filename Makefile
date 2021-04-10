@@ -31,4 +31,8 @@ notebook: bin/pip
 	./bin/jupyter nbextension enable --py widgetsnbextension --sys-prefix
 	./bin/jupyter notebook --ip='0.0.0.0'
 
+serve-docs: bin/pip
+	 make -C docs clean dirhtml
+	 ./bin/python3 -m http.server -d docs/_build/dirhtml
+
 .PHONY: compile test lint coverage notebook
