@@ -20,4 +20,7 @@ dependencies:
 # conda activate clictagger
 # conda install -c conda-forge icu==68.1 pip git
 # conda env config vars set ICU_VERSION=68.1
+# conda env config vars set LDFLAGS=-L...icu4c/lib
+# conda env config vars set CPPFLAGS=-I${CONDA_PREFIX}/pkgs/icu-*/Library/include/
+# conda env config vars set DYLD_LIBRARY_PATH=-L...icu4c/lib
 # pip install git+https://github.com/birmingham-ccr/clictagger
