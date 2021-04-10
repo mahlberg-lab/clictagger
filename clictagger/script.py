@@ -117,8 +117,8 @@ def clictagger():
         out_path = args.csv
     elif args.html is not None:
         out_iter = (
-            TaggedText.from_file(args.input).table(highlight=args.region).gen_html()
-        )  # TODO: Should be markup
+            TaggedText.from_file(args.input).markup(highlight=args.region).gen_html()
+        )
         out_path = args.html
     else:  # Assume ansi if nothing else given
         out_iter = (
