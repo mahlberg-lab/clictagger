@@ -93,7 +93,9 @@ class TaggedText:
         """e.g. TaggedText.from_github("ChiLit/alice.txt", tag = "80d00e4")"""
         if repo == "birmingham-ccr/corpora" and not file_path.endswith(".txt"):
             file_path += ".txt"
-        return cls.from_url("/".join(('https://raw.githubusercontent.com', repo, tag, file_path)))
+        return cls.from_url(
+            "/".join(("https://raw.githubusercontent.com", repo, tag, file_path))
+        )
 
     @classmethod
     def from_url(cls, url):
