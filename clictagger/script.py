@@ -1,3 +1,7 @@
+"""
+clictagger.script: Command line interface
+*****************************************
+"""
 import argparse
 import http.server
 import subprocess
