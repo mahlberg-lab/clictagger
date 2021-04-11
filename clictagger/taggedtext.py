@@ -67,6 +67,8 @@ You can also import text from a file::
         tokens=26548
 
 """
+import base64
+import collections
 import sys
 
 from .tokenizer import tagger_tokens
@@ -75,8 +77,8 @@ from .region.chapter import tagger_chapter
 from .region.quote import tagger_quote
 from .region.suspension import tagger_quote_suspension
 
-from .markup import TaggedTextRegionMarkup
-from .table import TaggedTextRegionTable
+from .markup import _gen_markup_ansi, _gen_markup_html
+from .table import _gen_table_csv, _gen_table_html
 
 
 DEFAULT_HIGHLIGHT_REGIONS = [
@@ -218,3 +220,108 @@ class TaggedText:
         if len(highlight) == 0:
             highlight = DEFAULT_HIGHLIGHT_REGIONS
         return TaggedTextRegionTable(self, highlight, display=display)
+
+
+class TaggedTextRegionMarkup:
+    def __init__(self, tt, highlight):
+        self.tt = tt
+        self.highlight = highlight
+
+    def iter(self):
+        Insert = collections.namedtuple(
+            "Insert", "pos region_start opening rclass rvalue"
+        )
+        # Generate opening/closing inserts for each region we are interested in
+        inserts = []
+        for rclass in self.tt.regions.keys():
+            if rclass == "tokens" and "tokens" not in self.highlight:
+                continue
+            for r in self.tt.regions[rclass]:
+                inserts.append(
+                    Insert(
+                        pos=r[0],
+                        region_start=r[0],
+                        opening=True,
+                        rclass=rclass,
+                        rvalue=r[2] if len(r) > 2 else None,
+                    )
+                )
+                inserts.append(
+                    Insert(
+                        pos=r[1],
+                        region_start=r[0],
+                        opening=False,
+                        rclass=rclass,
+                        rvalue=r[2] if len(r) > 2 else None,
+                    )
+                )
+        # NB: We want to sort by pos, then region_start, so closes happen before opens
+        inserts.sort()
+        return inserts
+
+    def _repr_html_(self):
+        """Return concatenated HTML for IPython"""
+        return "".join(self.gen_html())
+
+    def __html__(self):
+        """Return concatenated HTML for other modules"""
+        # https://github.com/ipython/ipython/blob/master/IPython/core/display.py#L419
+        return self._repr_html_()
+
+    def gen_html(self):
+        """Based on algorithm in client/lib/corpora_utils"""
+        return _gen_markup_html(self)
+
+    def gen_ansi(self):
+        """Based on algorithm in client/lib/corpora_utils"""
+        return _gen_markup_ansi(self)
+
+
+class TaggedTextRegionTable:
+    def __init__(self, tt, highlight, display="html"):
+        self.tt = tt
+        self.highlight = highlight
+        if display not in set(("html", "csv-download")):
+            raise ValueError("Unknown display type %s" % display)
+        self.display = display
+
+    def iter(self):
+        Region = collections.namedtuple("Region", "rclass pos_start pos_end rvalue")
+
+        # TODO: Markup does all of them here, we don't. Why?
+        for i, rclass in enumerate(self.highlight):
+            for r in self.tt.regions.get(rclass, []):
+                yield Region(
+                    rclass=rclass,
+                    pos_start=r[0],
+                    pos_end=r[1],
+                    rvalue=(r[2] if len(r) > 2 else None),
+                )
+
+    def _repr_html_(self):
+        """Return concatenated HTML for IPython"""
+        if self.display == "html":
+            return "".join(self.gen_html())
+        elif self.display == "csv-download":
+            return '<a download="%s" href="data:text/csv;base64,%s" target="_blank">Download %s</a>' % (
+                (self.tt.name or "regions") + ".csv",
+                base64.b64encode("".join(self.gen_csv()).encode("utf8")).decode(
+                    "ascii"
+                ),
+                (self.tt.name or "regions") + ".csv",
+            )
+        else:
+            raise ValueError(
+                "Unknown display type %s, expected 'csv-download' or 'html'" % display
+            )
+
+    def __html__(self):
+        """Return concatenated HTML for other modules"""
+        # https://github.com/ipython/ipython/blob/master/IPython/core/display.py#L419
+        return self._repr_html_()
+
+    def gen_html(self):
+        return _gen_table_html(self)
+
+    def gen_csv(self):
+        return _gen_table_csv(self)

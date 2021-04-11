@@ -79,6 +79,8 @@ def run_apidoc(_):
         pkg_root,
         os.path.join(pkg_root, 'appconfig.py'),
         os.path.join(pkg_root, 'clictagger', 'icuconfig.py'),
+        os.path.join(pkg_root, 'clictagger', 'markup.py'),
+        os.path.join(pkg_root, 'clictagger', 'table.py'),
         os.path.join(pkg_root, 'clictagger', 'region', 'utils.py'),
         os.path.join(pkg_root, 'conftest.py'),
         os.path.join(pkg_root, 'tests', '*.py'),
