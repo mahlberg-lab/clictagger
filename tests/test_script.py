@@ -1,3 +1,4 @@
+import os.path
 import subprocess
 import unittest
 import re
@@ -6,9 +7,16 @@ import time
 import urllib.request
 
 
+def clictagger_path():
+    ct_path = "./bin/clictagger"
+    if not os.path.exists(ct_path):
+        raise unittest.SkipTest("Can't find clictagger")
+    return ct_path
+
+
 def run_script(content, args=[], regions=[]):
     process = subprocess.Popen(
-        ["./bin/clictagger"] + args + ["-"] + regions,
+        [clictagger_path()] + args + ["-"] + regions,
         stdin=subprocess.PIPE,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
@@ -107,7 +115,7 @@ quote.quote,0,56,"","'Hello there, this new line is still part of the quote,'"\r
             f.flush()
 
             process = subprocess.Popen(
-                ["./bin/clictagger", "--serve", f.name],
+                [clictagger_path(), "--serve", f.name],
             )
             try:
                 time.sleep(1)
