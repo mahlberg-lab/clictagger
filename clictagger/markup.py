@@ -165,7 +165,6 @@ class TaggedTextRegionMarkup:
     def _repr_html_(self):
         """Return concatenated HTML for IPython"""
         return "".join(self.gen_html())
-        # TODO: Output isn't saving well, possibly not well-formed?
 
     def __html__(self):
         """Return concatenated HTML for other modules"""
