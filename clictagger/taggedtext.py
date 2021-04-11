@@ -66,6 +66,28 @@ You can also import text from a file::
         quote.suspension.long=106
         tokens=26548
 
+You can use the :py:meth:`TaggedText.markup` or :py:meth:`TaggedText.table` methods to present the tagged regions.
+Both classes are compatible with `Juypter notebooks <https://jupyter.org/>`__, and can
+by pretty printed by IPython using ``IPython.display``::
+
+    >>> # from IPython.display import display
+    >>> tt = TaggedText('''‘Well!’ thought Alice to herself, ‘after such a fall as this, I shall think nothing of tumbling down stairs!’''')
+    >>> display(tt.markup())
+    <span title="chapter.paragraph:1 chapter.sentence:1 chapter.text:0 quote.quote" class="chapter-paragraph chapter-sentence chapter-text quote-quote">‘Well!’</span><span class="chapter-sentence-close"></span><span title="chapter.paragraph:1 chapter.text:0" class="chapter-paragraph chapter-text"> </span><span title="chapter.paragraph:1 chapter.text:0 chapter.sentence:2 quote.nonquote quote.suspension.short" class="chapter-paragraph chapter-text chapter-sentence quote-nonquote quote-suspension-short">thought Alice to herself,</span><span title="chapter.paragraph:1 chapter.text:0 chapter.sentence:2" class="chapter-paragraph chapter-text chapter-sentence"> </span><span title="chapter.paragraph:1 chapter.text:0 chapter.sentence:2 quote.quote" class="chapter-paragraph chapter-text chapter-sentence quote-quote">‘after such a fall as this, I shall think nothing of tumbling down stairs!’</span><span class="chapter-sentence-close"></span>
+    >>> display(tt.table())
+    <table>
+    <tr><th>Region class</th><th>Start</th><th>End</th><th>Region value</th><th>Content</th></tr>
+    <tr><td>chapter.sentence</td> <td>0</td> <td>7</td> <td>1</td> <td style="text-align: left">‘Well!’</td></tr>
+    <tr><td>chapter.sentence</td> <td>8</td> <td>109</td> <td>2</td> <td style="text-align: left">thought Alice to herself, ‘after such a fall as this, I shall think nothing of tumbling down stairs!’</td></tr>
+    <tr><td>quote.quote</td> <td>0</td> <td>7</td> <td></td> <td style="text-align: left">‘Well!’</td></tr>
+    <tr><td>quote.quote</td> <td>34</td> <td>109</td> <td></td> <td style="text-align: left">‘after such a fall as this, I shall think nothing of tumbling down stairs!’</td></tr>
+    <tr><td>quote.suspension.short</td> <td>8</td> <td>33</td> <td></td> <td style="text-align: left">thought Alice to herself,</td></tr>
+    </table>
+
+The :py:meth:`TaggedText.table` method also supports generating a CSV download link::
+
+    >>> display(tt.table(display="csv-download"))
+    <a download="regions.csv" href="data:text/csv;base64,IlJlZ2lvbiBjbGFzcyIsIlN0YXJ0IiwiRW5kIiwiUmVnaW9uIHZhbHVlIiwiQ29udGVudCINCmNoYXB0ZXIuc2VudGVuY2UsMCw3LCIxIiwi4oCYV2VsbCHigJkiDQpjaGFwdGVyLnNlbnRlbmNlLDgsMTA5LCIyIiwidGhvdWdodCBBbGljZSB0byBoZXJzZWxmLCDigJhhZnRlciBzdWNoIGEgZmFsbCBhcyB0aGlzLCBJIHNoYWxsIHRoaW5rIG5vdGhpbmcgb2YgdHVtYmxpbmcgZG93biBzdGFpcnMh4oCZIg0KcXVvdGUucXVvdGUsMCw3LCIiLCLigJhXZWxsIeKAmSINCnF1b3RlLnF1b3RlLDM0LDEwOSwiIiwi4oCYYWZ0ZXIgc3VjaCBhIGZhbGwgYXMgdGhpcywgSSBzaGFsbCB0aGluayBub3RoaW5nIG9mIHR1bWJsaW5nIGRvd24gc3RhaXJzIeKAmSINCnF1b3RlLnN1c3BlbnNpb24uc2hvcnQsOCwzMywiIiwidGhvdWdodCBBbGljZSB0byBoZXJzZWxmLCINCg==" target="_blank">Download regions.csv</a>
 """
 import base64
 import collections
@@ -203,7 +225,7 @@ class TaggedText:
 
     def markup(self, highlight=DEFAULT_HIGHLIGHT_REGIONS):
         """
-        Return a TaggedTextRegionMarkup object for displaying text with region tags highlighted
+        Return a :py:class:`TaggedTextRegionMarkup` object for displaying text with region tags highlighted
 
         - highlight: List of region tag classes to highlight
         """
@@ -213,9 +235,10 @@ class TaggedText:
 
     def table(self, highlight=DEFAULT_HIGHLIGHT_REGIONS, display="html"):
         """
-        Return a TaggedTextRegionTable object for displaying region tags in tables
+        Return a :py:class:`TaggedTextRegionTable` object for displaying region tags in tables
 
         - highlight: List of region tag classes to highlight
+        - display: The type of HTML that will be generated. Either "html" or "csv-download"
         """
         if len(highlight) == 0:
             highlight = DEFAULT_HIGHLIGHT_REGIONS
@@ -223,11 +246,29 @@ class TaggedText:
 
 
 class TaggedTextRegionMarkup:
+    """
+    Represents a stream of starting/closing tags for all regions, which can be turned into e.g. HTML markup.
+
+    - tt: The :py:class:`TaggedText` object to present
+    - highlight: A list of region classes to highlight in the output, e.g. ``['quote.quote']``
+    """
+
     def __init__(self, tt, highlight):
         self.tt = tt
         self.highlight = highlight
 
     def iter(self):
+        """
+        Returns an iterator of `Insert` objects, which correspond to the position of HTML tags,
+        in order of position in text.
+
+        An `Insert` object is a namedtuple of:
+
+        - pos: Integer character position in text
+        - opening: Boolean, an opening tag or closing tag?
+        - rclass: Region class this relates to, e.g. ``quote.quote``
+        - rvalue: Integer value associated with this rclass, e.g. chapter number
+        """
         Insert = collections.namedtuple(
             "Insert", "pos region_start opening rclass rvalue"
         )
@@ -257,7 +298,7 @@ class TaggedTextRegionMarkup:
                 )
         # NB: We want to sort by pos, then region_start, so closes happen before opens
         inserts.sort()
-        return inserts
+        return iter(inserts)
 
     def _repr_html_(self):
         """Return concatenated HTML for IPython"""
@@ -269,11 +310,15 @@ class TaggedTextRegionMarkup:
         return self._repr_html_()
 
     def gen_html(self):
-        """Based on algorithm in client/lib/corpora_utils"""
+        """
+        Returns an iterator that gives :py:class:`TaggedText` content as HTML markup.
+        """
         return _gen_markup_html(self)
 
     def gen_ansi(self):
-        """Based on algorithm in client/lib/corpora_utils"""
+        """
+        Returns an iterator that gives :py:class:`TaggedText` content with regions marked up with ANSI color codes.
+        """
         return _gen_markup_ansi(self)
 
 
@@ -286,6 +331,16 @@ class TaggedTextRegionTable:
         self.display = display
 
     def iter(self):
+        """
+        Returns an iterator of `Region` objects, which correspond to all selected region classes.
+
+        A `Region` object is a namedtuple of:
+
+        - rclass: Region class this relates to, e.g. ``quote.quote``
+        - pos_start: Integer character starting position in text
+        - pos_end: Integer character ending position in text
+        - rvalue: Integer value associated with this rclass, e.g. chapter number
+        """
         Region = collections.namedtuple("Region", "rclass pos_start pos_end rvalue")
 
         # TODO: Markup does all of them here, we don't. Why?
@@ -321,7 +376,13 @@ class TaggedTextRegionTable:
         return self._repr_html_()
 
     def gen_html(self):
+        """
+        Returns an iterator that gives :py:class:`TaggedText` content as an HTML table.
+        """
         return _gen_table_html(self)
 
     def gen_csv(self):
+        """
+        Returns an iterator that gives :py:class:`TaggedText` content as lines of a CSV file.
+        """
         return _gen_table_csv(self)
