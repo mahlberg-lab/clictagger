@@ -1,0 +1,178 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CLiCTagger Region-tagging &#8212; clictagger  documentation</title>
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <script id="documentation_options" data-url_root="" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex/" />
+    <link rel="search" title="Search" href="search/" />
+    <link rel="next" title="clictagger.taggedtext: Region-tag text" href="clictagger.taggedtext/" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="clictagger-region-tagging">
+<h1>CLiCTagger Region-tagging<a class="headerlink" href="#clictagger-region-tagging" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="clictagger.taggedtext/">clictagger.taggedtext: Region-tag text</a></li>
+<li class="toctree-l1"><a class="reference internal" href="clictagger.script/">clictagger.script: Command line interface</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="clictagger.script/#basic-examples">Basic examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="clictagger.script/#using-clictagger-as-a-webserver-for-cleaning-text">Using clictagger as a webserver for cleaning text</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="clictagger.region/">clictagger.region package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="clictagger.region/#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="clictagger.region.chapter/">clic.region.chapter: Tag chapter.* regions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="clictagger.region.metadata/">clic.region.metadata: Tag metadata.* regions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="clictagger.region.quote/">clic.region.quote: Tag quote.* regions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="clictagger.region.suspension/">clic.region.suspension: Tag quote.suspension.* regions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="clictagger.region.tag/">clic.region.tag: Tag a book with all region taggers</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="clictagger.tokenizer/">clic.tokenizer: Tokenize strings to types</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="clictagger.tokenizer/#method">Method</a></li>
+<li class="toctree-l2"><a class="reference internal" href="clictagger.tokenizer/#examples-edge-cases">Examples / edge cases</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="references/">References</a></li>
+</ul>
+</div>
+<p>Python module to identify regions in text.</p>
+<p>Part of the <a class="reference external" href="https://www.birmingham.ac.uk/schools/edacs/departments/englishlanguage/research/projects/clic/index.aspx">CLiC project</a></p>
+<div class="section" id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="linux">
+<h3>Linux<a class="headerlink" href="#linux" title="Permalink to this headline">¶</a></h3>
+<p>First make sure you have the following prerequisites installed:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">python3</span> <span class="n">python3</span><span class="o">-</span><span class="n">dev</span> \
+    <span class="n">libicu</span><span class="o">-</span><span class="n">dev</span> <span class="n">pkg</span><span class="o">-</span><span class="n">config</span>
+</pre></div>
+</div>
+<p>Then install via. pip:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">git</span><span class="o">+</span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">birmingham</span><span class="o">-</span><span class="n">ccr</span><span class="o">/</span><span class="n">clictagger</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="windows-macos">
+<h3>Windows / MacOS<a class="headerlink" href="#windows-macos" title="Permalink to this headline">¶</a></h3>
+<p>Under either you can install clictagger via. <a class="reference external" href="https://docs.conda.io/projects/conda/en/latest/user-guide/index.html">Anaconda</a>:</p>
+<ol class="arabic simple">
+<li><p>Install <a class="reference external" href="https://docs.conda.io/en/latest/miniconda.html">Miniconda</a> if you haven’t already.</p></li>
+<li><p>Download <a class="reference external" href="https://github.com/birmingham-ccr/clictagger/raw/HEAD/environment-windows.yml">environment-windows.yml</a>
+if running windows, <a class="reference external" href="https://github.com/birmingham-ccr/clictagger/raw/HEAD/environment.yml">environment.yml</a> otherwise.</p></li>
+<li><p>Start an <a class="reference external" href="https://docs.conda.io/projects/conda/en/latest/user-guide/getting-started.html">Anaconda prompt</a></p></li>
+<li><p>Run <code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">env</span> <span class="pre">create</span> <span class="pre">-f</span> <span class="pre">environment.yml</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">activate</span> <span class="pre">clictagger</span></code></p></li>
+</ol>
+<p>You can now use <code class="docutils literal notranslate"><span class="pre">clictagger</span></code>.</p>
+</div>
+</div>
+<div class="section" id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="python-notebook">
+<h3>Python notebook<a class="headerlink" href="#python-notebook" title="Permalink to this headline">¶</a></h3>
+<p>See the example notebook here: <a class="reference external" href="https://mybinder.org/v2/gh/birmingham-ccr/clictagger/HEAD?filepath=getting_started.ipynb">https://mybinder.org/v2/gh/birmingham-ccr/clictagger/HEAD?filepath=getting_started.ipynb</a></p>
+</div>
+<div class="section" id="command-line">
+<h3>Command line<a class="headerlink" href="#command-line" title="Permalink to this headline">¶</a></h3>
+<img alt="Animation of command_line usage" class="align-center" src="_images/commandline_example.svg" /><p>You should now have the <code class="docutils literal notranslate"><span class="pre">clictagger</span></code> command available. See <code class="docutils literal notranslate"><span class="pre">--help</span></code> for usage.</p>
+<p>For more examples, see the <a class="reference external" href="https://birmingham-ccr.github.io/clictagger/clictagger.script">clictagger.script</a> documentation.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="#">clictagger</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="clictagger.taggedtext/">clictagger.taggedtext: Region-tag text</a></li>
+<li class="toctree-l1"><a class="reference internal" href="clictagger.script/">clictagger.script: Command line interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="clictagger.region/">clictagger.region package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="clictagger.tokenizer/">clic.tokenizer: Tokenize strings to types</a></li>
+<li class="toctree-l1"><a class="reference internal" href="references/">References</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="#">Documentation overview</a><ul>
+      <li>Next: <a href="clictagger.taggedtext/" title="next chapter">clictagger.taggedtext: Region-tag text</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search/" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2021, Michaela Mahlberg, Viola Wiegand, Jamie Lentin & Anthony Hennessey.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.5.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/index.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

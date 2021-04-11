@@ -1,0 +1,19 @@
+clictagger.region package
+=========================
+
+.. automodule:: clictagger.region
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 10
+
+   clictagger.region.chapter
+   clictagger.region.metadata
+   clictagger.region.quote
+   clictagger.region.suspension
+   clictagger.region.tag

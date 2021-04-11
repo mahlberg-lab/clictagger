@@ -1,0 +1,364 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>clic.region.chapter: Tag chapter.* regions &#8212; clictagger  documentation</title>
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex/" />
+    <link rel="search" title="Search" href="../search/" />
+    <link rel="next" title="clic.region.metadata: Tag metadata.* regions" href="../clictagger.region.metadata/" />
+    <link rel="prev" title="clictagger.region package" href="../clictagger.region/" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <span class="target" id="module-clictagger.region.chapter"></span><div class="section" id="clic-region-chapter-tag-chapter-regions">
+<h1>clic.region.chapter: Tag chapter.* regions<a class="headerlink" href="#clic-region-chapter-tag-chapter-regions" title="Permalink to this headline">¶</a></h1>
+<p>Add chapter.* tags to regions.</p>
+<p>Chapter tagging depends on metadata region tags:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">.metadata</span> <span class="kn">import</span> <span class="n">tagger_metadata</span>
+</pre></div>
+</div>
+<div class="section" id="chapter-title-chapter-text-regions">
+<h2>chapter.title / chapter.text regions<a class="headerlink" href="#chapter-title-chapter-text-regions" title="Permalink to this headline">¶</a></h2>
+<p>Any chapter conforming to the definition in corpora gets detected, and the text
+afterwards will be marked as chapter.text:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">run_tagger</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="gp">... </span><span class="s1">Initial text is the zero&#39;th chapter.</span>
+<span class="gp">...</span><span class="s1"></span>
+<span class="gp">... </span><span class="s1">INTRODUCTION.</span>
+<span class="gp">...</span><span class="s1"></span>
+<span class="gp">... </span><span class="s1">The introduction has some chapter text.</span>
+<span class="gp">... </span><span class="s1">It&#39;s not very exciting.</span>
+<span class="gp">...</span><span class="s1"></span>
+<span class="gp">... </span><span class="s1">CHAPTER I. The first chapter</span>
+<span class="gp">...</span><span class="s1"></span>
+<span class="gp">... </span><span class="s1">The first chapter has some text.</span>
+<span class="gp">...</span><span class="s1"></span>
+<span class="gp">... </span><span class="s1">CHAPTER II. The second, empty, chapter</span>
+<span class="gp">...</span><span class="s1"></span>
+<span class="gp">... </span><span class="s1">CHAPTER III. The third, chapter</span>
+<span class="gp">...</span><span class="s1"></span>
+<span class="gp">... </span><span class="s1">...has some text too, which goes to the very end.</span>
+<span class="gp">... </span><span class="s1">&#39;&#39;&#39;</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span> <span class="n">tagger_metadata</span><span class="p">,</span> <span class="n">tagger_chapter_title</span><span class="p">,</span> <span class="n">tagger_chapter_text</span><span class="p">)</span>
+<span class="go">[(&#39;chapter.text&#39;, 0, 36, 0, &quot;Initial text is the zero&#39;th chapter.&quot;),</span>
+<span class="go"> (&#39;chapter.title&#39;, 38, 51, 1, &#39;INTRODUCTION.&#39;),</span>
+<span class="go"> (&#39;chapter.text&#39;, 53, 116, 1, &#39;The introduction has...s not very exciting.&#39;),</span>
+<span class="go"> (&#39;chapter.title&#39;, 118, 146, 2, &#39;CHAPTER I. The first chapter&#39;),</span>
+<span class="go"> (&#39;chapter.text&#39;, 148, 180, 2, &#39;The first chapter has some text.&#39;),</span>
+<span class="go"> (&#39;chapter.title&#39;, 182, 220, 3, &#39;CHAPTER II. The second, empty, chapter&#39;),</span>
+<span class="go"> (&#39;chapter.title&#39;, 222, 253, 4, &#39;CHAPTER III. The third, chapter&#39;),</span>
+<span class="go"> (&#39;chapter.text&#39;, 255, 304, 4, &#39;...has some text too...oes to the very end.&#39;)]</span>
+</pre></div>
+</div>
+<p>We ignore any metadata if it’s there:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">run_tagger</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="gp">... </span><span class="s1">Fly Fishing</span>
+<span class="gp">... </span><span class="s1">J R Hartley</span>
+<span class="gp">...</span><span class="s1"></span>
+<span class="gp">... </span><span class="s1">Initial text is the zero&#39;th chapter, but not including title.</span>
+<span class="gp">...</span><span class="s1"></span>
+<span class="gp">... </span><span class="s1">INTRODUCTION.</span>
+<span class="gp">...</span><span class="s1"></span>
+<span class="gp">... </span><span class="s1">The introduction has some chapter text.</span>
+<span class="gp">... </span><span class="s1">It&#39;s not very exciting.</span>
+<span class="gp">... </span><span class="s1">&#39;&#39;&#39;</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span> <span class="n">tagger_metadata</span><span class="p">,</span> <span class="n">tagger_chapter_title</span><span class="p">,</span> <span class="n">tagger_chapter_text</span><span class="p">)</span>
+<span class="go">[(&#39;metadata.title&#39;, 0, 11, None, &#39;Fly Fishing&#39;),</span>
+<span class="go"> (&#39;metadata.author&#39;, 12, 23, None, &#39;J R Hartley&#39;),</span>
+<span class="go"> (&#39;chapter.text&#39;, 25, 86, 0, &#39;Initial text is the ...not including title.&#39;),</span>
+<span class="go"> (&#39;chapter.title&#39;, 88, 101, 1, &#39;INTRODUCTION.&#39;),</span>
+<span class="go"> (&#39;chapter.text&#39;, 103, 166, 1, &#39;The introduction has...s not very exciting.&#39;)]</span>
+</pre></div>
+</div>
+<p>It’s possible to not have any chapters too:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">run_tagger</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="gp">... </span><span class="s1">Here is some text, without any preamble</span>
+<span class="gp">... </span><span class="s1">It&#39;s not very exciting.</span>
+<span class="gp">... </span><span class="s1">&#39;&#39;&#39;</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span> <span class="n">tagger_metadata</span><span class="p">,</span> <span class="n">tagger_chapter_title</span><span class="p">,</span> <span class="n">tagger_chapter_text</span><span class="p">)</span>
+<span class="go">[(&#39;chapter.text&#39;, 0, 63, 0, &#39;Here is some text, w...s not very exciting.&#39;)]</span>
+</pre></div>
+</div>
+<p>Paragraph / sentence counts reset at the start of the new chapter.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">run_tagger</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="gp">... </span><span class="s1">Initial text is the zero&#39;th chapter. Second sentence.</span>
+<span class="gp">...</span><span class="s1"></span>
+<span class="gp">... </span><span class="s1">INTRODUCTION.</span>
+<span class="gp">...</span><span class="s1"></span>
+<span class="gp">... </span><span class="s1">First chapter, first sentence. Second sentence. Third sentence.</span>
+<span class="gp">...</span><span class="s1"></span>
+<span class="gp">... </span><span class="s1">Second paragraph, fourth sentence. Fifth!</span>
+<span class="gp">...</span><span class="s1"></span>
+<span class="gp">... </span><span class="s1">CHAPTER I. The first chapter</span>
+<span class="gp">...</span><span class="s1"></span>
+<span class="gp">... </span><span class="s1">First chapter, first sentence. Second sentence. Third.</span>
+<span class="gp">...</span><span class="s1"></span>
+<span class="gp">... </span><span class="s1">Second paragraph, fourth sentence. Fifth!</span>
+<span class="gp">... </span><span class="s1">&#39;&#39;&#39;</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span> <span class="n">tagger_metadata</span><span class="p">,</span> <span class="n">tagger_chapter</span><span class="p">)</span> <span class="k">if</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;chapter.paragraph&#39;</span><span class="p">,</span> <span class="s1">&#39;chapter.sentence&#39;</span><span class="p">]]</span>
+<span class="go">[(&#39;chapter.paragraph&#39;, 0, 53, 1, &#39;Initial text is the ...er. Second sentence.&#39;),</span>
+<span class="go"> (&#39;chapter.sentence&#39;, 0, 36, 1, &quot;Initial text is the zero&#39;th chapter.&quot;),</span>
+<span class="go"> (&#39;chapter.sentence&#39;, 37, 53, 2, &#39;Second sentence.&#39;),</span>
+<span class="go"> (&#39;chapter.paragraph&#39;, 70, 133, 1, &#39;First chapter, first...nce. Third sentence.&#39;),</span>
+<span class="go"> (&#39;chapter.sentence&#39;, 70, 100, 1, &#39;First chapter, first sentence.&#39;),</span>
+<span class="go"> (&#39;chapter.sentence&#39;, 101, 117, 2, &#39;Second sentence.&#39;),</span>
+<span class="go"> (&#39;chapter.sentence&#39;, 118, 133, 3, &#39;Third sentence.&#39;),</span>
+<span class="go"> (&#39;chapter.paragraph&#39;, 135, 176, 2, &#39;Second paragraph, fo...rth sentence. Fifth!&#39;),</span>
+<span class="go"> (&#39;chapter.sentence&#39;, 135, 169, 4, &#39;Second paragraph, fourth sentence.&#39;),</span>
+<span class="go"> (&#39;chapter.sentence&#39;, 170, 176, 5, &#39;Fifth!&#39;),</span>
+<span class="go"> (&#39;chapter.paragraph&#39;, 208, 262, 1, &#39;First chapter, first...ond sentence. Third.&#39;),</span>
+<span class="go"> (&#39;chapter.sentence&#39;, 208, 238, 1, &#39;First chapter, first sentence.&#39;),</span>
+<span class="go"> (&#39;chapter.sentence&#39;, 239, 255, 2, &#39;Second sentence.&#39;),</span>
+<span class="go"> (&#39;chapter.sentence&#39;, 256, 262, 3, &#39;Third.&#39;),</span>
+<span class="go"> (&#39;chapter.paragraph&#39;, 264, 305, 2, &#39;Second paragraph, fo...rth sentence. Fifth!&#39;),</span>
+<span class="go"> (&#39;chapter.sentence&#39;, 264, 298, 4, &#39;Second paragraph, fourth sentence.&#39;),</span>
+<span class="go"> (&#39;chapter.sentence&#39;, 299, 305, 5, &#39;Fifth!&#39;)]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="chapter-part-regions">
+<h2>chapter.part regions<a class="headerlink" href="#chapter-part-regions" title="Permalink to this headline">¶</a></h2>
+<p>Chapters can be interleaved with “PART x.” or “BOOK x.” headings, these will
+marked a “chapter.part”. They don’t influence chapter counts, but aren’t part
+of chapter.text. For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">run_tagger</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="gp">... </span><span class="s1">Initial text is the zero&#39;th chapter. Second sentence.</span>
+<span class="gp">...</span><span class="s1"></span>
+<span class="gp">... </span><span class="s1">BOOK 1.</span>
+<span class="gp">...</span><span class="s1"></span>
+<span class="gp">... </span><span class="s1">CHAPTER I. The first chapter in Book 1</span>
+<span class="gp">...</span><span class="s1"></span>
+<span class="gp">... </span><span class="s1">The text in chapter 1.</span>
+<span class="gp">...</span><span class="s1"></span>
+<span class="gp">... </span><span class="s1">CHAPTER II. The second chapter</span>
+<span class="gp">...</span><span class="s1"></span>
+<span class="gp">... </span><span class="s1">The text in chapter 2.</span>
+<span class="gp">...</span><span class="s1"></span>
+<span class="gp">... </span><span class="s1">BOOK 2.</span>
+<span class="gp">...</span><span class="s1"></span>
+<span class="gp">... </span><span class="s1">Some introductory text at start of the book.</span>
+<span class="gp">...</span><span class="s1"></span>
+<span class="gp">... </span><span class="s1">CHAPTER I. The first chapter in Book 2</span>
+<span class="gp">...</span><span class="s1"></span>
+<span class="gp">... </span><span class="s1">First chapter. Note that the chapter numbers carry on from previous book</span>
+<span class="gp">... </span><span class="s1">&#39;&#39;&#39;</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span> <span class="n">tagger_metadata</span><span class="p">,</span> <span class="n">tagger_chapter</span><span class="p">)</span> <span class="k">if</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;chapter.part&#39;</span><span class="p">,</span> <span class="s1">&#39;chapter.title&#39;</span><span class="p">,</span> <span class="s1">&#39;chapter.text&#39;</span><span class="p">]]</span>
+<span class="go">[(&#39;chapter.text&#39;, 0, 53, 0, &#39;Initial text is the ...er. Second sentence.&#39;),</span>
+<span class="go"> (&#39;chapter.part&#39;, 55, 62, 1, &#39;BOOK 1.&#39;),</span>
+<span class="go"> (&#39;chapter.title&#39;, 64, 102, 1, &#39;CHAPTER I. The first chapter in Book 1&#39;),</span>
+<span class="go"> (&#39;chapter.text&#39;, 104, 126, 1, &#39;The text in chapter 1.&#39;),</span>
+<span class="go"> (&#39;chapter.title&#39;, 128, 158, 2, &#39;CHAPTER II. The second chapter&#39;),</span>
+<span class="go"> (&#39;chapter.text&#39;, 160, 182, 2, &#39;The text in chapter 2.&#39;),</span>
+<span class="go"> (&#39;chapter.part&#39;, 184, 191, 2, &#39;BOOK 2.&#39;),</span>
+<span class="go"> (&#39;chapter.text&#39;, 193, 237, 2, &#39;Some introductory te...t start of the book.&#39;),</span>
+<span class="go"> (&#39;chapter.title&#39;, 239, 277, 3, &#39;CHAPTER I. The first chapter in Book 2&#39;),</span>
+<span class="go"> (&#39;chapter.text&#39;, 279, 351, 3, &#39;First chapter. Note ...n from previous book&#39;)]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="chapter-paragraph-chapter-sentence-regions">
+<h2>chapter.paragraph / chapter.sentence regions<a class="headerlink" href="#chapter-paragraph-chapter-sentence-regions" title="Permalink to this headline">¶</a></h2>
+<p>All <code class="docutils literal notranslate"><span class="pre">chapter.text</span></code> is broken up into <code class="docutils literal notranslate"><span class="pre">chapter.paragraph</span></code>, paragraph
+boundaries are defined as a sequence of 2 newlines within chapter text (i.e. a
+blank line in the text).</p>
+<p><code class="docutils literal notranslate"><span class="pre">chapter.paragraph</span></code> are then broken up into <code class="docutils literal notranslate"><span class="pre">chapter.sentence</span></code>, using the
+Unicode sentence segmentation in <a class="reference internal" href="../references/#uax29" id="id1"><span>[UAX29]</span></a>, using the implementation in the <a class="reference internal" href="../references/#icu" id="id2"><span>[ICU]</span></a>
+library.</p>
+<ul class="simple">
+<li><p>We use the <code class="docutils literal notranslate"><span class="pre">en_GB&#64;ss=standard</span></code> locale (ss=standard tells ICU to not treat
+abbreviations like “Mr. Jones” as a sentence break.)</p></li>
+<li><p>Before applying the algorithm, we remove newlines from the chapter text,
+since we do not want to treat them as sentence breaks (which ICU does by
+default).</p></li>
+</ul>
+<p>The following shows both splitting of paragraph and sentences:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">run_tagger</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="gp">... </span><span class="s1">“Thou find’st it out, child?  Ay, ’tis worth all the feather-beds and</span>
+<span class="gp">... </span><span class="s1">pouncet-boxes in Ulm; is it not?  That accursed Italian fever never left</span>
+<span class="gp">... </span><span class="s1">me till I came up here.  A man can scarce draw breath in your foggy</span>
+<span class="gp">... </span><span class="s1">meadows below there.  Now then, here is the view open.  What think you of</span>
+<span class="gp">... </span><span class="s1">the Eagle’s Nest?”</span>
+<span class="gp">...</span><span class="s1"></span>
+<span class="gp">... </span><span class="s1">“And this is Schloss Adlerstein?” she exclaimed.</span>
+<span class="gp">...</span><span class="s1"></span>
+<span class="gp">... </span><span class="s1">“That is Schloss Adlerstein; and there shalt thou be in two hours’ time,</span>
+<span class="gp">... </span><span class="s1">unless the devil be more than usually busy, or thou mak’st a fool of</span>
+<span class="gp">... </span><span class="s1">thyself.  If so, not Satan himself could save thee.”</span>
+<span class="gp">...</span><span class="s1"></span>
+<span class="gp">... </span><span class="s1">&#39;&#39;&#39;</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span> <span class="n">tagger_metadata</span><span class="p">,</span> <span class="n">tagger_chapter</span><span class="p">)</span>
+<span class="go">[(&#39;chapter.text&#39;, 0, 549, 0, &#39;“Thou find’st it out...lf could save thee.”&#39;),</span>
+<span class="go"> (&#39;chapter.paragraph&#39;, 0, 303, 1, &#39;“Thou find’st it out...f\nthe Eagle’s Nest?”&#39;),</span>
+<span class="go"> (&#39;chapter.sentence&#39;, 0, 28, 1, &#39;“Thou find’st it out, child?&#39;),</span>
+<span class="go"> (&#39;chapter.sentence&#39;, 30, 102, 2, &#39;Ay, ’tis worth all t...s in Ulm; is it not?&#39;),</span>
+<span class="go"> (&#39;chapter.sentence&#39;, 104, 166, 3, &#39;That accursed Italia...till I came up here.&#39;),</span>
+<span class="go"> (&#39;chapter.sentence&#39;, 168, 231, 4, &#39;A man can scarce dra...meadows below there.&#39;),</span>
+<span class="go"> (&#39;chapter.sentence&#39;, 233, 265, 5, &#39;Now then, here is the view open.&#39;),</span>
+<span class="go"> (&#39;chapter.sentence&#39;, 267, 303, 6, &#39;What think you of\nthe Eagle’s Nest?”&#39;),</span>
+<span class="go"> (&#39;chapter.paragraph&#39;, 305, 353, 2, &#39;“And this is Schloss...ein?” she exclaimed.&#39;),</span>
+<span class="go"> (&#39;chapter.sentence&#39;, 305, 338, 7, &#39;“And this is Schloss Adlerstein?”&#39;),</span>
+<span class="go"> (&#39;chapter.sentence&#39;, 339, 353, 8, &#39;she exclaimed.&#39;),</span>
+<span class="go"> (&#39;chapter.paragraph&#39;, 355, 549, 3, &#39;“That is Schloss Adl...lf could save thee.”&#39;),</span>
+<span class="go"> (&#39;chapter.sentence&#39;, 355, 505, 9, &#39;“That is Schloss Adl...t a fool of\nthyself.&#39;),</span>
+<span class="go"> (&#39;chapter.sentence&#39;, 507, 549, 10, &#39;If so, not Satan him...lf could save thee.”&#39;)]</span>
+</pre></div>
+</div>
+<p>By default using ICU, sentence breaks would occur at the end of lines without any
+punctuation. Instead, we ignore end of lines unless they would be a sentence
+break anyway. We also don’t break on “Mr. Oliver”:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">run_tagger</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="gp">... </span><span class="s1">modest-looking little shop-window, containing a few newspapers, some</span>
+<span class="gp">... </span><span class="s1">Rather yellow packets of stationery, and two or three books of ballads.</span>
+<span class="gp">... </span><span class="s1">Above the door was painted in very small, dingy letters, the words,</span>
+<span class="gp">... </span><span class="s1">&quot;James Oliver, News Agent.&quot;</span>
+<span class="gp">...</span><span class="s1"></span>
+<span class="gp">... </span><span class="s1">So if you wish to stay here with my brother, Mr. Oliver, and this little</span>
+<span class="gp">... </span><span class="s1">girl, Miss Dorothy Raleigh, as I suppose her name is, you must get all these things.</span>
+<span class="gp">... </span><span class="s1">&#39;&#39;&#39;</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span> <span class="n">tagger_metadata</span><span class="p">,</span> <span class="n">tagger_chapter</span><span class="p">)</span> <span class="k">if</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;chapter.paragraph&#39;</span><span class="p">,</span> <span class="s1">&#39;chapter.sentence&#39;</span><span class="p">)]</span>
+<span class="go">[(&#39;chapter.paragraph&#39;, 0, 236, 1, &#39;modest-looking littl...Oliver, News Agent.&quot;&#39;),</span>
+<span class="go"> (&#39;chapter.sentence&#39;, 0, 140, 1, &#39;modest-looking littl...ee books of ballads.&#39;),</span>
+<span class="go"> (&#39;chapter.sentence&#39;, 141, 236, 2, &#39;Above the door was p...Oliver, News Agent.&quot;&#39;),</span>
+<span class="go"> (&#39;chapter.paragraph&#39;, 238, 395, 2, &#39;So if you wish to st...et all these things.&#39;),</span>
+<span class="go"> (&#39;chapter.sentence&#39;, 238, 395, 3, &#39;So if you wish to st...et all these things.&#39;)]</span>
+</pre></div>
+</div>
+<dl class="py function">
+<dt id="clictagger.region.chapter.tagger_chapter">
+<code class="sig-prename descclassname"><span class="pre">clictagger.region.chapter.</span></code><code class="sig-name descname"><span class="pre">tagger_chapter</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">book</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clictagger.region.chapter.tagger_chapter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add chapter.* tags to (book)</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="clictagger.region.chapter.tagger_chapter_paragraph">
+<code class="sig-prename descclassname"><span class="pre">clictagger.region.chapter.</span></code><code class="sig-name descname"><span class="pre">tagger_chapter_paragraph</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">book</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clictagger.region.chapter.tagger_chapter_paragraph" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add chapter.paragraph tags to (book)</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="clictagger.region.chapter.tagger_chapter_part">
+<code class="sig-prename descclassname"><span class="pre">clictagger.region.chapter.</span></code><code class="sig-name descname"><span class="pre">tagger_chapter_part</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">book</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clictagger.region.chapter.tagger_chapter_part" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add chapter.part tags to (book)</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="clictagger.region.chapter.tagger_chapter_sentence">
+<code class="sig-prename descclassname"><span class="pre">clictagger.region.chapter.</span></code><code class="sig-name descname"><span class="pre">tagger_chapter_sentence</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">book</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clictagger.region.chapter.tagger_chapter_sentence" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add chapter.sentence tags to (book)</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="clictagger.region.chapter.tagger_chapter_text">
+<code class="sig-prename descclassname"><span class="pre">clictagger.region.chapter.</span></code><code class="sig-name descname"><span class="pre">tagger_chapter_text</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">book</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clictagger.region.chapter.tagger_chapter_text" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add chapter.text tags to (book)</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="clictagger.region.chapter.tagger_chapter_title">
+<code class="sig-prename descclassname"><span class="pre">clictagger.region.chapter.</span></code><code class="sig-name descname"><span class="pre">tagger_chapter_title</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">book</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clictagger.region.chapter.tagger_chapter_title" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add chapter.title tags to (book)</p>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../">clictagger</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../clictagger.taggedtext/">clictagger.taggedtext: Region-tag text</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../clictagger.script/">clictagger.script: Command line interface</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../clictagger.region/">clictagger.region package</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../clictagger.region/#submodules">Submodules</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">clic.region.chapter: Tag chapter.* regions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../clictagger.region.metadata/">clic.region.metadata: Tag metadata.* regions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../clictagger.region.quote/">clic.region.quote: Tag quote.* regions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../clictagger.region.suspension/">clic.region.suspension: Tag quote.suspension.* regions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../clictagger.region.tag/">clic.region.tag: Tag a book with all region taggers</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../clictagger.tokenizer/">clic.tokenizer: Tokenize strings to types</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../references/">References</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../">Documentation overview</a><ul>
+  <li><a href="../clictagger.region/">clictagger.region package</a><ul>
+      <li>Previous: <a href="../clictagger.region/" title="previous chapter">clictagger.region package</a></li>
+      <li>Next: <a href="../clictagger.region.metadata/" title="next chapter">clic.region.metadata: Tag metadata.* regions</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search/" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2021, Michaela Mahlberg, Viola Wiegand, Jamie Lentin & Anthony Hennessey.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.5.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/clictagger.region.chapter.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

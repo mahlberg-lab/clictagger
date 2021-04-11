@@ -1,0 +1,308 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>clic.region.suspension: Tag quote.suspension.* regions &#8212; clictagger  documentation</title>
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex/" />
+    <link rel="search" title="Search" href="../search/" />
+    <link rel="next" title="clic.region.tag: Tag a book with all region taggers" href="../clictagger.region.tag/" />
+    <link rel="prev" title="clic.region.quote: Tag quote.* regions" href="../clictagger.region.quote/" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <span class="target" id="module-clictagger.region.suspension"></span><div class="section" id="clic-region-suspension-tag-quote-suspension-regions">
+<h1>clic.region.suspension: Tag quote.suspension.* regions<a class="headerlink" href="#clic-region-suspension-tag-quote-suspension-regions" title="Permalink to this headline">¶</a></h1>
+<p>We need paragraph/quote regions before we can do quote tagging:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">.chapter</span> <span class="kn">import</span> <span class="n">tagger_chapter</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">.metadata</span> <span class="kn">import</span> <span class="n">tagger_metadata</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">.quote</span> <span class="kn">import</span> <span class="n">tagger_quote</span>
+</pre></div>
+</div>
+<div class="section" id="quote-suspension-regions">
+<h2>quote.suspension regions<a class="headerlink" href="#quote-suspension-regions" title="Permalink to this headline">¶</a></h2>
+<p>A suspension is <code class="docutils literal notranslate"><span class="pre">quote.nonquote</span></code> (see <code class="xref py py-mod docutils literal notranslate"><span class="pre">clic.region.quote</span></code>) region that…</p>
+<ul class="simple">
+<li><p>Has at least one word</p></li>
+<li><p>Does not start at a <code class="docutils literal notranslate"><span class="pre">chapter.paragraph</span></code> start.</p></li>
+<li><p>Does not contain the end of a <code class="docutils literal notranslate"><span class="pre">chapter.sentence</span></code> region.</p></li>
+<li><p>Either does not start at a <code class="docutils literal notranslate"><span class="pre">chapter.sentence</span></code> start, or the first letter of the region is lower-case.</p></li>
+</ul>
+<p>This implies that all suspensions are between 2 quote regions. If not, either…</p>
+<ul>
+<li><p>They are at the start of a chapter, thus the start of a paragraph. From <code class="docutils literal notranslate"><span class="pre">ChiLit/stalky.txt</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">run_tagger</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="gp">... </span><span class="s1">The black gown tore past like a thunder-storm, and in its wake, three</span>
+<span class="gp">... </span><span class="s1">abreast, arms linked, the Aladdin company rolled up the big corridor to</span>
+<span class="gp">... </span><span class="s1">prayers, singing with most innocent intention:</span>
+<span class="gp">...</span><span class="s1"></span>
+<span class="gp">... </span><span class="s1">CHAPTER 3. AN UNSAVORY INTERLUDE.</span>
+<span class="gp">...</span><span class="s1"></span>
+<span class="gp">... </span><span class="s1">It was a maiden aunt of Stalky who sent him both books, with the</span>
+<span class="gp">... </span><span class="s1">inscription, “To dearest Artie, on his sixteenth birthday;” it was</span>
+<span class="gp">... </span><span class="s1">McTurk who ordered their hypothecation.</span>
+<span class="gp">... </span><span class="s1">&#39;&#39;&#39;</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span> <span class="n">tagger_chapter</span><span class="p">,</span> <span class="n">tagger_quote</span><span class="p">,</span> <span class="n">tagger_quote_suspension</span><span class="p">)</span> <span class="k">if</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;quote.&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;chapter.title&#39;</span><span class="p">]</span>
+<span class="go">[(&#39;quote.nonquote&#39;, 0, 188, None, &#39;The black gown tore ... innocent intention:&#39;),</span>
+<span class="go"> (&#39;chapter.title&#39;, 190, 223, 1, &#39;CHAPTER 3. AN UNSAVORY INTERLUDE.&#39;),</span>
+<span class="go"> (&#39;quote.nonquote&#39;, 225, 302, None, &#39;It was a maiden aunt...ith the\ninscription,&#39;),</span>
+<span class="go"> (&#39;quote.quote&#39;, 303, 349, None, &#39;“To dearest Artie, o...sixteenth birthday;”&#39;),</span>
+<span class="go"> (&#39;quote.nonquote&#39;, 350, 396, None, &#39;it was\nMcTurk who or...their hypothecation.&#39;)]</span>
+</pre></div>
+</div>
+</li>
+<li><p>They are at the end of a chapter, thus contain the end of a sentence. From <code class="docutils literal notranslate"><span class="pre">ChiLit/daisy.txt</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">run_tagger</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="gp">... </span><span class="s1">“Faithful in a little--” said Ethel. “I suppose all good people’s</span>
+<span class="gp">... </span><span class="s1">standard is always going higher.”</span>
+<span class="gp">...</span><span class="s1"></span>
+<span class="gp">... </span><span class="s1">“As they comprehend more of absolute perfection,” said Margaret.</span>
+<span class="gp">...</span><span class="s1"></span>
+<span class="gp">...</span><span class="s1"></span>
+<span class="gp">... </span><span class="s1">CHAPTER XV.</span>
+<span class="gp">... </span><span class="s1">&#39;&#39;&#39;</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span> <span class="n">tagger_chapter</span><span class="p">,</span> <span class="n">tagger_quote</span><span class="p">,</span> <span class="n">tagger_quote_suspension</span><span class="p">)</span> <span class="k">if</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;quote.&#39;</span><span class="p">)]</span>
+<span class="go">[(&#39;quote.quote&#39;, 0, 24, None, &#39;“Faithful in a little--”&#39;),</span>
+<span class="go"> (&#39;quote.nonquote&#39;, 25, 36, None, &#39;said Ethel.&#39;),</span>
+<span class="go"> (&#39;quote.suspension.short&#39;, 25, 36, None, &#39;said Ethel.&#39;),</span>
+<span class="go"> (&#39;quote.quote&#39;, 37, 99, None, &#39;“I suppose all good ...lways going higher.”&#39;),</span>
+<span class="go"> (&#39;quote.quote&#39;, 101, 150, None, &#39;“As they comprehend ...bsolute perfection,”&#39;),</span>
+<span class="go"> (&#39;quote.nonquote&#39;, 151, 165, None, &#39;said Margaret.&#39;)]</span>
+</pre></div>
+</div>
+</li>
+</ul>
+<p>If the non-quote region starts a new sentence, we also make sure that it does
+not start with an upper case letter. Thus the preceding quote can still end
+with exclamation mark, or other sentence-final punctuation, but the non-quote
+region will still be considered a suspension. From <code class="docutils literal notranslate"><span class="pre">ChiLit/daisy.txt</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">run_tagger</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="gp">... </span><span class="s1">“My dear Miss Flora!” began Miss Rich, adhering to her as they parted</span>
+<span class="gp">... </span><span class="s1">with the rest at the end of the street, “how am I to write to a</span>
+<span class="gp">... </span><span class="s1">principal? Am I to begin Reverend Sir, or My Lord, or is he Venerable,</span>
+<span class="gp">... </span><span class="s1">like an archdeacon? What is his name, and what am I to say?”</span>
+<span class="gp">... </span><span class="s1">&#39;&#39;&#39;</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span> <span class="n">tagger_chapter</span><span class="p">,</span> <span class="n">tagger_quote</span><span class="p">,</span> <span class="n">tagger_quote_suspension</span><span class="p">)</span> <span class="k">if</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;quote.&#39;</span><span class="p">)]</span>
+<span class="go">[(&#39;quote.quote&#39;, 0, 21, None, &#39;“My dear Miss Flora!”&#39;),</span>
+<span class="go"> (&#39;quote.nonquote&#39;, 22, 109, None, &#39;began Miss Rich, adh...e end of the street,&#39;),</span>
+<span class="go"> (&#39;quote.suspension.long&#39;, 22, 109, None, &#39;began Miss Rich, adh...e end of the street,&#39;),</span>
+<span class="go"> (&#39;quote.quote&#39;, 110, 265, None, &#39;“how am I to write t...d what am I to say?”&#39;)]</span>
+</pre></div>
+</div>
+<p>…and…</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">run_tagger</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="gp">... </span><span class="s1">“Oh, thank you!” and, “How she will like it!”</span>
+<span class="gp">... </span><span class="s1">&#39;&#39;&#39;</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span> <span class="n">tagger_chapter</span><span class="p">,</span> <span class="n">tagger_quote</span><span class="p">,</span> <span class="n">tagger_quote_suspension</span><span class="p">)</span> <span class="k">if</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;quote.&#39;</span><span class="p">)]</span>
+<span class="go">[(&#39;quote.quote&#39;, 0, 16, None, &#39;“Oh, thank you!”&#39;),</span>
+<span class="go"> (&#39;quote.nonquote&#39;, 17, 21, None, &#39;and,&#39;),</span>
+<span class="go"> (&#39;quote.suspension.short&#39;, 17, 21, None, &#39;and,&#39;),</span>
+<span class="go"> (&#39;quote.quote&#39;, 22, 45, None, &#39;“How she will like it!”&#39;)]</span>
+</pre></div>
+</div>
+<p>Conversely, the following doesn’t count as it starts with a capital Y. From
+<code class="docutils literal notranslate"><span class="pre">ChiLit/daisy.txt</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">run_tagger</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="gp">... </span><span class="s1">sorrowfully moralising and making excuses. “People in former times had</span>
+<span class="gp">... </span><span class="s1">not so high an estimate of pastoral duty--poor Mr. Ramsden had not much</span>
+<span class="gp">... </span><span class="s1">education--he was already old when better times came in--he might have</span>
+<span class="gp">... </span><span class="s1">done better in a less difficult parish with better laity to support him,</span>
+<span class="gp">... </span><span class="s1">etc.” Yet after all, he exclaimed with one of his impatient gestures,</span>
+<span class="gp">... </span><span class="s1">“Better have my Harry’s seventeen years than his sixty-seven!”</span>
+<span class="gp">... </span><span class="s1">&#39;&#39;&#39;</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span> <span class="n">tagger_chapter</span><span class="p">,</span> <span class="n">tagger_quote</span><span class="p">,</span> <span class="n">tagger_quote_suspension</span><span class="p">)</span> <span class="k">if</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;quote.&#39;</span><span class="p">)]</span>
+<span class="go">[(&#39;quote.nonquote&#39;, 0, 42, None, &#39;sorrowfully moralisi... and making excuses.&#39;),</span>
+<span class="go"> (&#39;quote.quote&#39;, 43, 292, None, &#39;“People in former ti...o support him,\netc.”&#39;),</span>
+<span class="go"> (&#39;quote.nonquote&#39;, 293, 356, None, &#39;Yet after all, he ex... impatient gestures,&#39;),</span>
+<span class="go"> (&#39;quote.quote&#39;, 357, 419, None, &#39;“Better have my Harr...an his sixty-seven!”&#39;)]</span>
+</pre></div>
+</div>
+<p>Due to the condition of starting with lower case, suspensions will not be
+detected if they start with a name. The following do not count as suspensions.
+From <code class="docutils literal notranslate"><span class="pre">ChiLit/alice.txt</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">run_tagger</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="gp">... </span><span class="s1">‘No, please go on!’ Alice said very humbly; ‘I won’t interrupt again. I</span>
+<span class="gp">... </span><span class="s1">dare say there may be ONE.’</span>
+<span class="gp">... </span><span class="s1">&#39;&#39;&#39;</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span> <span class="n">tagger_chapter</span><span class="p">,</span> <span class="n">tagger_quote</span><span class="p">,</span> <span class="n">tagger_quote_suspension</span><span class="p">)</span> <span class="k">if</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;quote.&#39;</span><span class="p">)]</span>
+<span class="go">[(&#39;quote.quote&#39;, 0, 19, None, &#39;‘No, please go on!’&#39;),</span>
+<span class="go"> (&#39;quote.nonquote&#39;, 20, 43, None, &#39;Alice said very humbly;&#39;),</span>
+<span class="go"> (&#39;quote.quote&#39;, 44, 99, None, &#39;‘I won’t interrupt a...y there may be ONE.’&#39;)]</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">run_tagger</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="gp">... </span><span class="s1">‘O Mouse, do you know the way out of this pool? I am very tired</span>
+<span class="gp">... </span><span class="s1">of swimming about here, O Mouse!’ (Alice thought this must be the right</span>
+<span class="gp">... </span><span class="s1">way of speaking to a mouse: she had never done such a thing before, but</span>
+<span class="gp">... </span><span class="s1">she remembered having seen in her brother’s Latin Grammar, ‘A mouse--of</span>
+<span class="gp">... </span><span class="s1">a mouse--to a mouse--a mouse--O mouse!’)</span>
+<span class="gp">... </span><span class="s1">&#39;&#39;&#39;</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span> <span class="n">tagger_chapter</span><span class="p">,</span> <span class="n">tagger_quote</span><span class="p">,</span> <span class="n">tagger_quote_suspension</span><span class="p">)</span> <span class="k">if</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;quote.&#39;</span><span class="p">)]</span>
+<span class="go">[(&#39;quote.quote&#39;, 0, 97, None, &#39;‘O Mouse, do you kno...bout here, O Mouse!’&#39;),</span>
+<span class="go"> (&#39;quote.nonquote&#39;, 98, 266, None, &#39;(Alice thought this ...her’s Latin Grammar,&#39;),</span>
+<span class="go"> (&#39;quote.quote&#39;, 267, 319, None, &#39;‘A mouse--of\na mouse...--a mouse--O mouse!’&#39;),</span>
+<span class="go"> (&#39;quote.nonquote&#39;, 319, 320, None, &#39;)&#39;)]</span>
+</pre></div>
+</div>
+<p>…but if the non-quote region doesn’t start a new sentence, then this is not a
+problem. From <code class="docutils literal notranslate"><span class="pre">ChiLit/winning.txt</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">run_tagger</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="gp">... </span><span class="s1">&quot;No, no, Cousin Cnut,&quot; Cuthbert said, &quot;thou canst not say that I have</span>
+<span class="gp">... </span><span class="s1">ever broken the forest laws, though I have looked on often and often,</span>
+<span class="gp">... </span><span class="s1">whilst you have done so.&quot;</span>
+<span class="gp">... </span><span class="s1">&#39;&#39;&#39;</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span> <span class="n">tagger_chapter</span><span class="p">,</span> <span class="n">tagger_quote</span><span class="p">,</span> <span class="n">tagger_quote_suspension</span><span class="p">)</span> <span class="k">if</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;quote.&#39;</span><span class="p">)]</span>
+<span class="go">[(&#39;quote.quote&#39;, 0, 22, None, &#39;&quot;No, no, Cousin Cnut,&quot;&#39;),</span>
+<span class="go"> (&#39;quote.nonquote&#39;, 23, 37, None, &#39;Cuthbert said,&#39;),</span>
+<span class="go"> (&#39;quote.suspension.short&#39;, 23, 37, None, &#39;Cuthbert said,&#39;),</span>
+<span class="go"> (&#39;quote.quote&#39;, 38, 165, None, &#39;&quot;thou canst not say ...t you have done so.&quot;&#39;)]</span>
+</pre></div>
+</div>
+<p>If it is longer than 5 words, then it is a long suspension. For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">run_tagger</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="gp">... </span><span class="s1">“And on what evidence, Pip,” asked Mr. Jaggers, very coolly, as he</span>
+<span class="gp">... </span><span class="s1">paused with his handkerchief half way to his nose, “does Provis make this</span>
+<span class="gp">... </span><span class="s1">claim?”</span>
+<span class="gp">...</span><span class="s1"></span>
+<span class="gp">... </span><span class="s1">“He does not make it,” said I, “and has never made it, and has no knowledge</span>
+<span class="gp">... </span><span class="s1">or belief that his daughter is in existence.”</span>
+<span class="gp">...</span><span class="s1"></span>
+<span class="gp">... </span><span class="s1">‘And this is Schloss Adlerstein?’ she exclaimed.</span>
+<span class="gp">... </span><span class="s1">&#39;&#39;&#39;</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span> <span class="n">tagger_chapter</span><span class="p">,</span> <span class="n">tagger_quote</span><span class="p">,</span> <span class="n">tagger_quote_suspension</span><span class="p">)</span> <span class="k">if</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;quote.&#39;</span><span class="p">)]</span>
+<span class="go">[(&#39;quote.quote&#39;, 0, 28, None, &#39;“And on what evidence, Pip,”&#39;),</span>
+<span class="go"> (&#39;quote.nonquote&#39;, 29, 117, None, &#39;asked Mr. Jaggers, v...alf way to his nose,&#39;),</span>
+<span class="go"> (&#39;quote.suspension.long&#39;, 29, 117, None, &#39;asked Mr. Jaggers, v...alf way to his nose,&#39;),</span>
+<span class="go"> (&#39;quote.quote&#39;, 118, 148, None, &#39;“does Provis make this\nclaim?”&#39;),</span>
+<span class="go"> (&#39;quote.quote&#39;, 150, 172, None, &#39;“He does not make it,”&#39;),</span>
+<span class="go"> (&#39;quote.nonquote&#39;, 173, 180, None, &#39;said I,&#39;),</span>
+<span class="go"> (&#39;quote.suspension.short&#39;, 173, 180, None, &#39;said I,&#39;),</span>
+<span class="go"> (&#39;quote.quote&#39;, 181, 271, None, &#39;“and has never made ...er is in existence.”&#39;),</span>
+<span class="go"> (&#39;quote.quote&#39;, 273, 306, None, &#39;‘And this is Schloss Adlerstein?’&#39;),</span>
+<span class="go"> (&#39;quote.nonquote&#39;, 307, 321, None, &#39;she exclaimed.&#39;)]</span>
+
+<span class="go">Please clarify what happens with &quot;suspensions&quot; that do not contain any text, will they be dropped by the lower case rule (they should not be suspensions. but there aren&#39;t many of them and they&#39;re caused by special typesetting so we can live with them if need be).</span>
+</pre></div>
+</div>
+<p>But there has to be at least one word. Pure punctuation will not count as a
+suspension. From <code class="docutils literal notranslate"><span class="pre">ChiLit/daisy.txt</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">run_tagger</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="gp">... </span><span class="s1">“I found her far better instructed than her appearance had led</span>
+<span class="gp">... </span><span class="s1">me to expect, and more truly impressed with the spirit of what she had</span>
+<span class="gp">... </span><span class="s1">learned than it has often been my lot to find children. She was perfect</span>
+<span class="gp">... </span><span class="s1">in the New Testament history”--(“Ah! that she was not, when she went</span>
+<span class="gp">... </span><span class="s1">away!”)--“and was in the habit of constantly attending church, and using</span>
+<span class="gp">... </span><span class="s1">morning and evening prayers.”</span>
+<span class="gp">... </span><span class="s1">&#39;&#39;&#39;</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span> <span class="n">tagger_chapter</span><span class="p">,</span> <span class="n">tagger_quote</span><span class="p">,</span> <span class="n">tagger_quote_suspension</span><span class="p">)</span> <span class="k">if</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;quote.&#39;</span><span class="p">)]</span>
+<span class="go">[(&#39;quote.quote&#39;, 0, 235, None, &#39;“I found her far bet...w Testament history”&#39;),</span>
+<span class="go"> (&#39;quote.nonquote&#39;, 235, 238, None, &#39;--(&#39;),</span>
+<span class="go"> (&#39;quote.quote&#39;, 238, 281, None, &#39;“Ah! that she was no...when she went\naway!”&#39;),</span>
+<span class="go"> (&#39;quote.nonquote&#39;, 281, 284, None, &#39;)--&#39;),</span>
+<span class="go"> (&#39;quote.quote&#39;, 284, 377, None, &#39;“and was in the habi...nd evening prayers.”&#39;)]</span>
+</pre></div>
+</div>
+<dl class="py function">
+<dt id="clictagger.region.suspension.tagger_quote_suspension">
+<code class="sig-prename descclassname"><span class="pre">clictagger.region.suspension.</span></code><code class="sig-name descname"><span class="pre">tagger_quote_suspension</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">book</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clictagger.region.suspension.tagger_quote_suspension" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add quote.suspension tags to (book)</p>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../">clictagger</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../clictagger.taggedtext/">clictagger.taggedtext: Region-tag text</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../clictagger.script/">clictagger.script: Command line interface</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../clictagger.region/">clictagger.region package</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../clictagger.region/#submodules">Submodules</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../clictagger.region.chapter/">clic.region.chapter: Tag chapter.* regions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../clictagger.region.metadata/">clic.region.metadata: Tag metadata.* regions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../clictagger.region.quote/">clic.region.quote: Tag quote.* regions</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">clic.region.suspension: Tag quote.suspension.* regions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../clictagger.region.tag/">clic.region.tag: Tag a book with all region taggers</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../clictagger.tokenizer/">clic.tokenizer: Tokenize strings to types</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../references/">References</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../">Documentation overview</a><ul>
+  <li><a href="../clictagger.region/">clictagger.region package</a><ul>
+      <li>Previous: <a href="../clictagger.region.quote/" title="previous chapter">clic.region.quote: Tag quote.* regions</a></li>
+      <li>Next: <a href="../clictagger.region.tag/" title="next chapter">clic.region.tag: Tag a book with all region taggers</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search/" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2021, Michaela Mahlberg, Viola Wiegand, Jamie Lentin & Anthony Hennessey.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.5.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/clictagger.region.suspension.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

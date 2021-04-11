@@ -1,0 +1,4 @@
+.. automodule:: clictagger.region.suspension
+   :members:
+   :undoc-members:
+   :show-inheritance:

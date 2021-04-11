@@ -1,0 +1,144 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>clictagger.script: Command line interface &#8212; clictagger  documentation</title>
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex/" />
+    <link rel="search" title="Search" href="../search/" />
+    <link rel="next" title="clictagger.region package" href="../clictagger.region/" />
+    <link rel="prev" title="clictagger.taggedtext: Region-tag text" href="../clictagger.taggedtext/" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <span class="target" id="module-clictagger.script"></span><div class="section" id="clictagger-script-command-line-interface">
+<h1>clictagger.script: Command line interface<a class="headerlink" href="#clictagger-script-command-line-interface" title="Permalink to this headline">¶</a></h1>
+<p>Once clictagger is installed, you will have a command-line interface <code class="docutils literal notranslate"><span class="pre">clictagger</span></code> available.</p>
+<div class="section" id="basic-examples">
+<h2>Basic examples<a class="headerlink" href="#basic-examples" title="Permalink to this headline">¶</a></h2>
+<p>To see the contents of <code class="docutils literal notranslate"><span class="pre">alice.txt</span></code> with default regions coloured:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">clictagger</span> <span class="n">alice</span><span class="o">.</span><span class="n">txt</span>
+</pre></div>
+</div>
+<p>To see the contents of <code class="docutils literal notranslate"><span class="pre">alice.txt</span></code> with quotes coloured:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">clictagger</span> <span class="n">alice</span><span class="o">.</span><span class="n">txt</span> <span class="n">quote</span><span class="o">.</span><span class="n">quote</span>
+</pre></div>
+</div>
+<p>Output all suspensions in <code class="docutils literal notranslate"><span class="pre">alice.txt</span></code> into <code class="docutils literal notranslate"><span class="pre">alice.csv</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">clictagger</span> <span class="o">--</span><span class="n">csv</span> <span class="n">alice</span><span class="o">.</span><span class="n">csv</span> <span class="n">alice</span><span class="o">.</span><span class="n">txt</span> <span class="n">quote</span><span class="o">.</span><span class="n">suspension</span><span class="o">.</span><span class="n">short</span> <span class="n">quote</span><span class="o">.</span><span class="n">suspension</span><span class="o">.</span><span class="n">long</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="using-clictagger-as-a-webserver-for-cleaning-text">
+<h2>Using clictagger as a webserver for cleaning text<a class="headerlink" href="#using-clictagger-as-a-webserver-for-cleaning-text" title="Permalink to this headline">¶</a></h2>
+<p>For optimal use with clictagger, text needs to be cleaned up first.
+For instance, text downloaded from the Gutenberg project will have large sections of non-authorial text.
+The standard process <cite>is outlined here &lt;https://github.com/birmingham-ccr/corpora#cleaning-of-corpora-texts&gt;</cite>.</p>
+<p>clictagger can be used to assist this process with the following steps, given a text file <code class="docutils literal notranslate"><span class="pre">new.txt</span></code>:</p>
+<ol class="arabic simple">
+<li><p>Open <code class="docutils literal notranslate"><span class="pre">new.txt</span></code> in a text-editor, e.g. Notepad.</p></li>
+<li><p>In a terminal window, run <code class="docutils literal notranslate"><span class="pre">clictagger</span> <span class="pre">--serve</span> <span class="pre">new.txt</span></code></p></li>
+<li><p>If a web-browser window hasn’t automatically opened, open <a class="reference external" href="http://localhost:8080/">http://localhost:8080/</a> in your web browser.</p></li>
+</ol>
+<p>Now you can make edits to <code class="docutils literal notranslate"><span class="pre">new.txt</span></code>, reload your browser window, and changes will be visible.</p>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../">clictagger</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../clictagger.taggedtext/">clictagger.taggedtext: Region-tag text</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">clictagger.script: Command line interface</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#basic-examples">Basic examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#using-clictagger-as-a-webserver-for-cleaning-text">Using clictagger as a webserver for cleaning text</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../clictagger.region/">clictagger.region package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../clictagger.tokenizer/">clic.tokenizer: Tokenize strings to types</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../references/">References</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../">Documentation overview</a><ul>
+      <li>Previous: <a href="../clictagger.taggedtext/" title="previous chapter">clictagger.taggedtext: Region-tag text</a></li>
+      <li>Next: <a href="../clictagger.region/" title="next chapter">clictagger.region package</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search/" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2021, Michaela Mahlberg, Viola Wiegand, Jamie Lentin & Anthony Hennessey.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.5.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/clictagger.script.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

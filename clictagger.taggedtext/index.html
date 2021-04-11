@@ -1,0 +1,339 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>clictagger.taggedtext: Region-tag text &#8212; clictagger  documentation</title>
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex/" />
+    <link rel="search" title="Search" href="../search/" />
+    <link rel="next" title="clictagger.script: Command line interface" href="../clictagger.script/" />
+    <link rel="prev" title="CLiCTagger Region-tagging" href="../" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <span class="target" id="module-clictagger.taggedtext"></span><div class="section" id="clictagger-taggedtext-region-tag-text">
+<h1>clictagger.taggedtext: Region-tag text<a class="headerlink" href="#clictagger-taggedtext-region-tag-text" title="Permalink to this headline">¶</a></h1>
+<p>The TaggedText class is the main python interface to clictagger.
+You can use it to import a string of text, and print out a summary of regions:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">clictagger.taggedtext</span> <span class="kn">import</span> <span class="n">TaggedText</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tt</span> <span class="o">=</span> <span class="n">TaggedText</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="gp">... </span><span class="s1">The Dove in the Eagle&#39;s Nest</span>
+<span class="gp">... </span><span class="s1">Charlotte M. Yonge</span>
+<span class="gp">...</span><span class="s1"></span>
+<span class="gp">... </span><span class="s1">“Thou find’st it out, child?  Ay, ’tis worth all the feather-beds and</span>
+<span class="gp">... </span><span class="s1">pouncet-boxes in Ulm; is it not?  That accursed Italian fever never left</span>
+<span class="gp">... </span><span class="s1">me till I came up here.  A man can scarce draw breath in your foggy</span>
+<span class="gp">... </span><span class="s1">meadows below there.  Now then, ‘here is the view open.’  What think you of</span>
+<span class="gp">... </span><span class="s1">the Eagle’s Nest?”</span>
+<span class="gp">... </span><span class="s1">&#39;&#39;&#39;</span><span class="o">.</span><span class="n">lstrip</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">tt</span><span class="p">)</span>
+<span class="go">TaggedText: The Dove in the Eagle&#39;s Nest</span>
+<span class="go">    characters=355</span>
+<span class="go">    metadata.title=1</span>
+<span class="go">    metadata.author=1</span>
+<span class="go">    chapter.text=1</span>
+<span class="go">    chapter.paragraph=1</span>
+<span class="go">    chapter.sentence=6</span>
+<span class="go">    quote.quote=1</span>
+<span class="go">    quote.embedded=1</span>
+<span class="go">    tokens=65</span>
+</pre></div>
+</div>
+<p>You can also import text from a file:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">tt</span> <span class="o">=</span> <span class="n">TaggedText</span><span class="o">.</span><span class="n">from_file</span><span class="p">(</span><span class="s1">&#39;alice.txt&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">tt</span><span class="p">)</span>
+<span class="go">TaggedText: alice.txt</span>
+<span class="go">    characters=144396</span>
+<span class="go">    metadata.title=1</span>
+<span class="go">    metadata.author=1</span>
+<span class="go">    chapter.title=12</span>
+<span class="go">    chapter.text=12</span>
+<span class="go">    chapter.paragraph=804</span>
+<span class="go">    chapter.sentence=1674</span>
+<span class="go">    quote.quote=1098</span>
+<span class="go">    quote.embedded=47</span>
+<span class="go">    quote.nonquote=865</span>
+<span class="go">    quote.suspension.short=166</span>
+<span class="go">    quote.suspension.long=106</span>
+<span class="go">    tokens=26548</span>
+</pre></div>
+</div>
+<p>… or from a github repository:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">tt</span> <span class="o">=</span> <span class="n">TaggedText</span><span class="o">.</span><span class="n">from_github</span><span class="p">(</span><span class="s2">&quot;ChiLit/alice.txt&quot;</span><span class="p">,</span> <span class="n">repo</span><span class="o">=</span><span class="s2">&quot;birmingham-ccr/corpora&quot;</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="s2">&quot;80d00e4&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">tt</span><span class="p">)</span>
+<span class="go">TaggedText: https://raw.githubusercontent.com/birmingham-ccr/corpora/80d00e4/ChiLit/alice.txt</span>
+<span class="go">    characters=144396</span>
+<span class="go">    metadata.title=1</span>
+<span class="go">    metadata.author=1</span>
+<span class="go">    chapter.title=12</span>
+<span class="go">    chapter.text=12</span>
+<span class="go">    chapter.paragraph=804</span>
+<span class="go">    chapter.sentence=1674</span>
+<span class="go">    quote.quote=1098</span>
+<span class="go">    quote.embedded=47</span>
+<span class="go">    quote.nonquote=865</span>
+<span class="go">    quote.suspension.short=166</span>
+<span class="go">    quote.suspension.long=106</span>
+<span class="go">    tokens=26548</span>
+</pre></div>
+</div>
+<p>You can use the <a class="reference internal" href="#clictagger.taggedtext.TaggedText.markup" title="clictagger.taggedtext.TaggedText.markup"><code class="xref py py-meth docutils literal notranslate"><span class="pre">TaggedText.markup()</span></code></a> or <a class="reference internal" href="#clictagger.taggedtext.TaggedText.table" title="clictagger.taggedtext.TaggedText.table"><code class="xref py py-meth docutils literal notranslate"><span class="pre">TaggedText.table()</span></code></a> methods to present the tagged regions.
+Both classes are compatible with <a class="reference external" href="https://jupyter.org/">Juypter notebooks</a>, and can
+by pretty printed by IPython using <code class="docutils literal notranslate"><span class="pre">IPython.display</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># from IPython.display import display</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tt</span> <span class="o">=</span> <span class="n">TaggedText</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;‘Well!’ thought Alice to herself, ‘after such a fall as this, I shall think nothing of tumbling down stairs!’&#39;&#39;&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">display</span><span class="p">(</span><span class="n">tt</span><span class="o">.</span><span class="n">markup</span><span class="p">())</span>
+<span class="go">&lt;span title=&quot;chapter.paragraph:1 chapter.sentence:1 chapter.text:0 quote.quote&quot; class=&quot;chapter-paragraph chapter-sentence chapter-text quote-quote&quot;&gt;‘Well!’&lt;/span&gt;&lt;span class=&quot;chapter-sentence-close&quot;&gt;&lt;/span&gt;&lt;span title=&quot;chapter.paragraph:1 chapter.text:0&quot; class=&quot;chapter-paragraph chapter-text&quot;&gt; &lt;/span&gt;&lt;span title=&quot;chapter.paragraph:1 chapter.text:0 chapter.sentence:2 quote.nonquote quote.suspension.short&quot; class=&quot;chapter-paragraph chapter-text chapter-sentence quote-nonquote quote-suspension-short&quot;&gt;thought Alice to herself,&lt;/span&gt;&lt;span title=&quot;chapter.paragraph:1 chapter.text:0 chapter.sentence:2&quot; class=&quot;chapter-paragraph chapter-text chapter-sentence&quot;&gt; &lt;/span&gt;&lt;span title=&quot;chapter.paragraph:1 chapter.text:0 chapter.sentence:2 quote.quote&quot; class=&quot;chapter-paragraph chapter-text chapter-sentence quote-quote&quot;&gt;‘after such a fall as this, I shall think nothing of tumbling down stairs!’&lt;/span&gt;&lt;span class=&quot;chapter-sentence-close&quot;&gt;&lt;/span&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">display</span><span class="p">(</span><span class="n">tt</span><span class="o">.</span><span class="n">table</span><span class="p">())</span>
+<span class="go">&lt;table&gt;</span>
+<span class="go">&lt;tr&gt;&lt;th&gt;Region class&lt;/th&gt;&lt;th&gt;Start&lt;/th&gt;&lt;th&gt;End&lt;/th&gt;&lt;th&gt;Region value&lt;/th&gt;&lt;th&gt;Content&lt;/th&gt;&lt;/tr&gt;</span>
+<span class="go">&lt;tr&gt;&lt;td&gt;chapter.sentence&lt;/td&gt; &lt;td&gt;0&lt;/td&gt; &lt;td&gt;7&lt;/td&gt; &lt;td&gt;1&lt;/td&gt; &lt;td style=&quot;text-align: left&quot;&gt;‘Well!’&lt;/td&gt;&lt;/tr&gt;</span>
+<span class="go">&lt;tr&gt;&lt;td&gt;chapter.sentence&lt;/td&gt; &lt;td&gt;8&lt;/td&gt; &lt;td&gt;109&lt;/td&gt; &lt;td&gt;2&lt;/td&gt; &lt;td style=&quot;text-align: left&quot;&gt;thought Alice to herself, ‘after such a fall as this, I shall think nothing of tumbling down stairs!’&lt;/td&gt;&lt;/tr&gt;</span>
+<span class="go">&lt;tr&gt;&lt;td&gt;quote.quote&lt;/td&gt; &lt;td&gt;0&lt;/td&gt; &lt;td&gt;7&lt;/td&gt; &lt;td&gt;&lt;/td&gt; &lt;td style=&quot;text-align: left&quot;&gt;‘Well!’&lt;/td&gt;&lt;/tr&gt;</span>
+<span class="go">&lt;tr&gt;&lt;td&gt;quote.quote&lt;/td&gt; &lt;td&gt;34&lt;/td&gt; &lt;td&gt;109&lt;/td&gt; &lt;td&gt;&lt;/td&gt; &lt;td style=&quot;text-align: left&quot;&gt;‘after such a fall as this, I shall think nothing of tumbling down stairs!’&lt;/td&gt;&lt;/tr&gt;</span>
+<span class="go">&lt;tr&gt;&lt;td&gt;quote.suspension.short&lt;/td&gt; &lt;td&gt;8&lt;/td&gt; &lt;td&gt;33&lt;/td&gt; &lt;td&gt;&lt;/td&gt; &lt;td style=&quot;text-align: left&quot;&gt;thought Alice to herself,&lt;/td&gt;&lt;/tr&gt;</span>
+<span class="go">&lt;/table&gt;</span>
+</pre></div>
+</div>
+<p>The <a class="reference internal" href="#clictagger.taggedtext.TaggedText.table" title="clictagger.taggedtext.TaggedText.table"><code class="xref py py-meth docutils literal notranslate"><span class="pre">TaggedText.table()</span></code></a> method also supports generating a CSV download link:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">display</span><span class="p">(</span><span class="n">tt</span><span class="o">.</span><span class="n">table</span><span class="p">(</span><span class="n">display</span><span class="o">=</span><span class="s2">&quot;csv-download&quot;</span><span class="p">))</span>
+<span class="go">&lt;a download=&quot;regions.csv&quot; href=&quot;data:text/csv;base64,IlJlZ2lvbiBjbGFzcyIsIlN0YXJ0IiwiRW5kIiwiUmVnaW9uIHZhbHVlIiwiQ29udGVudCINCmNoYXB0ZXIuc2VudGVuY2UsMCw3LCIxIiwi4oCYV2VsbCHigJkiDQpjaGFwdGVyLnNlbnRlbmNlLDgsMTA5LCIyIiwidGhvdWdodCBBbGljZSB0byBoZXJzZWxmLCDigJhhZnRlciBzdWNoIGEgZmFsbCBhcyB0aGlzLCBJIHNoYWxsIHRoaW5rIG5vdGhpbmcgb2YgdHVtYmxpbmcgZG93biBzdGFpcnMh4oCZIg0KcXVvdGUucXVvdGUsMCw3LCIiLCLigJhXZWxsIeKAmSINCnF1b3RlLnF1b3RlLDM0LDEwOSwiIiwi4oCYYWZ0ZXIgc3VjaCBhIGZhbGwgYXMgdGhpcywgSSBzaGFsbCB0aGluayBub3RoaW5nIG9mIHR1bWJsaW5nIGRvd24gc3RhaXJzIeKAmSINCnF1b3RlLnN1c3BlbnNpb24uc2hvcnQsOCwzMywiIiwidGhvdWdodCBBbGljZSB0byBoZXJzZWxmLCINCg==&quot; target=&quot;_blank&quot;&gt;Download regions.csv&lt;/a&gt;</span>
+</pre></div>
+</div>
+<dl class="py class">
+<dt id="clictagger.taggedtext.TaggedText">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">clictagger.taggedtext.</span></code><code class="sig-name descname"><span class="pre">TaggedText</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">content</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clictagger.taggedtext.TaggedText" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Initialise a TaggedText object from a string.</p>
+<ul class="simple">
+<li><p>content: The string containing the content to tag</p></li>
+<li><p>name: A descriptive name, if not given, and one is found, the “metadata.title” region is used</p></li>
+</ul>
+<dl class="py method">
+<dt id="clictagger.taggedtext.TaggedText.from_file">
+<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">from_file</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text_path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clictagger.taggedtext.TaggedText.from_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialise a TaggedText object from a file.</p>
+<ul class="simple">
+<li><p>text_path: The path of the file to read. Should be a UTF-8 encoded file</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py method">
+<dt id="clictagger.taggedtext.TaggedText.from_github">
+<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">from_github</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">repo</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'birmingham-ccr/corpora'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tag</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'HEAD'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clictagger.taggedtext.TaggedText.from_github" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialise a TaggedText object from a github repository</p>
+<ul class="simple">
+<li><p>file_path: Path to the file within the repository</p></li>
+<li><p>repo: The repo name &amp; organisation, defaults to “birmingham-ccr/corpora”</p></li>
+<li><p>tag: The branch/tag/version to download, defaults to “HEAD”</p></li>
+</ul>
+<p>For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">TaggedText</span><span class="o">.</span><span class="n">from_github</span><span class="p">(</span><span class="s2">&quot;ChiLit/alice.txt&quot;</span><span class="p">,</span> <span class="n">tag</span> <span class="o">=</span> <span class="s2">&quot;80d00e4&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt id="clictagger.taggedtext.TaggedText.from_url">
+<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">from_url</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clictagger.taggedtext.TaggedText.from_url" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialise a TaggedText object from a URL</p>
+<ul class="simple">
+<li><p>url: URL pointing at the UTF-8 encoded file to read</p></li>
+</ul>
+<p>For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">TaggedText</span><span class="o">.</span><span class="n">from_url</span><span class="p">(</span><span class="s2">&quot;http://www.gutenberg.org/files/36/36-0.txt&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt id="clictagger.taggedtext.TaggedText.markup">
+<code class="sig-name descname"><span class="pre">markup</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">highlight</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">['metadata.title',</span> <span class="pre">'metadata.author',</span> <span class="pre">'chapter.sentence',</span> <span class="pre">'quote.quote',</span> <span class="pre">'quote.suspension.short',</span> <span class="pre">'quote.suspension.long',</span> <span class="pre">'chapter.title']</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clictagger.taggedtext.TaggedText.markup" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a <a class="reference internal" href="#clictagger.taggedtext.TaggedTextRegionMarkup" title="clictagger.taggedtext.TaggedTextRegionMarkup"><code class="xref py py-class docutils literal notranslate"><span class="pre">TaggedTextRegionMarkup</span></code></a> object for displaying text with region tags highlighted</p>
+<ul class="simple">
+<li><p>highlight: List of region tag classes to highlight</p></li>
+</ul>
+</dd></dl>
+
+<dl class="py method">
+<dt id="clictagger.taggedtext.TaggedText.region_classes">
+<code class="sig-name descname"><span class="pre">region_classes</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#clictagger.taggedtext.TaggedText.region_classes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a list of all region classes searched for in the document</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="clictagger.taggedtext.TaggedText.table">
+<code class="sig-name descname"><span class="pre">table</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">highlight</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">['metadata.title',</span> <span class="pre">'metadata.author',</span> <span class="pre">'chapter.sentence',</span> <span class="pre">'quote.quote',</span> <span class="pre">'quote.suspension.short',</span> <span class="pre">'quote.suspension.long',</span> <span class="pre">'chapter.title']</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'html'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clictagger.taggedtext.TaggedText.table" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a <a class="reference internal" href="#clictagger.taggedtext.TaggedTextRegionTable" title="clictagger.taggedtext.TaggedTextRegionTable"><code class="xref py py-class docutils literal notranslate"><span class="pre">TaggedTextRegionTable</span></code></a> object for displaying region tags in tables</p>
+<ul class="simple">
+<li><p>highlight: List of region tag classes to highlight</p></li>
+<li><p>display: The type of HTML that will be generated. Either “html” or “csv-download”</p></li>
+</ul>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="clictagger.taggedtext.TaggedTextRegionMarkup">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">clictagger.taggedtext.</span></code><code class="sig-name descname"><span class="pre">TaggedTextRegionMarkup</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">highlight</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clictagger.taggedtext.TaggedTextRegionMarkup" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Represents a stream of starting/closing tags for all regions, which can be turned into e.g. HTML markup.</p>
+<ul class="simple">
+<li><p>tt: The <a class="reference internal" href="#clictagger.taggedtext.TaggedText" title="clictagger.taggedtext.TaggedText"><code class="xref py py-class docutils literal notranslate"><span class="pre">TaggedText</span></code></a> object to present</p></li>
+<li><p>highlight: A list of region classes to highlight in the output, e.g. <code class="docutils literal notranslate"><span class="pre">['quote.quote']</span></code></p></li>
+</ul>
+<dl class="py method">
+<dt id="clictagger.taggedtext.TaggedTextRegionMarkup.gen_ansi">
+<code class="sig-name descname"><span class="pre">gen_ansi</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#clictagger.taggedtext.TaggedTextRegionMarkup.gen_ansi" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns an iterator that gives <a class="reference internal" href="#clictagger.taggedtext.TaggedText" title="clictagger.taggedtext.TaggedText"><code class="xref py py-class docutils literal notranslate"><span class="pre">TaggedText</span></code></a> content with regions marked up with ANSI color codes.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="clictagger.taggedtext.TaggedTextRegionMarkup.gen_html">
+<code class="sig-name descname"><span class="pre">gen_html</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#clictagger.taggedtext.TaggedTextRegionMarkup.gen_html" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns an iterator that gives <a class="reference internal" href="#clictagger.taggedtext.TaggedText" title="clictagger.taggedtext.TaggedText"><code class="xref py py-class docutils literal notranslate"><span class="pre">TaggedText</span></code></a> content as HTML markup.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="clictagger.taggedtext.TaggedTextRegionMarkup.iter">
+<code class="sig-name descname"><span class="pre">iter</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#clictagger.taggedtext.TaggedTextRegionMarkup.iter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns an iterator of <cite>Insert</cite> objects, which correspond to the position of HTML tags,
+in order of position in text.</p>
+<p>An <cite>Insert</cite> object is a namedtuple of:</p>
+<ul class="simple">
+<li><p>pos: Integer character position in text</p></li>
+<li><p>opening: Boolean, an opening tag or closing tag?</p></li>
+<li><p>rclass: Region class this relates to, e.g. <code class="docutils literal notranslate"><span class="pre">quote.quote</span></code></p></li>
+<li><p>rvalue: Integer value associated with this rclass, e.g. chapter number</p></li>
+</ul>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="clictagger.taggedtext.TaggedTextRegionTable">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">clictagger.taggedtext.</span></code><code class="sig-name descname"><span class="pre">TaggedTextRegionTable</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">highlight</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'html'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clictagger.taggedtext.TaggedTextRegionTable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt id="clictagger.taggedtext.TaggedTextRegionTable.gen_csv">
+<code class="sig-name descname"><span class="pre">gen_csv</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#clictagger.taggedtext.TaggedTextRegionTable.gen_csv" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns an iterator that gives <a class="reference internal" href="#clictagger.taggedtext.TaggedText" title="clictagger.taggedtext.TaggedText"><code class="xref py py-class docutils literal notranslate"><span class="pre">TaggedText</span></code></a> content as lines of a CSV file.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="clictagger.taggedtext.TaggedTextRegionTable.gen_html">
+<code class="sig-name descname"><span class="pre">gen_html</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#clictagger.taggedtext.TaggedTextRegionTable.gen_html" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns an iterator that gives <a class="reference internal" href="#clictagger.taggedtext.TaggedText" title="clictagger.taggedtext.TaggedText"><code class="xref py py-class docutils literal notranslate"><span class="pre">TaggedText</span></code></a> content as an HTML table.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="clictagger.taggedtext.TaggedTextRegionTable.iter">
+<code class="sig-name descname"><span class="pre">iter</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#clictagger.taggedtext.TaggedTextRegionTable.iter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns an iterator of <cite>Region</cite> objects, which correspond to all selected region classes.</p>
+<p>A <cite>Region</cite> object is a namedtuple of:</p>
+<ul class="simple">
+<li><p>rclass: Region class this relates to, e.g. <code class="docutils literal notranslate"><span class="pre">quote.quote</span></code></p></li>
+<li><p>pos_start: Integer character starting position in text</p></li>
+<li><p>pos_end: Integer character ending position in text</p></li>
+<li><p>rvalue: Integer value associated with this rclass, e.g. chapter number</p></li>
+</ul>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../">clictagger</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">clictagger.taggedtext: Region-tag text</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../clictagger.script/">clictagger.script: Command line interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../clictagger.region/">clictagger.region package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../clictagger.tokenizer/">clic.tokenizer: Tokenize strings to types</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../references/">References</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../">Documentation overview</a><ul>
+      <li>Previous: <a href="../" title="previous chapter">CLiCTagger Region-tagging</a></li>
+      <li>Next: <a href="../clictagger.script/" title="next chapter">clictagger.script: Command line interface</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search/" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2021, Michaela Mahlberg, Viola Wiegand, Jamie Lentin & Anthony Hennessey.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.5.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/clictagger.taggedtext.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

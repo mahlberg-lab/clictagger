@@ -1,0 +1,158 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>clic.region.metadata: Tag metadata.* regions &#8212; clictagger  documentation</title>
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex/" />
+    <link rel="search" title="Search" href="../search/" />
+    <link rel="next" title="clic.region.quote: Tag quote.* regions" href="../clictagger.region.quote/" />
+    <link rel="prev" title="clic.region.chapter: Tag chapter.* regions" href="../clictagger.region.chapter/" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <span class="target" id="module-clictagger.region.metadata"></span><div class="section" id="clic-region-metadata-tag-metadata-regions">
+<h1>clic.region.metadata: Tag metadata.* regions<a class="headerlink" href="#clic-region-metadata-tag-metadata-regions" title="Permalink to this headline">¶</a></h1>
+<p>Add metadata.* tags to regions.</p>
+<div class="section" id="metadata-title-metadata-author-regions">
+<h2>metadata.title / metadata.author regions<a class="headerlink" href="#metadata-title-metadata-author-regions" title="Permalink to this headline">¶</a></h2>
+<p>If there are 2 lines at the start, with an empty line after, we treat this as a
+title / author combination:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">run_tagger</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="gp">... </span><span class="s1">Fly Fishing</span>
+<span class="gp">... </span><span class="s1">J R Hartley</span>
+<span class="gp">...</span><span class="s1"></span>
+<span class="gp">... </span><span class="s1">INTRODUCTION.</span>
+<span class="gp">...</span><span class="s1"></span>
+<span class="gp">... </span><span class="s1">Fly Fishing: Memories of Angling Days, also published as Fly Fishing by</span>
+<span class="gp">... </span><span class="s1">&#39;&#39;&#39;</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span> <span class="n">tagger_metadata</span><span class="p">)</span>
+<span class="go">[(&#39;metadata.title&#39;, 0, 11, None, &#39;Fly Fishing&#39;),</span>
+<span class="go"> (&#39;metadata.author&#39;, 12, 23, None, &#39;J R Hartley&#39;)]</span>
+</pre></div>
+</div>
+<p>Anything that doesn’t match this gets ignored:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">run_tagger</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="gp">... </span><span class="s1">Fly Fishing</span>
+<span class="gp">... </span><span class="s1">J R Hartley</span>
+<span class="gp">... </span><span class="s1">INTRODUCTION.</span>
+<span class="gp">...</span><span class="s1"></span>
+<span class="gp">... </span><span class="s1">Fly Fishing: Memories of Angling Days, also published as Fly Fishing by</span>
+<span class="gp">... </span><span class="s1">&#39;&#39;&#39;</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span> <span class="n">tagger_metadata</span><span class="p">)</span>
+<span class="go">[]</span>
+</pre></div>
+</div>
+<dl class="py function">
+<dt id="clictagger.region.metadata.tagger_metadata">
+<code class="sig-prename descclassname"><span class="pre">clictagger.region.metadata.</span></code><code class="sig-name descname"><span class="pre">tagger_metadata</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">book</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clictagger.region.metadata.tagger_metadata" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add metadata.* tags to regions</p>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../">clictagger</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../clictagger.taggedtext/">clictagger.taggedtext: Region-tag text</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../clictagger.script/">clictagger.script: Command line interface</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../clictagger.region/">clictagger.region package</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../clictagger.region/#submodules">Submodules</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../clictagger.region.chapter/">clic.region.chapter: Tag chapter.* regions</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">clic.region.metadata: Tag metadata.* regions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../clictagger.region.quote/">clic.region.quote: Tag quote.* regions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../clictagger.region.suspension/">clic.region.suspension: Tag quote.suspension.* regions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../clictagger.region.tag/">clic.region.tag: Tag a book with all region taggers</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../clictagger.tokenizer/">clic.tokenizer: Tokenize strings to types</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../references/">References</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../">Documentation overview</a><ul>
+  <li><a href="../clictagger.region/">clictagger.region package</a><ul>
+      <li>Previous: <a href="../clictagger.region.chapter/" title="previous chapter">clic.region.chapter: Tag chapter.* regions</a></li>
+      <li>Next: <a href="../clictagger.region.quote/" title="next chapter">clic.region.quote: Tag quote.* regions</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search/" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2021, Michaela Mahlberg, Viola Wiegand, Jamie Lentin & Anthony Hennessey.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.5.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/clictagger.region.metadata.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,4 @@
+.. automodule:: clictagger.region.tag
+   :members:
+   :undoc-members:
+   :show-inheritance:
