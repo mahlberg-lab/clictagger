@@ -17,7 +17,10 @@ test: compile
 	./bin/pytest $(EGG_NAME) tests
 
 lint: lib/.requirements
-	./bin/black --diff $(EGG_NAME)/ tests/
+	./bin/black --diff $(EGG_NAME)/ tests/ conftest.py
+
+lint-apply: lib/.requirements
+	./bin/black $(EGG_NAME)/ tests/ conftest.py
 
 coverage: compile
 	./bin/coverage run ./bin/py.test $(EGG_NAME)/ tests/
@@ -35,4 +38,4 @@ serve-docs: bin/pip
 	 make -C docs clean dirhtml
 	 ./bin/python3 -m http.server -d docs/_build/dirhtml
 
-.PHONY: compile test lint coverage notebook
+.PHONY: compile test lint lint-apply coverage notebook

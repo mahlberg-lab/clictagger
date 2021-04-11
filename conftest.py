@@ -2,17 +2,18 @@ import unittest
 import pytest
 import re
 
+
 def display(obj):
     """Fake IPython.display for tests"""
     content = obj.__html__()
-    content = re.sub(r'<style>[^<]+</style>', '', content)
-    content = re.sub(r'<ul class="legend">.+</ul>', '', content)
+    content = re.sub(r"<style>[^<]+</style>", "", content)
+    content = re.sub(r'<ul class="legend">.+</ul>', "", content)
     # Remove containing divs, since they'll have random IDs in
-    content = re.sub(r'<div[^<]+>', '', content)
-    content = re.sub(r'</div>', '', content)
+    content = re.sub(r"<div[^<]+>", "", content)
+    content = re.sub(r"</div>", "", content)
     # Remove useless <span>
-    content = re.sub(r'</span><span>', '', content)
-    content = re.sub(r'<span></span>', '', content)
+    content = re.sub(r"</span><span>", "", content)
+    content = re.sub(r"<span></span>", "", content)
     print(content)
 
 
