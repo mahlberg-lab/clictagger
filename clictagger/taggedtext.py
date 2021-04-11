@@ -150,7 +150,7 @@ class TaggedText:
         """
         if text_path == "-":
             return cls(sys.stdin.read(), name="stdin")
-        with open(text_path, "r") as f:
+        with open(text_path, "r", encoding="utf8") as f:
             return cls(f.read(), name=text_path)
 
     @classmethod
