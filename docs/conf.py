@@ -59,6 +59,10 @@ html_theme = 'alabaster'
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
 
+
+# Assume no higlighting by default, to get higlighting do ".. code-block:: python3"
+highlight_language = 'none'
+
 # -- Autodoc configuration ---------------------------------------------------
 def run_apidoc(_):
     """
