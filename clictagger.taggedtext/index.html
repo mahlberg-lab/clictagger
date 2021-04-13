@@ -36,89 +36,89 @@
 <h1>clictagger.taggedtext: Region-tag text<a class="headerlink" href="#clictagger-taggedtext-region-tag-text" title="Permalink to this headline">¶</a></h1>
 <p>The TaggedText class is the main python interface to clictagger.
 You can use it to import a string of text, and print out a summary of regions:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">clictagger.taggedtext</span> <span class="kn">import</span> <span class="n">TaggedText</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">tt</span> <span class="o">=</span> <span class="n">TaggedText</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
-<span class="gp">... </span><span class="s1">The Dove in the Eagle&#39;s Nest</span>
-<span class="gp">... </span><span class="s1">Charlotte M. Yonge</span>
-<span class="gp">...</span><span class="s1"></span>
-<span class="gp">... </span><span class="s1">“Thou find’st it out, child?  Ay, ’tis worth all the feather-beds and</span>
-<span class="gp">... </span><span class="s1">pouncet-boxes in Ulm; is it not?  That accursed Italian fever never left</span>
-<span class="gp">... </span><span class="s1">me till I came up here.  A man can scarce draw breath in your foggy</span>
-<span class="gp">... </span><span class="s1">meadows below there.  Now then, ‘here is the view open.’  What think you of</span>
-<span class="gp">... </span><span class="s1">the Eagle’s Nest?”</span>
-<span class="gp">... </span><span class="s1">&#39;&#39;&#39;</span><span class="o">.</span><span class="n">lstrip</span><span class="p">())</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">tt</span><span class="p">)</span>
-<span class="go">TaggedText: The Dove in the Eagle&#39;s Nest</span>
-<span class="go">    characters=355</span>
-<span class="go">    metadata.title=1</span>
-<span class="go">    metadata.author=1</span>
-<span class="go">    chapter.text=1</span>
-<span class="go">    chapter.paragraph=1</span>
-<span class="go">    chapter.sentence=6</span>
-<span class="go">    quote.quote=1</span>
-<span class="go">    quote.embedded=1</span>
-<span class="go">    tokens=65</span>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt; from clictagger.taggedtext import TaggedText
+&gt;&gt;&gt; tt = TaggedText(&#39;&#39;&#39;
+... The Dove in the Eagle&#39;s Nest
+... Charlotte M. Yonge
+...
+... “Thou find’st it out, child?  Ay, ’tis worth all the feather-beds and
+... pouncet-boxes in Ulm; is it not?  That accursed Italian fever never left
+... me till I came up here.  A man can scarce draw breath in your foggy
+... meadows below there.  Now then, ‘here is the view open.’  What think you of
+... the Eagle’s Nest?”
+... &#39;&#39;&#39;.lstrip())
+&gt;&gt;&gt; print(tt)
+TaggedText: The Dove in the Eagle&#39;s Nest
+    characters=355
+    metadata.title=1
+    metadata.author=1
+    chapter.text=1
+    chapter.paragraph=1
+    chapter.sentence=6
+    quote.quote=1
+    quote.embedded=1
+    tokens=65
 </pre></div>
 </div>
 <p>You can also import text from a file:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">tt</span> <span class="o">=</span> <span class="n">TaggedText</span><span class="o">.</span><span class="n">from_file</span><span class="p">(</span><span class="s1">&#39;alice.txt&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">tt</span><span class="p">)</span>
-<span class="go">TaggedText: alice.txt</span>
-<span class="go">    characters=144396</span>
-<span class="go">    metadata.title=1</span>
-<span class="go">    metadata.author=1</span>
-<span class="go">    chapter.title=12</span>
-<span class="go">    chapter.text=12</span>
-<span class="go">    chapter.paragraph=804</span>
-<span class="go">    chapter.sentence=1674</span>
-<span class="go">    quote.quote=1098</span>
-<span class="go">    quote.embedded=47</span>
-<span class="go">    quote.nonquote=865</span>
-<span class="go">    quote.suspension.short=166</span>
-<span class="go">    quote.suspension.long=106</span>
-<span class="go">    tokens=26548</span>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt; tt = TaggedText.from_file(&#39;alice.txt&#39;)
+&gt;&gt;&gt; print(tt)
+TaggedText: alice.txt
+    characters=144396
+    metadata.title=1
+    metadata.author=1
+    chapter.title=12
+    chapter.text=12
+    chapter.paragraph=804
+    chapter.sentence=1674
+    quote.quote=1098
+    quote.embedded=47
+    quote.nonquote=865
+    quote.suspension.short=166
+    quote.suspension.long=106
+    tokens=26548
 </pre></div>
 </div>
 <p>… or from a github repository:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">tt</span> <span class="o">=</span> <span class="n">TaggedText</span><span class="o">.</span><span class="n">from_github</span><span class="p">(</span><span class="s2">&quot;ChiLit/alice.txt&quot;</span><span class="p">,</span> <span class="n">repo</span><span class="o">=</span><span class="s2">&quot;birmingham-ccr/corpora&quot;</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="s2">&quot;80d00e4&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">tt</span><span class="p">)</span>
-<span class="go">TaggedText: https://raw.githubusercontent.com/birmingham-ccr/corpora/80d00e4/ChiLit/alice.txt</span>
-<span class="go">    characters=144396</span>
-<span class="go">    metadata.title=1</span>
-<span class="go">    metadata.author=1</span>
-<span class="go">    chapter.title=12</span>
-<span class="go">    chapter.text=12</span>
-<span class="go">    chapter.paragraph=804</span>
-<span class="go">    chapter.sentence=1674</span>
-<span class="go">    quote.quote=1098</span>
-<span class="go">    quote.embedded=47</span>
-<span class="go">    quote.nonquote=865</span>
-<span class="go">    quote.suspension.short=166</span>
-<span class="go">    quote.suspension.long=106</span>
-<span class="go">    tokens=26548</span>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt; tt = TaggedText.from_github(&quot;ChiLit/alice.txt&quot;, repo=&quot;birmingham-ccr/corpora&quot;, tag=&quot;80d00e4&quot;)
+&gt;&gt;&gt; print(tt)
+TaggedText: https://raw.githubusercontent.com/birmingham-ccr/corpora/80d00e4/ChiLit/alice.txt
+    characters=144396
+    metadata.title=1
+    metadata.author=1
+    chapter.title=12
+    chapter.text=12
+    chapter.paragraph=804
+    chapter.sentence=1674
+    quote.quote=1098
+    quote.embedded=47
+    quote.nonquote=865
+    quote.suspension.short=166
+    quote.suspension.long=106
+    tokens=26548
 </pre></div>
 </div>
 <p>You can use the <a class="reference internal" href="#clictagger.taggedtext.TaggedText.markup" title="clictagger.taggedtext.TaggedText.markup"><code class="xref py py-meth docutils literal notranslate"><span class="pre">TaggedText.markup()</span></code></a> or <a class="reference internal" href="#clictagger.taggedtext.TaggedText.table" title="clictagger.taggedtext.TaggedText.table"><code class="xref py py-meth docutils literal notranslate"><span class="pre">TaggedText.table()</span></code></a> methods to present the tagged regions.
 Both classes are compatible with <a class="reference external" href="https://jupyter.org/">Juypter notebooks</a>, and can
 by pretty printed by IPython using <code class="docutils literal notranslate"><span class="pre">IPython.display</span></code>:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># from IPython.display import display</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">tt</span> <span class="o">=</span> <span class="n">TaggedText</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;‘Well!’ thought Alice to herself, ‘after such a fall as this, I shall think nothing of tumbling down stairs!’&#39;&#39;&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">display</span><span class="p">(</span><span class="n">tt</span><span class="o">.</span><span class="n">markup</span><span class="p">())</span>
-<span class="go">&lt;span title=&quot;chapter.paragraph:1 chapter.sentence:1 chapter.text:0 quote.quote&quot; class=&quot;chapter-paragraph chapter-sentence chapter-text quote-quote&quot;&gt;‘Well!’&lt;/span&gt;&lt;span class=&quot;chapter-sentence-close&quot;&gt;&lt;/span&gt;&lt;span title=&quot;chapter.paragraph:1 chapter.text:0&quot; class=&quot;chapter-paragraph chapter-text&quot;&gt; &lt;/span&gt;&lt;span title=&quot;chapter.paragraph:1 chapter.text:0 chapter.sentence:2 quote.nonquote quote.suspension.short&quot; class=&quot;chapter-paragraph chapter-text chapter-sentence quote-nonquote quote-suspension-short&quot;&gt;thought Alice to herself,&lt;/span&gt;&lt;span title=&quot;chapter.paragraph:1 chapter.text:0 chapter.sentence:2&quot; class=&quot;chapter-paragraph chapter-text chapter-sentence&quot;&gt; &lt;/span&gt;&lt;span title=&quot;chapter.paragraph:1 chapter.text:0 chapter.sentence:2 quote.quote&quot; class=&quot;chapter-paragraph chapter-text chapter-sentence quote-quote&quot;&gt;‘after such a fall as this, I shall think nothing of tumbling down stairs!’&lt;/span&gt;&lt;span class=&quot;chapter-sentence-close&quot;&gt;&lt;/span&gt;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">display</span><span class="p">(</span><span class="n">tt</span><span class="o">.</span><span class="n">table</span><span class="p">())</span>
-<span class="go">&lt;table&gt;</span>
-<span class="go">&lt;tr&gt;&lt;th&gt;Region class&lt;/th&gt;&lt;th&gt;Start&lt;/th&gt;&lt;th&gt;End&lt;/th&gt;&lt;th&gt;Region value&lt;/th&gt;&lt;th&gt;Content&lt;/th&gt;&lt;/tr&gt;</span>
-<span class="go">&lt;tr&gt;&lt;td&gt;chapter.sentence&lt;/td&gt; &lt;td&gt;0&lt;/td&gt; &lt;td&gt;7&lt;/td&gt; &lt;td&gt;1&lt;/td&gt; &lt;td style=&quot;text-align: left&quot;&gt;‘Well!’&lt;/td&gt;&lt;/tr&gt;</span>
-<span class="go">&lt;tr&gt;&lt;td&gt;chapter.sentence&lt;/td&gt; &lt;td&gt;8&lt;/td&gt; &lt;td&gt;109&lt;/td&gt; &lt;td&gt;2&lt;/td&gt; &lt;td style=&quot;text-align: left&quot;&gt;thought Alice to herself, ‘after such a fall as this, I shall think nothing of tumbling down stairs!’&lt;/td&gt;&lt;/tr&gt;</span>
-<span class="go">&lt;tr&gt;&lt;td&gt;quote.quote&lt;/td&gt; &lt;td&gt;0&lt;/td&gt; &lt;td&gt;7&lt;/td&gt; &lt;td&gt;&lt;/td&gt; &lt;td style=&quot;text-align: left&quot;&gt;‘Well!’&lt;/td&gt;&lt;/tr&gt;</span>
-<span class="go">&lt;tr&gt;&lt;td&gt;quote.quote&lt;/td&gt; &lt;td&gt;34&lt;/td&gt; &lt;td&gt;109&lt;/td&gt; &lt;td&gt;&lt;/td&gt; &lt;td style=&quot;text-align: left&quot;&gt;‘after such a fall as this, I shall think nothing of tumbling down stairs!’&lt;/td&gt;&lt;/tr&gt;</span>
-<span class="go">&lt;tr&gt;&lt;td&gt;quote.suspension.short&lt;/td&gt; &lt;td&gt;8&lt;/td&gt; &lt;td&gt;33&lt;/td&gt; &lt;td&gt;&lt;/td&gt; &lt;td style=&quot;text-align: left&quot;&gt;thought Alice to herself,&lt;/td&gt;&lt;/tr&gt;</span>
-<span class="go">&lt;/table&gt;</span>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt; # from IPython.display import display
+&gt;&gt;&gt; tt = TaggedText(&#39;&#39;&#39;‘Well!’ thought Alice to herself, ‘after such a fall as this, I shall think nothing of tumbling down stairs!’&#39;&#39;&#39;)
+&gt;&gt;&gt; display(tt.markup())
+&lt;span title=&quot;chapter.paragraph:1 chapter.sentence:1 chapter.text:0 quote.quote&quot; class=&quot;chapter-paragraph chapter-sentence chapter-text quote-quote&quot;&gt;‘Well!’&lt;/span&gt;&lt;span class=&quot;chapter-sentence-close&quot;&gt;&lt;/span&gt;&lt;span title=&quot;chapter.paragraph:1 chapter.text:0&quot; class=&quot;chapter-paragraph chapter-text&quot;&gt; &lt;/span&gt;&lt;span title=&quot;chapter.paragraph:1 chapter.text:0 chapter.sentence:2 quote.nonquote quote.suspension.short&quot; class=&quot;chapter-paragraph chapter-text chapter-sentence quote-nonquote quote-suspension-short&quot;&gt;thought Alice to herself,&lt;/span&gt;&lt;span title=&quot;chapter.paragraph:1 chapter.text:0 chapter.sentence:2&quot; class=&quot;chapter-paragraph chapter-text chapter-sentence&quot;&gt; &lt;/span&gt;&lt;span title=&quot;chapter.paragraph:1 chapter.text:0 chapter.sentence:2 quote.quote&quot; class=&quot;chapter-paragraph chapter-text chapter-sentence quote-quote&quot;&gt;‘after such a fall as this, I shall think nothing of tumbling down stairs!’&lt;/span&gt;&lt;span class=&quot;chapter-sentence-close&quot;&gt;&lt;/span&gt;
+&gt;&gt;&gt; display(tt.table())
+&lt;table&gt;
+&lt;tr&gt;&lt;th&gt;Region class&lt;/th&gt;&lt;th&gt;Start&lt;/th&gt;&lt;th&gt;End&lt;/th&gt;&lt;th&gt;Region value&lt;/th&gt;&lt;th&gt;Content&lt;/th&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;chapter.sentence&lt;/td&gt; &lt;td&gt;0&lt;/td&gt; &lt;td&gt;7&lt;/td&gt; &lt;td&gt;1&lt;/td&gt; &lt;td style=&quot;text-align: left&quot;&gt;‘Well!’&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;chapter.sentence&lt;/td&gt; &lt;td&gt;8&lt;/td&gt; &lt;td&gt;109&lt;/td&gt; &lt;td&gt;2&lt;/td&gt; &lt;td style=&quot;text-align: left&quot;&gt;thought Alice to herself, ‘after such a fall as this, I shall think nothing of tumbling down stairs!’&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;quote.quote&lt;/td&gt; &lt;td&gt;0&lt;/td&gt; &lt;td&gt;7&lt;/td&gt; &lt;td&gt;&lt;/td&gt; &lt;td style=&quot;text-align: left&quot;&gt;‘Well!’&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;quote.quote&lt;/td&gt; &lt;td&gt;34&lt;/td&gt; &lt;td&gt;109&lt;/td&gt; &lt;td&gt;&lt;/td&gt; &lt;td style=&quot;text-align: left&quot;&gt;‘after such a fall as this, I shall think nothing of tumbling down stairs!’&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;quote.suspension.short&lt;/td&gt; &lt;td&gt;8&lt;/td&gt; &lt;td&gt;33&lt;/td&gt; &lt;td&gt;&lt;/td&gt; &lt;td style=&quot;text-align: left&quot;&gt;thought Alice to herself,&lt;/td&gt;&lt;/tr&gt;
+&lt;/table&gt;
 </pre></div>
 </div>
 <p>The <a class="reference internal" href="#clictagger.taggedtext.TaggedText.table" title="clictagger.taggedtext.TaggedText.table"><code class="xref py py-meth docutils literal notranslate"><span class="pre">TaggedText.table()</span></code></a> method also supports generating a CSV download link:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">display</span><span class="p">(</span><span class="n">tt</span><span class="o">.</span><span class="n">table</span><span class="p">(</span><span class="n">display</span><span class="o">=</span><span class="s2">&quot;csv-download&quot;</span><span class="p">))</span>
-<span class="go">&lt;a download=&quot;regions.csv&quot; href=&quot;data:text/csv;base64,IlJlZ2lvbiBjbGFzcyIsIlN0YXJ0IiwiRW5kIiwiUmVnaW9uIHZhbHVlIiwiQ29udGVudCINCmNoYXB0ZXIuc2VudGVuY2UsMCw3LCIxIiwi4oCYV2VsbCHigJkiDQpjaGFwdGVyLnNlbnRlbmNlLDgsMTA5LCIyIiwidGhvdWdodCBBbGljZSB0byBoZXJzZWxmLCDigJhhZnRlciBzdWNoIGEgZmFsbCBhcyB0aGlzLCBJIHNoYWxsIHRoaW5rIG5vdGhpbmcgb2YgdHVtYmxpbmcgZG93biBzdGFpcnMh4oCZIg0KcXVvdGUucXVvdGUsMCw3LCIiLCLigJhXZWxsIeKAmSINCnF1b3RlLnF1b3RlLDM0LDEwOSwiIiwi4oCYYWZ0ZXIgc3VjaCBhIGZhbGwgYXMgdGhpcywgSSBzaGFsbCB0aGluayBub3RoaW5nIG9mIHR1bWJsaW5nIGRvd24gc3RhaXJzIeKAmSINCnF1b3RlLnN1c3BlbnNpb24uc2hvcnQsOCwzMywiIiwidGhvdWdodCBBbGljZSB0byBoZXJzZWxmLCINCg==&quot; target=&quot;_blank&quot;&gt;Download regions.csv&lt;/a&gt;</span>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt; display(tt.table(display=&quot;csv-download&quot;))
+&lt;a download=&quot;regions.csv&quot; href=&quot;data:text/csv;base64,IlJlZ2lvbiBjbGFzcyIsIlN0YXJ0IiwiRW5kIiwiUmVnaW9uIHZhbHVlIiwiQ29udGVudCINCmNoYXB0ZXIuc2VudGVuY2UsMCw3LCIxIiwi4oCYV2VsbCHigJkiDQpjaGFwdGVyLnNlbnRlbmNlLDgsMTA5LCIyIiwidGhvdWdodCBBbGljZSB0byBoZXJzZWxmLCDigJhhZnRlciBzdWNoIGEgZmFsbCBhcyB0aGlzLCBJIHNoYWxsIHRoaW5rIG5vdGhpbmcgb2YgdHVtYmxpbmcgZG93biBzdGFpcnMh4oCZIg0KcXVvdGUucXVvdGUsMCw3LCIiLCLigJhXZWxsIeKAmSINCnF1b3RlLnF1b3RlLDM0LDEwOSwiIiwi4oCYYWZ0ZXIgc3VjaCBhIGZhbGwgYXMgdGhpcywgSSBzaGFsbCB0aGluayBub3RoaW5nIG9mIHR1bWJsaW5nIGRvd24gc3RhaXJzIeKAmSINCnF1b3RlLnN1c3BlbnNpb24uc2hvcnQsOCwzMywiIiwidGhvdWdodCBBbGljZSB0byBoZXJzZWxmLCINCg==&quot; target=&quot;_blank&quot;&gt;Download regions.csv&lt;/a&gt;
 </pre></div>
 </div>
 <dl class="py class">
@@ -149,7 +149,7 @@ by pretty printed by IPython using <code class="docutils literal notranslate"><s
 <li><p>tag: The branch/tag/version to download, defaults to “HEAD”</p></li>
 </ul>
 <p>For example:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">TaggedText</span><span class="o">.</span><span class="n">from_github</span><span class="p">(</span><span class="s2">&quot;ChiLit/alice.txt&quot;</span><span class="p">,</span> <span class="n">tag</span> <span class="o">=</span> <span class="s2">&quot;80d00e4&quot;</span><span class="p">)</span>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>TaggedText.from_github(&quot;ChiLit/alice.txt&quot;, tag = &quot;80d00e4&quot;)
 </pre></div>
 </div>
 </dd></dl>
@@ -162,7 +162,7 @@ by pretty printed by IPython using <code class="docutils literal notranslate"><s
 <li><p>url: URL pointing at the UTF-8 encoded file to read</p></li>
 </ul>
 <p>For example:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">TaggedText</span><span class="o">.</span><span class="n">from_url</span><span class="p">(</span><span class="s2">&quot;http://www.gutenberg.org/files/36/36-0.txt&quot;</span><span class="p">)</span>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>TaggedText.from_url(&quot;http://www.gutenberg.org/files/36/36-0.txt&quot;)
 </pre></div>
 </div>
 </dd></dl>
@@ -284,6 +284,7 @@ in order of position in text.</p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">clictagger.taggedtext: Region-tag text</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../clictagger.script/">clictagger.script: Command line interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../text-cleaning/">Preparing texts for CLiCTagger</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../clictagger.region/">clictagger.region package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../clictagger.tokenizer/">clic.tokenizer: Tokenize strings to types</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../references/">References</a></li>

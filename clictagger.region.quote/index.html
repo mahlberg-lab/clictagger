@@ -35,8 +35,8 @@
   <span class="target" id="module-clictagger.region.quote"></span><div class="section" id="clic-region-quote-tag-quote-regions">
 <h1>clic.region.quote: Tag quote.* regions<a class="headerlink" href="#clic-region-quote-tag-quote-regions" title="Permalink to this headline">¶</a></h1>
 <p>We need paragraph regions before we can do quote tagging:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">.chapter</span> <span class="kn">import</span> <span class="n">tagger_chapter</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">.metadata</span> <span class="kn">import</span> <span class="n">tagger_metadata</span>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt; from .chapter import tagger_chapter
+&gt;&gt;&gt; from .metadata import tagger_metadata
 </pre></div>
 </div>
 <div class="section" id="quote-quote-quote-nonquote-regions">
@@ -45,18 +45,18 @@
 rules. Open quotes are found when the text between any 2 word boundaries
 matches one of our list of quote marks, and then a quote is formed when the
 corresponding close quote mark is found:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">run_tagger</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
-<span class="gp">... </span><span class="s1">“Thou find’st it out, child?  Ay, ’tis worth all the feather-beds and</span>
-<span class="gp">... </span><span class="s1">pouncet-boxes in Ulm; is it not?  That accursed Italian fever never left</span>
-<span class="gp">... </span><span class="s1">me till I came up here.  A man can scarce draw breath in your foggy</span>
-<span class="gp">... </span><span class="s1">meadows below there.  Now then, ‘here is the view open.’  What think you of</span>
-<span class="gp">... </span><span class="s1">the Eagle’s Nest?”</span>
-<span class="gp">...</span><span class="s1"></span>
-<span class="gp">... </span><span class="s1">‘And this is Schloss Adlerstein?’ she exclaimed.</span>
-<span class="gp">... </span><span class="s1">&#39;&#39;&#39;</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span> <span class="n">tagger_chapter</span><span class="p">,</span> <span class="n">tagger_quote</span><span class="p">)</span> <span class="k">if</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">((</span><span class="s1">&#39;quote.quote&#39;</span><span class="p">,</span> <span class="s1">&#39;quote.nonquote&#39;</span><span class="p">))]</span>
-<span class="go">[(&#39;quote.quote&#39;, 0, 305, None, &#39;“Thou find’st it out...f\nthe Eagle’s Nest?”&#39;),</span>
-<span class="go"> (&#39;quote.quote&#39;, 307, 340, None, &#39;‘And this is Schloss Adlerstein?’&#39;),</span>
-<span class="go"> (&#39;quote.nonquote&#39;, 341, 355, None, &#39;she exclaimed.&#39;)]</span>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt; [x for x in run_tagger(&#39;&#39;&#39;
+... “Thou find’st it out, child?  Ay, ’tis worth all the feather-beds and
+... pouncet-boxes in Ulm; is it not?  That accursed Italian fever never left
+... me till I came up here.  A man can scarce draw breath in your foggy
+... meadows below there.  Now then, ‘here is the view open.’  What think you of
+... the Eagle’s Nest?”
+...
+... ‘And this is Schloss Adlerstein?’ she exclaimed.
+... &#39;&#39;&#39;.strip(), tagger_chapter, tagger_quote) if x[0] in set((&#39;quote.quote&#39;, &#39;quote.nonquote&#39;))]
+[(&#39;quote.quote&#39;, 0, 305, None, &#39;“Thou find’st it out...f\nthe Eagle’s Nest?”&#39;),
+ (&#39;quote.quote&#39;, 307, 340, None, &#39;‘And this is Schloss Adlerstein?’&#39;),
+ (&#39;quote.nonquote&#39;, 341, 355, None, &#39;she exclaimed.&#39;)]
 </pre></div>
 </div>
 <p>In the all examples, the columns are:</p>
@@ -68,144 +68,144 @@ corresponding close quote mark is found:</p>
 <li><p>A preview of the text that the region applies to, shortened if it’s longer than 40 characters, purely for illustration.</p></li>
 </ol>
 <p>Quotes should have one of <code class="docutils literal notranslate"><span class="pre">,?.!-;_</span></code> before the end quote, or <code class="docutils literal notranslate"><span class="pre">--</span></code> after:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">run_tagger</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
-<span class="gp">... </span><span class="s1">&quot;That,&quot; he said, &quot;is a &#39;veritable banquet&#39;.&quot;</span>
-<span class="gp">...</span><span class="s1"></span>
-<span class="gp">... </span><span class="s1">&quot;Because&quot;--&quot;because father and mamma have to go away,&quot; I was going to say</span>
-<span class="gp">...</span><span class="s1"></span>
-<span class="gp">... </span><span class="s1">&quot;Here&#39;s luck,&quot; &quot;A fair wind,&quot; and &quot;Billy Bones his fancy,&quot; were very neatly</span>
-<span class="gp">... </span><span class="s1">and clearly executed on the forearm.</span>
-<span class="gp">... </span><span class="s1">&#39;&#39;&#39;</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span> <span class="n">tagger_chapter</span><span class="p">,</span> <span class="n">tagger_quote</span><span class="p">)</span> <span class="k">if</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">((</span><span class="s1">&#39;quote.quote&#39;</span><span class="p">,</span> <span class="s1">&#39;quote.nonquote&#39;</span><span class="p">))]</span>
-<span class="go">[(&#39;quote.quote&#39;, 0, 7, None, &#39;&quot;That,&quot;&#39;),</span>
-<span class="go"> (&#39;quote.nonquote&#39;, 8, 16, None, &#39;he said,&#39;),</span>
-<span class="go"> (&#39;quote.quote&#39;, 17, 44, None, &#39;&quot;is a \&#39;veritable banquet\&#39;.&quot;&#39;),</span>
-<span class="go"> (&#39;quote.quote&#39;, 46, 55, None, &#39;&quot;Because&quot;&#39;),</span>
-<span class="go"> (&#39;quote.nonquote&#39;, 55, 57, None, &#39;--&#39;),</span>
-<span class="go"> (&#39;quote.quote&#39;, 57, 100, None, &#39;&quot;because father and ...ma have to go away,&quot;&#39;),</span>
-<span class="go"> (&#39;quote.nonquote&#39;, 101, 119, None, &#39;I was going to say&#39;),</span>
-<span class="go"> (&#39;quote.quote&#39;, 121, 135, None, &#39;&quot;Here\&#39;s luck,&quot;&#39;),</span>
-<span class="go"> (&#39;quote.quote&#39;, 136, 150, None, &#39;&quot;A fair wind,&quot;&#39;),</span>
-<span class="go"> (&#39;quote.nonquote&#39;, 151, 154, None, &#39;and&#39;),</span>
-<span class="go"> (&#39;quote.quote&#39;, 155, 179, None, &#39;&quot;Billy Bones his fancy,&quot;&#39;),</span>
-<span class="go"> (&#39;quote.nonquote&#39;, 180, 233, None, &#39;were very neatly\nand...uted on the forearm.&#39;)]</span>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt; [x for x in run_tagger(&#39;&#39;&#39;
+... &quot;That,&quot; he said, &quot;is a &#39;veritable banquet&#39;.&quot;
+...
+... &quot;Because&quot;--&quot;because father and mamma have to go away,&quot; I was going to say
+...
+... &quot;Here&#39;s luck,&quot; &quot;A fair wind,&quot; and &quot;Billy Bones his fancy,&quot; were very neatly
+... and clearly executed on the forearm.
+... &#39;&#39;&#39;.strip(), tagger_chapter, tagger_quote) if x[0] in set((&#39;quote.quote&#39;, &#39;quote.nonquote&#39;))]
+[(&#39;quote.quote&#39;, 0, 7, None, &#39;&quot;That,&quot;&#39;),
+ (&#39;quote.nonquote&#39;, 8, 16, None, &#39;he said,&#39;),
+ (&#39;quote.quote&#39;, 17, 44, None, &#39;&quot;is a \&#39;veritable banquet\&#39;.&quot;&#39;),
+ (&#39;quote.quote&#39;, 46, 55, None, &#39;&quot;Because&quot;&#39;),
+ (&#39;quote.nonquote&#39;, 55, 57, None, &#39;--&#39;),
+ (&#39;quote.quote&#39;, 57, 100, None, &#39;&quot;because father and ...ma have to go away,&quot;&#39;),
+ (&#39;quote.nonquote&#39;, 101, 119, None, &#39;I was going to say&#39;),
+ (&#39;quote.quote&#39;, 121, 135, None, &#39;&quot;Here\&#39;s luck,&quot;&#39;),
+ (&#39;quote.quote&#39;, 136, 150, None, &#39;&quot;A fair wind,&quot;&#39;),
+ (&#39;quote.nonquote&#39;, 151, 154, None, &#39;and&#39;),
+ (&#39;quote.quote&#39;, 155, 179, None, &#39;&quot;Billy Bones his fancy,&quot;&#39;),
+ (&#39;quote.nonquote&#39;, 180, 233, None, &#39;were very neatly\nand...uted on the forearm.&#39;)]
 </pre></div>
 </div>
 <p>…or be at least 5 words long, when using double quote marks:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">run_tagger</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
-<span class="gp">... </span><span class="s1">The &quot;exotic camels&quot; were actually dromedaries.</span>
-<span class="gp">... </span><span class="s1">&quot;Four words not quote&quot; &quot;Five words is a quote&quot;</span>
-<span class="gp">... </span><span class="s1">&#39;&#39;&#39;</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span> <span class="n">tagger_chapter</span><span class="p">,</span> <span class="n">tagger_quote</span><span class="p">)</span> <span class="k">if</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">((</span><span class="s1">&#39;quote.quote&#39;</span><span class="p">,</span> <span class="s1">&#39;quote.nonquote&#39;</span><span class="p">))]</span>
-<span class="go">[(&#39;quote.nonquote&#39;, 0, 69, None, &#39;The &quot;exotic camels&quot; ...our words not quote&quot;&#39;),</span>
-<span class="go"> (&#39;quote.quote&#39;, 70, 93, None, &#39;&quot;Five words is a quote&quot;&#39;)]</span>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt; [x for x in run_tagger(&#39;&#39;&#39;
+... The &quot;exotic camels&quot; were actually dromedaries.
+... &quot;Four words not quote&quot; &quot;Five words is a quote&quot;
+... &#39;&#39;&#39;.strip(), tagger_chapter, tagger_quote) if x[0] in set((&#39;quote.quote&#39;, &#39;quote.nonquote&#39;))]
+[(&#39;quote.nonquote&#39;, 0, 69, None, &#39;The &quot;exotic camels&quot; ...our words not quote&quot;&#39;),
+ (&#39;quote.quote&#39;, 70, 93, None, &#39;&quot;Five words is a quote&quot;&#39;)]
 </pre></div>
 </div>
 <p>Quotes have to have one of the punctuation marks when single quotes are used,
 as false-positives are too easy, e.g. ChiLit/moonfleet.txt:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">run_tagger</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
-<span class="gp">... </span><span class="s1">laggard; though &#39;twas hard enough for men to walk where the mud was over</span>
-<span class="gp">... </span><span class="s1">the horses&#39; fetlocks.</span>
-<span class="gp">... </span><span class="s1">&#39;&#39;&#39;</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span> <span class="n">tagger_chapter</span><span class="p">,</span> <span class="n">tagger_quote</span><span class="p">)</span> <span class="k">if</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">((</span><span class="s1">&#39;quote.quote&#39;</span><span class="p">,</span> <span class="s1">&#39;quote.nonquote&#39;</span><span class="p">))]</span>
-<span class="go">[(&#39;quote.nonquote&#39;, 0, 94, None, &quot;laggard; though &#39;twa...he horses&#39; fetlocks.&quot;)]</span>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt; [x for x in run_tagger(&#39;&#39;&#39;
+... laggard; though &#39;twas hard enough for men to walk where the mud was over
+... the horses&#39; fetlocks.
+... &#39;&#39;&#39;.strip(), tagger_chapter, tagger_quote) if x[0] in set((&#39;quote.quote&#39;, &#39;quote.nonquote&#39;))]
+[(&#39;quote.nonquote&#39;, 0, 94, None, &quot;laggard; though &#39;twa...he horses&#39; fetlocks.&quot;)]
 </pre></div>
 </div>
 <p>…or Chilit/alone.txt:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">run_tagger</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
-<span class="gp">... </span><span class="s1">&quot;Ah, it&#39;s not bad in the summer,&quot; said Tony, more earnestly than before:</span>
-<span class="gp">... </span><span class="s1">&quot;and I could find for the little &#39;un easy enough. I sleep anywhere, in</span>
-<span class="gp">... </span><span class="s1">Covent Garden sometimes, and the parks--anywhere as the p&#39;lice &#39;ill let</span>
-<span class="gp">... </span><span class="s1">me alone. You won&#39;t go to give her up to them p&#39;lice, will you now, and</span>
-<span class="gp">... </span><span class="s1">she so pretty?&quot;</span>
-<span class="gp">... </span><span class="s1">&#39;&#39;&#39;</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span> <span class="n">tagger_chapter</span><span class="p">,</span> <span class="n">tagger_quote</span><span class="p">)</span> <span class="k">if</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">((</span><span class="s1">&#39;quote.quote&#39;</span><span class="p">,</span> <span class="s1">&#39;quote.nonquote&#39;</span><span class="p">))]</span>
-<span class="go">[(&#39;quote.quote&#39;, 0, 33, None, &#39;&quot;Ah, it\&#39;s not bad in the summer,&quot;&#39;),</span>
-<span class="go"> (&#39;quote.nonquote&#39;, 34, 72, None, &#39;said Tony, more earnestly than before:&#39;),</span>
-<span class="go"> (&#39;quote.quote&#39;, 73, 303, None, &#39;&quot;and I could find fo... and\nshe so pretty?&quot;&#39;)]</span>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt; [x for x in run_tagger(&#39;&#39;&#39;
+... &quot;Ah, it&#39;s not bad in the summer,&quot; said Tony, more earnestly than before:
+... &quot;and I could find for the little &#39;un easy enough. I sleep anywhere, in
+... Covent Garden sometimes, and the parks--anywhere as the p&#39;lice &#39;ill let
+... me alone. You won&#39;t go to give her up to them p&#39;lice, will you now, and
+... she so pretty?&quot;
+... &#39;&#39;&#39;.strip(), tagger_chapter, tagger_quote) if x[0] in set((&#39;quote.quote&#39;, &#39;quote.nonquote&#39;))]
+[(&#39;quote.quote&#39;, 0, 33, None, &#39;&quot;Ah, it\&#39;s not bad in the summer,&quot;&#39;),
+ (&#39;quote.nonquote&#39;, 34, 72, None, &#39;said Tony, more earnestly than before:&#39;),
+ (&#39;quote.quote&#39;, 73, 303, None, &#39;&quot;and I could find fo... and\nshe so pretty?&quot;&#39;)]
 </pre></div>
 </div>
 <p>We only demand one of the types of punctuation, so quotes can start mid-sentence, e.g. ChiLit/alice.txt:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">run_tagger</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
-<span class="gp">... </span><span class="s1">It was the White Rabbit, trotting slowly back again, and looking</span>
-<span class="gp">... </span><span class="s1">anxiously about as it went, as if it had lost something; and she heard</span>
-<span class="gp">... </span><span class="s1">it muttering to itself ‘The Duchess! The Duchess! Oh my dear paws! Oh</span>
-<span class="gp">... </span><span class="s1">my fur and whiskers! She’ll get me executed, as sure as ferrets are</span>
-<span class="gp">... </span><span class="s1">ferrets! Where CAN I have dropped them, I wonder?’ Alice guessed</span>
-<span class="gp">... </span><span class="s1">&#39;&#39;&#39;</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span> <span class="n">tagger_chapter</span><span class="p">,</span> <span class="n">tagger_quote</span><span class="p">)</span> <span class="k">if</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">((</span><span class="s1">&#39;quote.quote&#39;</span><span class="p">,</span> <span class="s1">&#39;quote.nonquote&#39;</span><span class="p">))]</span>
-<span class="go">[(&#39;quote.nonquote&#39;, 0, 158, None, &#39;It was the White Rab... muttering to itself&#39;),</span>
-<span class="go"> (&#39;quote.quote&#39;, 159, 324, None, &#39;‘The Duchess! The Du...ped them, I wonder?’&#39;),</span>
-<span class="go"> (&#39;quote.nonquote&#39;, 325, 338, None, &#39;Alice guessed&#39;)]</span>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt; [x for x in run_tagger(&#39;&#39;&#39;
+... It was the White Rabbit, trotting slowly back again, and looking
+... anxiously about as it went, as if it had lost something; and she heard
+... it muttering to itself ‘The Duchess! The Duchess! Oh my dear paws! Oh
+... my fur and whiskers! She’ll get me executed, as sure as ferrets are
+... ferrets! Where CAN I have dropped them, I wonder?’ Alice guessed
+... &#39;&#39;&#39;.strip(), tagger_chapter, tagger_quote) if x[0] in set((&#39;quote.quote&#39;, &#39;quote.nonquote&#39;))]
+[(&#39;quote.nonquote&#39;, 0, 158, None, &#39;It was the White Rab... muttering to itself&#39;),
+ (&#39;quote.quote&#39;, 159, 324, None, &#39;‘The Duchess! The Du...ped them, I wonder?’&#39;),
+ (&#39;quote.nonquote&#39;, 325, 338, None, &#39;Alice guessed&#39;)]
 </pre></div>
 </div>
 <p>CLiC cannot detect quotes with a comma on the outside, as differentiating them
 from labels would be impossible, e.g. ChiLit/moonfleet.txt:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">run_tagger</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
-<span class="gp">... </span><span class="s1">&#39;So understand&#39;, she went on, &#39;that I will not have you out again this</span>
-<span class="gp">... </span><span class="s1">evening, no, nor any other evening, after dusk.&#39;</span>
-<span class="gp">...</span><span class="s1"></span>
-<span class="gp">... </span><span class="s1">&#39;So understand,&#39; she went on, &#39;that I will not have you out again this</span>
-<span class="gp">... </span><span class="s1">evening, no, nor any other evening, after dusk.&#39;</span>
-<span class="gp">... </span><span class="s1">&#39;&#39;&#39;</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span> <span class="n">tagger_chapter</span><span class="p">,</span> <span class="n">tagger_quote</span><span class="p">)</span> <span class="k">if</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">((</span><span class="s1">&#39;quote.quote&#39;</span><span class="p">,</span> <span class="s1">&#39;quote.nonquote&#39;</span><span class="p">))]</span>
-<span class="go">[(&#39;quote.nonquote&#39;, 0, 29, None, &quot;&#39;So understand&#39;, she went on,&quot;),</span>
-<span class="go"> (&#39;quote.quote&#39;, 30, 119, None, &quot;&#39;that I will not hav...vening, after dusk.&#39;&quot;),</span>
-<span class="go"> (&#39;quote.quote&#39;, 121, 137, None, &quot;&#39;So understand,&#39;&quot;),</span>
-<span class="go"> (&#39;quote.nonquote&#39;, 138, 150, None, &#39;she went on,&#39;),</span>
-<span class="go"> (&#39;quote.quote&#39;, 151, 240, None, &quot;&#39;that I will not hav...vening, after dusk.&#39;&quot;)]</span>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt; [x for x in run_tagger(&#39;&#39;&#39;
+... &#39;So understand&#39;, she went on, &#39;that I will not have you out again this
+... evening, no, nor any other evening, after dusk.&#39;
+...
+... &#39;So understand,&#39; she went on, &#39;that I will not have you out again this
+... evening, no, nor any other evening, after dusk.&#39;
+... &#39;&#39;&#39;.strip(), tagger_chapter, tagger_quote) if x[0] in set((&#39;quote.quote&#39;, &#39;quote.nonquote&#39;))]
+[(&#39;quote.nonquote&#39;, 0, 29, None, &quot;&#39;So understand&#39;, she went on,&quot;),
+ (&#39;quote.quote&#39;, 30, 119, None, &quot;&#39;that I will not hav...vening, after dusk.&#39;&quot;),
+ (&#39;quote.quote&#39;, 121, 137, None, &quot;&#39;So understand,&#39;&quot;),
+ (&#39;quote.nonquote&#39;, 138, 150, None, &#39;she went on,&#39;),
+ (&#39;quote.quote&#39;, 151, 240, None, &quot;&#39;that I will not hav...vening, after dusk.&#39;&quot;)]
 </pre></div>
 </div>
 <p>Extended quotes can run on across paragraphs, with an initial quote mark or indent to
 indicate continuation. We combine these into one quote:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">run_tagger</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
-<span class="gp">... </span><span class="s1">“Oh, that’s not all that complicated,” J.R. answered. “If you closed</span>
-<span class="gp">... </span><span class="s1">quotes at the end of every paragraph, then you would need to reidentify the</span>
-<span class="gp">... </span><span class="s1">speaker with every subsequent paragraph.</span>
-<span class="gp">...</span><span class="s1"></span>
-<span class="gp">... </span><span class="s1">“Say a narrative was describing two or three people engaged in a lengthy</span>
-<span class="gp">... </span><span class="s1">conversation. If you closed the quotation marks in the previous paragraph,</span>
-<span class="gp">... </span><span class="s1">reader knows that the previous speaker is still the one talking.”</span>
-<span class="gp">...</span><span class="s1"></span>
-<span class="gp">... </span><span class="s1">“Oh, that makes sense. Thanks!”</span>
-<span class="gp">... </span><span class="s1">&#39;&#39;&#39;</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span> <span class="n">tagger_chapter</span><span class="p">,</span> <span class="n">tagger_quote</span><span class="p">)</span> <span class="k">if</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">((</span><span class="s1">&#39;quote.quote&#39;</span><span class="p">,</span> <span class="s1">&#39;quote.nonquote&#39;</span><span class="p">))]</span>
-<span class="go">[(&#39;quote.quote&#39;, 0, 38, None, &#39;“Oh, that’s not all that complicated,”&#39;),</span>
-<span class="go"> (&#39;quote.nonquote&#39;, 39, 53, None, &#39;J.R. answered.&#39;),</span>
-<span class="go"> (&#39;quote.quote&#39;, 54, 400, None, &#39;“If you closed\nquote...ll the one talking.”&#39;),</span>
-<span class="go"> (&#39;quote.quote&#39;, 402, 433, None, &#39;“Oh, that makes sense. Thanks!”&#39;)]</span>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt; [x for x in run_tagger(&#39;&#39;&#39;
+... “Oh, that’s not all that complicated,” J.R. answered. “If you closed
+... quotes at the end of every paragraph, then you would need to reidentify the
+... speaker with every subsequent paragraph.
+...
+... “Say a narrative was describing two or three people engaged in a lengthy
+... conversation. If you closed the quotation marks in the previous paragraph,
+... reader knows that the previous speaker is still the one talking.”
+...
+... “Oh, that makes sense. Thanks!”
+... &#39;&#39;&#39;.strip(), tagger_chapter, tagger_quote) if x[0] in set((&#39;quote.quote&#39;, &#39;quote.nonquote&#39;))]
+[(&#39;quote.quote&#39;, 0, 38, None, &#39;“Oh, that’s not all that complicated,”&#39;),
+ (&#39;quote.nonquote&#39;, 39, 53, None, &#39;J.R. answered.&#39;),
+ (&#39;quote.quote&#39;, 54, 400, None, &#39;“If you closed\nquote...ll the one talking.”&#39;),
+ (&#39;quote.quote&#39;, 402, 433, None, &#39;“Oh, that makes sense. Thanks!”&#39;)]
 </pre></div>
 </div>
 <p>Indents are also valid ways of continuing a quote, for example from ChiLit/overtheway.txt:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">run_tagger</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
-<span class="gp">... </span><span class="s1">&quot;Aunt Harriet was introduced as &#39;My daughter Harriet,&#39; and made a</span>
-<span class="gp">... </span><span class="s1">stiff curtsey as Mrs. Moss smiled, and nodded, and bade her &#39;sit down,</span>
-<span class="gp">... </span><span class="s1">my dear.&#39; Throughout the whole interview she seemed to be looked upon</span>
-<span class="gp">... </span><span class="s1">by both ladies as a child, and played the part so well, sitting prim</span>
-<span class="gp">... </span><span class="s1">and silent on her chair, that I could hardly help humming as I looked</span>
-<span class="gp">... </span><span class="s1">at her:</span>
-<span class="gp">...</span><span class="s1"></span>
-<span class="gp">... </span><span class="s1">    &#39;Hold up your head,</span>
-<span class="gp">... </span><span class="s1">    Turn out your toes,</span>
-<span class="gp">... </span><span class="s1">    Speak when you&#39;re spoken to,</span>
-<span class="gp">... </span><span class="s1">    Mend your clothes.&#39;</span>
-<span class="gp">...</span><span class="s1"></span>
-<span class="gp">... </span><span class="s1">&quot;I was introduced, too, as &#39;a grandchild,&#39; made a curtsey the shadow of</span>
-<span class="gp">... </span><span class="s1">Aunt Harriet&#39;s, received a nod, the shadow of that bestowed upon her,</span>
-<span class="gp">... </span><span class="s1">and got out of the way as soon as I could, behind my aunt&#39;s chair,</span>
-<span class="gp">... </span><span class="s1">where, coming unexpectedly upon three fat pug-dogs on a mat, I sat</span>
-<span class="gp">... </span><span class="s1">down among them and felt quite at home.&quot;</span>
-<span class="gp">... </span><span class="s1">&#39;&#39;&#39;</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span> <span class="n">tagger_chapter</span><span class="p">,</span> <span class="n">tagger_quote</span><span class="p">)</span> <span class="k">if</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">((</span><span class="s1">&#39;quote.quote&#39;</span><span class="p">,</span> <span class="s1">&#39;quote.nonquote&#39;</span><span class="p">))]</span>
-<span class="go">[(&#39;quote.quote&#39;, 0, 777, None, &#39;&quot;Aunt Harriet was in...felt quite at home.&quot;&#39;)]</span>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt; [x for x in run_tagger(&#39;&#39;&#39;
+... &quot;Aunt Harriet was introduced as &#39;My daughter Harriet,&#39; and made a
+... stiff curtsey as Mrs. Moss smiled, and nodded, and bade her &#39;sit down,
+... my dear.&#39; Throughout the whole interview she seemed to be looked upon
+... by both ladies as a child, and played the part so well, sitting prim
+... and silent on her chair, that I could hardly help humming as I looked
+... at her:
+...
+...     &#39;Hold up your head,
+...     Turn out your toes,
+...     Speak when you&#39;re spoken to,
+...     Mend your clothes.&#39;
+...
+... &quot;I was introduced, too, as &#39;a grandchild,&#39; made a curtsey the shadow of
+... Aunt Harriet&#39;s, received a nod, the shadow of that bestowed upon her,
+... and got out of the way as soon as I could, behind my aunt&#39;s chair,
+... where, coming unexpectedly upon three fat pug-dogs on a mat, I sat
+... down among them and felt quite at home.&quot;
+... &#39;&#39;&#39;.strip(), tagger_chapter, tagger_quote) if x[0] in set((&#39;quote.quote&#39;, &#39;quote.nonquote&#39;))]
+[(&#39;quote.quote&#39;, 0, 777, None, &#39;&quot;Aunt Harriet was in...felt quite at home.&quot;&#39;)]
 </pre></div>
 </div>
 <p>Extended quotes also work without curly quotes, example from ChiLit/water.txt:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">run_tagger</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
-<span class="gp">... </span><span class="s1">&quot;And I am very ugly.  I am the ugliest fairy in the world; and I</span>
-<span class="gp">... </span><span class="s1">going to do.  It will be a very good warning for him to begin with,</span>
-<span class="gp">... </span><span class="s1">before he goes to school.</span>
-<span class="gp">...</span><span class="s1"></span>
-<span class="gp">... </span><span class="s1">&quot;Now, Tom, every Friday I come down here and call up all who have</span>
-<span class="gp">... </span><span class="s1">ill-used little children and serve them as they served the</span>
-<span class="gp">... </span><span class="s1">children.&quot;</span>
-<span class="gp">...</span><span class="s1"></span>
-<span class="gp">... </span><span class="s1">And at that Tom was frightened, and crept under a stone</span>
-<span class="gp">... </span><span class="s1">&#39;&#39;&#39;</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span> <span class="n">tagger_chapter</span><span class="p">,</span> <span class="n">tagger_quote</span><span class="p">)</span> <span class="k">if</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">((</span><span class="s1">&#39;quote.quote&#39;</span><span class="p">,</span> <span class="s1">&#39;quote.nonquote&#39;</span><span class="p">))]</span>
-<span class="go">[(&#39;quote.quote&#39;, 0, 295, None, &#39;&quot;And I am very ugly....erved the\nchildren.&quot;&#39;),</span>
-<span class="go"> (&#39;quote.nonquote&#39;, 297, 352, None, &#39;And at that Tom was ... crept under a stone&#39;)]</span>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt; [x for x in run_tagger(&#39;&#39;&#39;
+... &quot;And I am very ugly.  I am the ugliest fairy in the world; and I
+... going to do.  It will be a very good warning for him to begin with,
+... before he goes to school.
+...
+... &quot;Now, Tom, every Friday I come down here and call up all who have
+... ill-used little children and serve them as they served the
+... children.&quot;
+...
+... And at that Tom was frightened, and crept under a stone
+... &#39;&#39;&#39;.strip(), tagger_chapter, tagger_quote) if x[0] in set((&#39;quote.quote&#39;, &#39;quote.nonquote&#39;))]
+[(&#39;quote.quote&#39;, 0, 295, None, &#39;&quot;And I am very ugly....erved the\nchildren.&quot;&#39;),
+ (&#39;quote.nonquote&#39;, 297, 352, None, &#39;And at that Tom was ... crept under a stone&#39;)]
 </pre></div>
 </div>
 <p>Extended quotes only carry on when a paragraph starts with a quote-mark. Erroneous quotes
@@ -216,52 +216,52 @@ There’s no end-quote mark in the paragraph (the ‘tis is in our whitelist),
 so either this is an extended quote or an apostrophe that should be ignored.
 Since the second paragraph doesn’t start with a quote mark or is indented,
 it’s something to be ignored, so we make sure we ignore it.:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">run_tagger</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
-<span class="gp">... </span><span class="s1">turning the</span>
-<span class="gp">... </span><span class="s1">space &#39;twixt ship and shore into a boiling caldron: a minute later &#39;twas</span>
-<span class="gp">... </span><span class="s1">all sucked back again with a roar, and we jumped.</span>
-<span class="gp">...</span><span class="s1"></span>
-<span class="gp">... </span><span class="s1">I fell on hands and feet where the water was a yard deep under the ship,</span>
-<span class="gp">... </span><span class="s1">crash and thunder of the returning wave we were but a fathom distant</span>
-<span class="gp">... </span><span class="s1">from the rope. &#39;Take heart, lad,&#39; he cried; &#39;&#39;tis now or never,&#39; and as</span>
-<span class="gp">... </span><span class="s1">the water reached our breasts gave me a fierce shove forward with his</span>
-<span class="gp">... </span><span class="s1">hands. There was a roar of water in my ears, with a great shouting of</span>
-<span class="gp">... </span><span class="s1">the men upon the beach, and then I caught the rope.</span>
-<span class="gp">... </span><span class="s1">&#39;&#39;&#39;</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span> <span class="n">tagger_chapter</span><span class="p">,</span> <span class="n">tagger_quote</span><span class="p">)</span> <span class="k">if</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">((</span><span class="s1">&#39;quote.quote&#39;</span><span class="p">,</span> <span class="s1">&#39;quote.nonquote&#39;</span><span class="p">))]</span>
-<span class="go">[(&#39;quote.nonquote&#39;, 0, 292, None, &quot;turning the\nspace &#39;t...stant\nfrom the rope.&quot;),</span>
-<span class="go"> (&#39;quote.quote&#39;, 293, 311, None, &quot;&#39;Take heart, lad,&#39;&quot;),</span>
-<span class="go"> (&#39;quote.nonquote&#39;, 312, 321, None, &#39;he cried;&#39;),</span>
-<span class="go"> (&#39;quote.quote&#39;, 322, 342, None, &quot;&#39;&#39;tis now or never,&#39;&quot;),</span>
-<span class="go"> (&#39;quote.nonquote&#39;, 343, 541, None, &#39;and as\nthe water rea...n I caught the rope.&#39;)]</span>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt; [x for x in run_tagger(&#39;&#39;&#39;
+... turning the
+... space &#39;twixt ship and shore into a boiling caldron: a minute later &#39;twas
+... all sucked back again with a roar, and we jumped.
+...
+... I fell on hands and feet where the water was a yard deep under the ship,
+... crash and thunder of the returning wave we were but a fathom distant
+... from the rope. &#39;Take heart, lad,&#39; he cried; &#39;&#39;tis now or never,&#39; and as
+... the water reached our breasts gave me a fierce shove forward with his
+... hands. There was a roar of water in my ears, with a great shouting of
+... the men upon the beach, and then I caught the rope.
+... &#39;&#39;&#39;.strip(), tagger_chapter, tagger_quote) if x[0] in set((&#39;quote.quote&#39;, &#39;quote.nonquote&#39;))]
+[(&#39;quote.nonquote&#39;, 0, 292, None, &quot;turning the\nspace &#39;t...stant\nfrom the rope.&quot;),
+ (&#39;quote.quote&#39;, 293, 311, None, &quot;&#39;Take heart, lad,&#39;&quot;),
+ (&#39;quote.nonquote&#39;, 312, 321, None, &#39;he cried;&#39;),
+ (&#39;quote.quote&#39;, 322, 342, None, &quot;&#39;&#39;tis now or never,&#39;&quot;),
+ (&#39;quote.nonquote&#39;, 343, 541, None, &#39;and as\nthe water rea...n I caught the rope.&#39;)]
 </pre></div>
 </div>
 <p>Non-quote regions don’t run outside chapters, so Titles aren’t part of them:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">run_tagger</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
-<span class="gp">... </span><span class="s1">The Wind in the Willows</span>
-<span class="gp">... </span><span class="s1">Kenneth Grahame</span>
-<span class="gp">...</span><span class="s1"></span>
-<span class="gp">... </span><span class="s1">CHAPTER I. THE RIVER BANK</span>
-<span class="gp">...</span><span class="s1"></span>
-<span class="gp">... </span><span class="s1">The Mole had been working very hard all the morning, spring-cleaning.</span>
-<span class="gp">... </span><span class="s1">‘Hold up!’ said an elderly rabbit at the gap. ‘Sixpence for the</span>
-<span class="gp">... </span><span class="s1">privilege of passing by the private road!’</span>
-<span class="gp">...</span><span class="s1"></span>
-<span class="gp">... </span><span class="s1">CHAPTER IV. MR. BADGER</span>
-<span class="gp">...</span><span class="s1"></span>
-<span class="gp">... </span><span class="s1">‘Thought I should find you here all right,’ said the Otter cheerfully.</span>
-<span class="gp">...</span><span class="s1"></span>
-<span class="gp">... </span><span class="s1">‘They were all in a great state of alarm along River Bank when I arrived</span>
-<span class="gp">... </span><span class="s1">this morning.’</span>
-<span class="gp">... </span><span class="s1">&#39;&#39;&#39;</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span> <span class="n">tagger_metadata</span><span class="p">,</span> <span class="n">tagger_chapter</span><span class="p">,</span> <span class="n">tagger_quote</span><span class="p">)</span> <span class="k">if</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">((</span><span class="s1">&#39;metadata.title&#39;</span><span class="p">,</span> <span class="s1">&#39;metadata.author&#39;</span><span class="p">,</span> <span class="s1">&#39;quote.quote&#39;</span><span class="p">,</span> <span class="s1">&#39;quote.nonquote&#39;</span><span class="p">))]</span>
-<span class="go">[(&#39;metadata.title&#39;, 0, 23, None, &#39;The Wind in the Willows&#39;),</span>
-<span class="go"> (&#39;metadata.author&#39;, 24, 39, None, &#39;Kenneth Grahame&#39;),</span>
-<span class="go"> (&#39;quote.nonquote&#39;, 68, 137, None, &#39;The Mole had been wo...ng, spring-cleaning.&#39;),</span>
-<span class="go"> (&#39;quote.quote&#39;, 138, 148, None, &#39;‘Hold up!’&#39;),</span>
-<span class="go"> (&#39;quote.nonquote&#39;, 149, 183, None, &#39;said an elderly rabbit at the gap.&#39;),</span>
-<span class="go"> (&#39;quote.quote&#39;, 184, 244, None, &#39;‘Sixpence for the\npr...y the private road!’&#39;),</span>
-<span class="go"> (&#39;quote.quote&#39;, 270, 313, None, &#39;‘Thought I should fi...you here all right,’&#39;),</span>
-<span class="go"> (&#39;quote.nonquote&#39;, 314, 340, None, &#39;said the Otter cheerfully.&#39;),</span>
-<span class="go"> (&#39;quote.quote&#39;, 342, 429, None, &#39;‘They were all in a ...rived\nthis morning.’&#39;)]</span>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt; [x for x in run_tagger(&#39;&#39;&#39;
+... The Wind in the Willows
+... Kenneth Grahame
+...
+... CHAPTER I. THE RIVER BANK
+...
+... The Mole had been working very hard all the morning, spring-cleaning.
+... ‘Hold up!’ said an elderly rabbit at the gap. ‘Sixpence for the
+... privilege of passing by the private road!’
+...
+... CHAPTER IV. MR. BADGER
+...
+... ‘Thought I should find you here all right,’ said the Otter cheerfully.
+...
+... ‘They were all in a great state of alarm along River Bank when I arrived
+... this morning.’
+... &#39;&#39;&#39;.strip(), tagger_metadata, tagger_chapter, tagger_quote) if x[0] in set((&#39;metadata.title&#39;, &#39;metadata.author&#39;, &#39;quote.quote&#39;, &#39;quote.nonquote&#39;))]
+[(&#39;metadata.title&#39;, 0, 23, None, &#39;The Wind in the Willows&#39;),
+ (&#39;metadata.author&#39;, 24, 39, None, &#39;Kenneth Grahame&#39;),
+ (&#39;quote.nonquote&#39;, 68, 137, None, &#39;The Mole had been wo...ng, spring-cleaning.&#39;),
+ (&#39;quote.quote&#39;, 138, 148, None, &#39;‘Hold up!’&#39;),
+ (&#39;quote.nonquote&#39;, 149, 183, None, &#39;said an elderly rabbit at the gap.&#39;),
+ (&#39;quote.quote&#39;, 184, 244, None, &#39;‘Sixpence for the\npr...y the private road!’&#39;),
+ (&#39;quote.quote&#39;, 270, 313, None, &#39;‘Thought I should fi...you here all right,’&#39;),
+ (&#39;quote.nonquote&#39;, 314, 340, None, &#39;said the Otter cheerfully.&#39;),
+ (&#39;quote.quote&#39;, 342, 429, None, &#39;‘They were all in a ...rived\nthis morning.’&#39;)]
 </pre></div>
 </div>
 </div>
@@ -269,42 +269,42 @@ it’s something to be ignored, so we make sure we ignore it.:</p>
 <h2>quote.embedded regions<a class="headerlink" href="#quote-embedded-regions" title="Permalink to this headline">¶</a></h2>
 <p>A <code class="docutils literal notranslate"><span class="pre">quote.embedded</span></code> region follows the same rules as regular quotes, but inside a quote.</p>
 <p>For example, from ChiLit/alice.txt:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">run_tagger</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
-<span class="gp">... </span><span class="s1">‘I thought you did,’ said the Mouse. ‘--I proceed. “Edwin and Morcar,</span>
-<span class="gp">... </span><span class="s1">the earls of Mercia and Northumbria, declared for him: and even Stigand,</span>
-<span class="gp">... </span><span class="s1">the patriotic archbishop of Canterbury, found it advisable--”’</span>
-<span class="gp">...</span><span class="s1"></span>
-<span class="gp">... </span><span class="s1">‘Found WHAT?’ said the Duck.</span>
-<span class="gp">... </span><span class="s1">&#39;&#39;&#39;</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span> <span class="n">tagger_chapter</span><span class="p">,</span> <span class="n">tagger_quote</span><span class="p">)</span> <span class="k">if</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;quote.&#39;</span><span class="p">)]</span>
-<span class="go">[(&#39;quote.quote&#39;, 0, 20, None, &#39;‘I thought you did,’&#39;),</span>
-<span class="go"> (&#39;quote.nonquote&#39;, 21, 36, None, &#39;said the Mouse.&#39;),</span>
-<span class="go"> (&#39;quote.quote&#39;, 37, 205, None, &#39;‘--I proceed. “Edwin...und it advisable--”’&#39;),</span>
-<span class="go"> (&#39;quote.embedded&#39;, 51, 204, None, &#39;“Edwin and Morcar,\nt...ound it advisable--”&#39;),</span>
-<span class="go"> (&#39;quote.quote&#39;, 207, 220, None, &#39;‘Found WHAT?’&#39;),</span>
-<span class="go"> (&#39;quote.nonquote&#39;, 221, 235, None, &#39;said the Duck.&#39;)]</span>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt; [x for x in run_tagger(&#39;&#39;&#39;
+... ‘I thought you did,’ said the Mouse. ‘--I proceed. “Edwin and Morcar,
+... the earls of Mercia and Northumbria, declared for him: and even Stigand,
+... the patriotic archbishop of Canterbury, found it advisable--”’
+...
+... ‘Found WHAT?’ said the Duck.
+... &#39;&#39;&#39;.strip(), tagger_chapter, tagger_quote) if x[0].startswith(&#39;quote.&#39;)]
+[(&#39;quote.quote&#39;, 0, 20, None, &#39;‘I thought you did,’&#39;),
+ (&#39;quote.nonquote&#39;, 21, 36, None, &#39;said the Mouse.&#39;),
+ (&#39;quote.quote&#39;, 37, 205, None, &#39;‘--I proceed. “Edwin...und it advisable--”’&#39;),
+ (&#39;quote.embedded&#39;, 51, 204, None, &#39;“Edwin and Morcar,\nt...ound it advisable--”&#39;),
+ (&#39;quote.quote&#39;, 207, 220, None, &#39;‘Found WHAT?’&#39;),
+ (&#39;quote.nonquote&#39;, 221, 235, None, &#39;said the Duck.&#39;)]
 </pre></div>
 </div>
 <p>Embedded quotes can also be found in multi-paragraph quotes, example from ChiLit/overtheway.txt:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">run_tagger</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
-<span class="gp">... </span><span class="s1">&quot;&#39;Poor man! Did he ever marry?&#39;</span>
-<span class="gp">...</span><span class="s1"></span>
-<span class="gp">... </span><span class="s1">&quot;&#39;Yes, and very happily--a charming woman. But the strange part of the</span>
-<span class="gp">... </span><span class="s1">story is, that he came quite unexpectedly into a large property that</span>
-<span class="gp">... </span><span class="s1">was in his family.&#39;</span>
-<span class="gp">...</span><span class="s1"></span>
-<span class="gp">... </span><span class="s1">&quot;&#39;Did he? Then he would have been as good a match as most of her</span>
-<span class="gp">... </span><span class="s1">admirers?&#39;</span>
-<span class="gp">...</span><span class="s1"></span>
-<span class="gp">... </span><span class="s1">&quot;&#39;Better. It was a fine estate. Poor Anastatia!&#39;</span>
-<span class="gp">...</span><span class="s1"></span>
-<span class="gp">... </span><span class="s1">&quot;&#39;Serve her right,&#39; said my aunt, shortly.&quot;</span>
-<span class="gp">... </span><span class="s1">&#39;&#39;&#39;</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span> <span class="n">tagger_chapter</span><span class="p">,</span> <span class="n">tagger_quote</span><span class="p">)</span> <span class="k">if</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;quote.&#39;</span><span class="p">)]</span>
-<span class="go">[(&#39;quote.quote&#39;, 0, 364, None, &#39;&quot;\&#39;Poor man! Did he e...d my aunt, shortly.&quot;&#39;),</span>
-<span class="go"> (&#39;quote.embedded&#39;, 1, 31, None, &quot;&#39;Poor man! Did he ever marry?&#39;&quot;),</span>
-<span class="go"> (&#39;quote.embedded&#39;, 34, 192, None, &quot;&#39;Yes, and very happi...\nwas in his family.&#39;&quot;),</span>
-<span class="go"> (&#39;quote.embedded&#39;, 195, 269, None, &quot;&#39;Did he? Then he wou...st of her\nadmirers?&#39;&quot;),</span>
-<span class="go"> (&#39;quote.embedded&#39;, 272, 319, None, &quot;&#39;Better. It was a fi...te. Poor Anastatia!&#39;&quot;),</span>
-<span class="go"> (&#39;quote.embedded&#39;, 322, 340, None, &quot;&#39;Serve her right,&#39;&quot;)]</span>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt; [x for x in run_tagger(&#39;&#39;&#39;
+... &quot;&#39;Poor man! Did he ever marry?&#39;
+...
+... &quot;&#39;Yes, and very happily--a charming woman. But the strange part of the
+... story is, that he came quite unexpectedly into a large property that
+... was in his family.&#39;
+...
+... &quot;&#39;Did he? Then he would have been as good a match as most of her
+... admirers?&#39;
+...
+... &quot;&#39;Better. It was a fine estate. Poor Anastatia!&#39;
+...
+... &quot;&#39;Serve her right,&#39; said my aunt, shortly.&quot;
+... &#39;&#39;&#39;.strip(), tagger_chapter, tagger_quote) if x[0].startswith(&#39;quote.&#39;)]
+[(&#39;quote.quote&#39;, 0, 364, None, &#39;&quot;\&#39;Poor man! Did he e...d my aunt, shortly.&quot;&#39;),
+ (&#39;quote.embedded&#39;, 1, 31, None, &quot;&#39;Poor man! Did he ever marry?&#39;&quot;),
+ (&#39;quote.embedded&#39;, 34, 192, None, &quot;&#39;Yes, and very happi...\nwas in his family.&#39;&quot;),
+ (&#39;quote.embedded&#39;, 195, 269, None, &quot;&#39;Did he? Then he wou...st of her\nadmirers?&#39;&quot;),
+ (&#39;quote.embedded&#39;, 272, 319, None, &quot;&#39;Better. It was a fi...te. Poor Anastatia!&#39;&quot;),
+ (&#39;quote.embedded&#39;, 322, 340, None, &quot;&#39;Serve her right,&#39;&quot;)]
 </pre></div>
 </div>
 <dl class="py function">
@@ -354,6 +354,7 @@ it’s something to be ignored, so we make sure we ignore it.:</p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../clictagger.taggedtext/">clictagger.taggedtext: Region-tag text</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../clictagger.script/">clictagger.script: Command line interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../text-cleaning/">Preparing texts for CLiCTagger</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../clictagger.region/">clictagger.region package</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="../clictagger.region/#submodules">Submodules</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="../clictagger.region.chapter/">clic.region.chapter: Tag chapter.* regions</a></li>

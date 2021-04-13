@@ -6,6 +6,7 @@ CLiCTagger Region-tagging
 
    clictagger.taggedtext
    clictagger.script
+   text-cleaning.rst
    clictagger.region
    clictagger.tokenizer
    references

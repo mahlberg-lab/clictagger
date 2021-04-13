@@ -14,7 +14,7 @@
     <script src="../_static/doctools.js"></script>
     <link rel="index" title="Index" href="../genindex/" />
     <link rel="search" title="Search" href="../search/" />
-    <link rel="next" title="clictagger.region package" href="../clictagger.region/" />
+    <link rel="next" title="Preparing texts for CLiCTagger" href="../text-cleaning/" />
     <link rel="prev" title="clictagger.taggedtext: Region-tag text" href="../clictagger.taggedtext/" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
@@ -38,15 +38,15 @@
 <div class="section" id="basic-examples">
 <h2>Basic examples<a class="headerlink" href="#basic-examples" title="Permalink to this headline">¶</a></h2>
 <p>To see the contents of <code class="docutils literal notranslate"><span class="pre">alice.txt</span></code> with default regions coloured:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">clictagger</span> <span class="n">alice</span><span class="o">.</span><span class="n">txt</span>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>clictagger alice.txt
 </pre></div>
 </div>
 <p>To see the contents of <code class="docutils literal notranslate"><span class="pre">alice.txt</span></code> with quotes coloured:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">clictagger</span> <span class="n">alice</span><span class="o">.</span><span class="n">txt</span> <span class="n">quote</span><span class="o">.</span><span class="n">quote</span>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>clictagger alice.txt quote.quote
 </pre></div>
 </div>
 <p>Output all suspensions in <code class="docutils literal notranslate"><span class="pre">alice.txt</span></code> into <code class="docutils literal notranslate"><span class="pre">alice.csv</span></code>:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">clictagger</span> <span class="o">--</span><span class="n">csv</span> <span class="n">alice</span><span class="o">.</span><span class="n">csv</span> <span class="n">alice</span><span class="o">.</span><span class="n">txt</span> <span class="n">quote</span><span class="o">.</span><span class="n">suspension</span><span class="o">.</span><span class="n">short</span> <span class="n">quote</span><span class="o">.</span><span class="n">suspension</span><span class="o">.</span><span class="n">long</span>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>clictagger --csv alice.csv alice.txt quote.suspension.short quote.suspension.long
 </pre></div>
 </div>
 </div>
@@ -89,6 +89,7 @@ The standard process <cite>is outlined here &lt;https://github.com/birmingham-cc
 <li class="toctree-l2"><a class="reference internal" href="#using-clictagger-as-a-webserver-for-cleaning-text">Using clictagger as a webserver for cleaning text</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../text-cleaning/">Preparing texts for CLiCTagger</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../clictagger.region/">clictagger.region package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../clictagger.tokenizer/">clic.tokenizer: Tokenize strings to types</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../references/">References</a></li>
@@ -99,7 +100,7 @@ The standard process <cite>is outlined here &lt;https://github.com/birmingham-cc
 <ul>
   <li><a href="../">Documentation overview</a><ul>
       <li>Previous: <a href="../clictagger.taggedtext/" title="previous chapter">clictagger.taggedtext: Region-tag text</a></li>
-      <li>Next: <a href="../clictagger.region/" title="next chapter">clictagger.region package</a></li>
+      <li>Next: <a href="../text-cleaning/" title="next chapter">Preparing texts for CLiCTagger</a></li>
   </ul></li>
 </ul>
 </div>

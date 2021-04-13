@@ -43,11 +43,11 @@ using the implementation in the <a class="reference internal" href="../reference
 then apply our own additions (see later).</p>
 <p>Please read the document for a full description of ICU word boundaries, however
 as a quick example the following phrase:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>The quick (“brown”) fox can’t jump 32.3 feet in-the-air, right?
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>The quick (“brown”) fox can’t jump 32.3 feet in-the-air, right?
 </pre></div>
 </div>
 <p>…would have boundaries at every point marked with a <code class="docutils literal notranslate"><span class="pre">|</span></code>:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>The| |quick| |(||“|brown|”|)| |fox| |can’t| |jump| |32.3| |feet| |in|-|the|-|air|,| |right|?|
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>The| |quick| |(||“|brown|”|)| |fox| |can’t| |jump| |32.3| |feet| |in|-|the|-|air|,| |right|?|
 </pre></div>
 </div>
 <p>We consider a boundary mark to be a word-boundary if…</p>
@@ -64,7 +64,7 @@ e.g. after the <code class="docutils literal notranslate"><span class="pre">'</s
 <p>Note that these additional rules are because ICU does not handle apostrophes on
 the outside of words, nor hyphenated-words.</p>
 <p>…so if we mark word boundaries in the example above with <code class="docutils literal notranslate"><span class="pre">‖</span></code>:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>The‖ |quick‖ |(||“|brown‖”|)| |fox‖ |can’t‖ |jump‖ |32.3‖ |feet‖ |in‖-‖the‖-‖air‖,| |right‖?|
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>The‖ |quick‖ |(||“|brown‖”|)| |fox‖ |can’t‖ |jump‖ |32.3‖ |feet‖ |in‖-‖the‖-‖air‖,| |right‖?|
 </pre></div>
 </div>
 <p>Tokens are then extracted by combining all text before adjacent word-boundaries, e.g.:</p>
@@ -90,68 +90,68 @@ searches. See later examples for more information.</p>
 <div class="section" id="examples-edge-cases">
 <h2>Examples / edge cases<a class="headerlink" href="#examples-edge-cases" title="Permalink to this headline">¶</a></h2>
 <p>A type is lower-case, ASCII-representable term, and “fancy” apostrophes are normalised:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">types_from_string</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
-<span class="gp">... </span><span class="s1">    I am a café cat, don’t you k&#39;now.</span>
-<span class="gp">... </span><span class="s1">&#39;&#39;&#39;</span><span class="p">)]</span>
-<span class="go">[&#39;i&#39;, &#39;am&#39;, &#39;a&#39;, &#39;cafe&#39;, &#39;cat&#39;, &quot;don&#39;t&quot;, &#39;you&#39;, &quot;k&#39;now&quot;]</span>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt; [x[0] for x in types_from_string(&#39;&#39;&#39;
+...     I am a café cat, don’t you k&#39;now.
+... &#39;&#39;&#39;)]
+[&#39;i&#39;, &#39;am&#39;, &#39;a&#39;, &#39;cafe&#39;, &#39;cat&#39;, &quot;don&#39;t&quot;, &#39;you&#39;, &quot;k&#39;now&quot;]
 </pre></div>
 </div>
 <p>Numbers are types too:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">types_from_string</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
-<span class="gp">... </span><span class="s1">    Just my $0.02, but we&#39;re 12 minutes late.</span>
-<span class="gp">... </span><span class="s1">&#39;&#39;&#39;</span><span class="p">)]</span>
-<span class="go">[&#39;just&#39;, &#39;my&#39;, &#39;0.02&#39;, &#39;but&#39;, &quot;we&#39;re&quot;, &#39;12&#39;, &#39;minutes&#39;, &#39;late&#39;]</span>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt; [x[0] for x in types_from_string(&#39;&#39;&#39;
+...     Just my $0.02, but we&#39;re 12 minutes late.
+... &#39;&#39;&#39;)]
+[&#39;just&#39;, &#39;my&#39;, &#39;0.02&#39;, &#39;but&#39;, &quot;we&#39;re&quot;, &#39;12&#39;, &#39;minutes&#39;, &#39;late&#39;]
 </pre></div>
 </div>
 <p>All surrounding punctuation is filtered out:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">types_from_string</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
-<span class="gp">... </span><span class="s1">    &quot;I am a cat&quot;, they said, &quot;hear me **roar**!&quot;.</span>
-<span class="gp">...</span><span class="s1"></span>
-<span class="gp">... </span><span class="s1">    &quot;...or at least mew&quot;.</span>
-<span class="gp">... </span><span class="s1">&#39;&#39;&#39;</span><span class="p">)]</span>
-<span class="go">[&#39;i&#39;, &#39;am&#39;, &#39;a&#39;, &#39;cat&#39;, &#39;they&#39;, &#39;said&#39;, &#39;hear&#39;, &#39;me&#39;, &#39;roar&#39;,</span>
-<span class="go"> &#39;or&#39;, &#39;at&#39;, &#39;least&#39;, &#39;mew&#39;]</span>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt; [x[0] for x in types_from_string(&#39;&#39;&#39;
+...     &quot;I am a cat&quot;, they said, &quot;hear me **roar**!&quot;.
+...
+...     &quot;...or at least mew&quot;.
+... &#39;&#39;&#39;)]
+[&#39;i&#39;, &#39;am&#39;, &#39;a&#39;, &#39;cat&#39;, &#39;they&#39;, &#39;said&#39;, &#39;hear&#39;, &#39;me&#39;, &#39;roar&#39;,
+ &#39;or&#39;, &#39;at&#39;, &#39;least&#39;, &#39;mew&#39;]
 </pre></div>
 </div>
 <p>Unicode word-splitting doesn’t combine hypenated words, but we do:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">types_from_string</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
-<span class="gp">... </span><span class="s1">    It had been a close and sultry day--one of the hottest of the</span>
-<span class="gp">... </span><span class="s1">    dog-days--even out in the open country</span>
-<span class="gp">... </span><span class="s1">&#39;&#39;&#39;</span><span class="p">)]</span>
-<span class="go">[&#39;it&#39;, &#39;had&#39;, &#39;been&#39;, &#39;a&#39;, &#39;close&#39;, &#39;and&#39;, &#39;sultry&#39;, &#39;day&#39;,</span>
-<span class="go"> &#39;one&#39;, &#39;of&#39;, &#39;the&#39;, &#39;hottest&#39;, &#39;of&#39;, &#39;the&#39;, &#39;dog-days&#39;,</span>
-<span class="go"> &#39;even&#39;, &#39;out&#39;, &#39;in&#39;, &#39;the&#39;, &#39;open&#39;, &#39;country&#39;]</span>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt; [x[0] for x in types_from_string(&#39;&#39;&#39;
+...     It had been a close and sultry day--one of the hottest of the
+...     dog-days--even out in the open country
+... &#39;&#39;&#39;)]
+[&#39;it&#39;, &#39;had&#39;, &#39;been&#39;, &#39;a&#39;, &#39;close&#39;, &#39;and&#39;, &#39;sultry&#39;, &#39;day&#39;,
+ &#39;one&#39;, &#39;of&#39;, &#39;the&#39;, &#39;hottest&#39;, &#39;of&#39;, &#39;the&#39;, &#39;dog-days&#39;,
+ &#39;even&#39;, &#39;out&#39;, &#39;in&#39;, &#39;the&#39;, &#39;open&#39;, &#39;country&#39;]
 
-<span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">types_from_string</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
-<span class="gp">... </span><span class="s1">    so many out-of-the-way things had happened lately</span>
-<span class="gp">... </span><span class="s1">&#39;&#39;&#39;</span><span class="p">)]</span>
-<span class="go">[&#39;so&#39;, &#39;many&#39;, &#39;out-of-the-way&#39;, &#39;things&#39;,</span>
-<span class="go"> &#39;had&#39;, &#39;happened&#39;, &#39;lately&#39;]</span>
+&gt;&gt;&gt; [x[0] for x in types_from_string(&#39;&#39;&#39;
+...     so many out-of-the-way things had happened lately
+... &#39;&#39;&#39;)]
+[&#39;so&#39;, &#39;many&#39;, &#39;out-of-the-way&#39;, &#39;things&#39;,
+ &#39;had&#39;, &#39;happened&#39;, &#39;lately&#39;]
 </pre></div>
 </div>
 <p>We also consider apostrophes surrounding words to be part of the word, unlike
 the standard. Preceding apostrophes have to be part of our whitelist though:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">types_from_string</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
-<span class="gp">... </span><span class="s1">    &#39;tis 3 days&#39; work. &#39;twmade-up-word</span>
-<span class="gp">... </span><span class="s1">&#39;&#39;&#39;</span><span class="p">)]</span>
-<span class="go">[&quot;&#39;tis&quot;, &#39;3&#39;, &quot;days&#39;&quot;, &#39;work&#39;, &#39;twmade-up-word&#39;]</span>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt; [x[0] for x in types_from_string(&#39;&#39;&#39;
+...     &#39;tis 3 days&#39; work. &#39;twmade-up-word
+... &#39;&#39;&#39;)]
+[&quot;&#39;tis&quot;, &#39;3&#39;, &quot;days&#39;&quot;, &#39;work&#39;, &#39;twmade-up-word&#39;]
 </pre></div>
 </div>
 <p>Preceding apostrophes have to curve the right direction to be included
 as part of the token (and thus the type), so that the first
 <code class="docutils literal notranslate"><span class="pre">’em</span></code> keeps the apostrophe and the second one doesn’t:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">types_from_string</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
-<span class="gp">... </span><span class="s1">    Closing ’em. Opening ‘em.</span>
-<span class="gp">... </span><span class="s1">&#39;&#39;&#39;</span><span class="p">)]</span>
-<span class="go">[&#39;closing&#39;, &quot;&#39;em&quot;, &#39;opening&#39;, &#39;em&#39;]</span>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt; [x[0] for x in types_from_string(&#39;&#39;&#39;
+...     Closing ’em. Opening ‘em.
+... &#39;&#39;&#39;)]
+[&#39;closing&#39;, &quot;&#39;em&quot;, &#39;opening&#39;, &#39;em&#39;]
 </pre></div>
 </div>
 <p>We strip underscores whilst generating types, which are considered part of a
 word in the unicode standard:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">types_from_string</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
-<span class="gp">... </span><span class="s1">had some reputation as a _connoisseur_.</span>
-<span class="gp">... </span><span class="s1">&#39;&#39;&#39;</span><span class="p">)]</span>
-<span class="go">[&#39;had&#39;, &#39;some&#39;, &#39;reputation&#39;, &#39;as&#39;, &#39;a&#39;, &#39;connoisseur&#39;]</span>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt; [x[0] for x in types_from_string(&#39;&#39;&#39;
+... had some reputation as a _connoisseur_.
+... &#39;&#39;&#39;)]
+[&#39;had&#39;, &#39;some&#39;, &#39;reputation&#39;, &#39;as&#39;, &#39;a&#39;, &#39;connoisseur&#39;]
 </pre></div>
 </div>
 <dl class="py data">
@@ -203,6 +203,7 @@ the start and end values</p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../clictagger.taggedtext/">clictagger.taggedtext: Region-tag text</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../clictagger.script/">clictagger.script: Command line interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../text-cleaning/">Preparing texts for CLiCTagger</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../clictagger.region/">clictagger.region package</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">clic.tokenizer: Tokenize strings to types</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#method">Method</a></li>

@@ -39,27 +39,27 @@
 <h2>metadata.title / metadata.author regions<a class="headerlink" href="#metadata-title-metadata-author-regions" title="Permalink to this headline">¶</a></h2>
 <p>If there are 2 lines at the start, with an empty line after, we treat this as a
 title / author combination:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">run_tagger</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
-<span class="gp">... </span><span class="s1">Fly Fishing</span>
-<span class="gp">... </span><span class="s1">J R Hartley</span>
-<span class="gp">...</span><span class="s1"></span>
-<span class="gp">... </span><span class="s1">INTRODUCTION.</span>
-<span class="gp">...</span><span class="s1"></span>
-<span class="gp">... </span><span class="s1">Fly Fishing: Memories of Angling Days, also published as Fly Fishing by</span>
-<span class="gp">... </span><span class="s1">&#39;&#39;&#39;</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span> <span class="n">tagger_metadata</span><span class="p">)</span>
-<span class="go">[(&#39;metadata.title&#39;, 0, 11, None, &#39;Fly Fishing&#39;),</span>
-<span class="go"> (&#39;metadata.author&#39;, 12, 23, None, &#39;J R Hartley&#39;)]</span>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt; run_tagger(&#39;&#39;&#39;
+... Fly Fishing
+... J R Hartley
+...
+... INTRODUCTION.
+...
+... Fly Fishing: Memories of Angling Days, also published as Fly Fishing by
+... &#39;&#39;&#39;.strip(), tagger_metadata)
+[(&#39;metadata.title&#39;, 0, 11, None, &#39;Fly Fishing&#39;),
+ (&#39;metadata.author&#39;, 12, 23, None, &#39;J R Hartley&#39;)]
 </pre></div>
 </div>
 <p>Anything that doesn’t match this gets ignored:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">run_tagger</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
-<span class="gp">... </span><span class="s1">Fly Fishing</span>
-<span class="gp">... </span><span class="s1">J R Hartley</span>
-<span class="gp">... </span><span class="s1">INTRODUCTION.</span>
-<span class="gp">...</span><span class="s1"></span>
-<span class="gp">... </span><span class="s1">Fly Fishing: Memories of Angling Days, also published as Fly Fishing by</span>
-<span class="gp">... </span><span class="s1">&#39;&#39;&#39;</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span> <span class="n">tagger_metadata</span><span class="p">)</span>
-<span class="go">[]</span>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt; run_tagger(&#39;&#39;&#39;
+... Fly Fishing
+... J R Hartley
+... INTRODUCTION.
+...
+... Fly Fishing: Memories of Angling Days, also published as Fly Fishing by
+... &#39;&#39;&#39;.strip(), tagger_metadata)
+[]
 </pre></div>
 </div>
 <dl class="py function">
@@ -91,6 +91,7 @@ title / author combination:</p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../clictagger.taggedtext/">clictagger.taggedtext: Region-tag text</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../clictagger.script/">clictagger.script: Command line interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../text-cleaning/">Preparing texts for CLiCTagger</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../clictagger.region/">clictagger.region package</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="../clictagger.region/#submodules">Submodules</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="../clictagger.region.chapter/">clic.region.chapter: Tag chapter.* regions</a></li>

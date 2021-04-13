@@ -1,0 +1,342 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Preparing texts for CLiCTagger &#8212; clictagger  documentation</title>
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex/" />
+    <link rel="search" title="Search" href="../search/" />
+    <link rel="next" title="clictagger.region package" href="../clictagger.region/" />
+    <link rel="prev" title="clictagger.script: Command line interface" href="../clictagger.script/" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="preparing-texts-for-clictagger">
+<h1>Preparing texts for CLiCTagger<a class="headerlink" href="#preparing-texts-for-clictagger" title="Permalink to this headline">¶</a></h1>
+<p>Whilst CLiCTagger can work on any plain text, for best results text should be prepared using the method below.
+Any texts added to the <a class="reference external" href="https://github.com/birmingham-ccr/corpora">corpora repository</a> should follow this process.</p>
+<p>To clean texts so they are ready for use with CLiCTagger, the following steps need to be followed.</p>
+<ol class="arabic simple">
+<li><p><a class="reference internal" href="#convert-to-unix-line-endings">Convert to unix line endings</a>.</p></li>
+<li><p><a class="reference internal" href="#remove-non-authorial-text">Remove non-authorial text</a>.</p></li>
+<li><p><a class="reference internal" href="#reformat-the-book-title-and-author-to-make-consistent-across-all-texts">Reformat the book title and author to make consistent across all texts</a>.</p></li>
+<li><p><a class="reference internal" href="#reformat-chapter-headings-to-make-consistent-across-all-texts">Reformat chapter headings to make consistent across all texts</a>.</p></li>
+<li><p><a class="reference internal" href="#manual-corrections">Manual corrections</a>.</p></li>
+</ol>
+<p>If committing to the corpora repository, each editing stage is committed and clearly documented with a commit message.
+Accordingly, it is possible to see the history of a single file, see for example the <a class="reference external" href="https://github.com/birmingham-ccr/corpora/commits/master/ChiLit/willows.txt">history of willows.txt</a>.</p>
+<div class="section" id="convert-to-unix-line-endings">
+<h2>Convert to unix line endings<a class="headerlink" href="#convert-to-unix-line-endings" title="Permalink to this headline">¶</a></h2>
+<p>Step [1] is achieved using the following command:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>for f in ChiLit/*.txt; do dos2unix -m $f; done
+</pre></div>
+</div>
+</div>
+<div class="section" id="remove-non-authorial-text">
+<h2>Remove non-authorial text<a class="headerlink" href="#remove-non-authorial-text" title="Permalink to this headline">¶</a></h2>
+<ul>
+<li><p>Tables of content are removed.</p></li>
+<li><p>Lists of illustrations are removed.</p></li>
+<li><p>Any preface text attributed to a person other than the author is
+removed. When attribution is unclear the text is left.</p></li>
+<li><p>Any postface text attributed to a person other than the author is
+removed. When attribution is unclear the text is left.</p></li>
+<li><p>Transcriber notes are removed.</p></li>
+<li><p>In the texts illustrations are usually indicated by text enclosed in
+square brackets. Where this text includes a caption the caption is
+kept, for example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>[Illustration: THE WONDERSTONE.]
+</pre></div>
+</div>
+<p>becomes:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>[THE WONDERSTONE.]
+</pre></div>
+</div>
+<p>Where there is no authorial caption the construct is deleted. All
+the following example would be deleted:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>[Illustration]
+
+[Illustration: Chapter Seventeen]
+
+[Illustration: Page 91]
+</pre></div>
+</div>
+<p>In the case of <cite>sketches</cite>, the line:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>[Picture which cannot be reproduced]
+</pre></div>
+</div>
+<p>was removed during editing, because other editions suggested that the line was
+not part of the text but rather an editorial remark (see the <a class="reference external" href="https://github.com/birmingham-ccr/corpora/commit/c72cc1809c22c3f45f2e3158df87545fdce58d28#r32025083">comment on the change</a>).</p>
+</li>
+<li><p><strong>Footnotes</strong> are removed if they are attached to the end of a text but left in if the footnote text
+is included in main text. (This rule was formally introduced for the <a class="reference external" href="https://github.com/birmingham-ccr/corpora/commit/c72cc1809c22c3f45f2e3158df87545fdce58d28#diff-b90e831a9520a85b9e7620aa1fac6591L25366">expansion of the ArTs corpus, 2019-01</a>, although it was likely also followed implicitly for the previous corpora).
+When removing footnotes, delete both the in-text footnote indicator and the footnote itself.
+In the following example from <cite>sketches</cite>, the {161} in the text <a class="reference external" href="https://github.com/birmingham-ccr/corpora/commit/c72cc1809c22c3f45f2e3158df87545fdce58d28#diff-b90e831a9520a85b9e7620aa1fac6591L7281">was removed</a>:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>On both sides of the gaol, is a small
+receiving-room, to which prisoners are conducted on their first
+reception, and whence they cannot be removed until they have been
+examined by the surgeon of the prison. {161}
+</pre></div>
+</div>
+<p><a class="reference external" href="https://github.com/birmingham-ccr/corpora/commit/c72cc1809c22c3f45f2e3158df87545fdce58d28#diff-b90e831a9520a85b9e7620aa1fac6591L26670">along with the footnote text</a>:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>{161}  The regulations of the prison relative to the confinement of
+prisoners during the day, their sleeping at night, their taking their
+meals, and other matters of gaol economy, have been all altered-greatly
+for the better—since this sketch was first published.  Even the
+construction of the prison itself has been changed.
+</pre></div>
+</div>
+<p>Note this is just one of the <a class="reference external" href="https://github.com/birmingham-ccr/corpora/commit/c72cc1809c22c3f45f2e3158df87545fdce58d28#diff-b90e831a9520a85b9e7620aa1fac6591L26663">four footnotes removed in “sketches”</a>.
+Other books for which footnotes were removed include <a class="reference external" href="https://github.com/birmingham-ccr/corpora/commit/c72cc1809c22c3f45f2e3158df87545fdce58d28#diff-97c35dfce2b9f9b909ebb3f89ae43e2c">“americannotes”</a>,
+<a class="reference external" href="https://github.com/birmingham-ccr/corpora/commit/c72cc1809c22c3f45f2e3158df87545fdce58d28#diff-dae9e8214d88284bc935c3a2b5ebce82">“pictures”</a> and <a class="reference external" href="https://github.com/birmingham-ccr/corpora/commit/c72cc1809c22c3f45f2e3158df87545fdce58d28#diff-f573870f5118cfc91ff22ca3de87a75f">“uncommercial”</a>.</p>
+<p>By contrast, an example of a footnote that was retained because it was fully included
+in the main text is the following in <a class="reference external" href="https://github.com/birmingham-ccr/corpora/blob/ca01d2ae9731b7a43d469422b85deb0bc1c486f3/ArTs/timemachine.txt#L2231">“timemachine”</a>:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>“Suddenly Weena came very close to my side. So suddenly that she
+startled me. Had it not been for her I do not think I should have
+noticed that the floor of the gallery sloped at all. [Footnote: It may
+be, of course, that the floor did not slope, but that the museum was
+built into the side of a hill.—ED.]
+</pre></div>
+</div>
+<p>ChiLit also contains examples of retained footnotes, for example several in <em>rival</em>,
+such as the following (<a class="reference external" href="https://github.com/birmingham-ccr/corpora/blob/ca01d2ae9731b7a43d469422b85deb0bc1c486f3/ChiLit/rival.txt#L2504">see location in text</a>):</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>&quot;By the mercy of Heaven, we met some Brazilian proas, which took us on
+board, and the Diomede in tow; and, having favourable winds and a smooth
+sea, we contrived to get the hulk into the King&#39;s dock at Rio de
+Janeiro; where, being a fine new ship, she was found worth repairing and
+refitting; and here we have been ever since, the Portuguese workmen
+being very slow in their operations.&quot;[6]
+
+[Footnote 6: Commodore Byron found some repairs necessary at Rio de
+Janeiro.--&quot;We had six Portuguese caulkers to assist our carpenters, who
+were paid at the rate of 6s. per diem; though it is certain an English
+caulker could do as much in one day as they did in three; but, though
+slow and inactive, they perform their work very effectually.&quot;
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<div class="section" id="reformat-the-book-title-and-author-to-make-consistent-across-all-texts">
+<h2>Reformat the book title and author to make consistent across all texts<a class="headerlink" href="#reformat-the-book-title-and-author-to-make-consistent-across-all-texts" title="Permalink to this headline">¶</a></h2>
+<ul>
+<li><p>The <strong>book title</strong> is put on the first line of the file, without any
+newlines.</p></li>
+<li><p>The <strong>book author</strong> is put on the second line of the file, without any
+newlines. Check whether the CLiC corpora already contain other texts from this author
+and ensure that the spelling of the name is consistent in the text to be added.
+If the presentation of the name differs slightly (e.g. a full name vs. initials of first name)
+then CLiC will consider the two names as different authors and give them distinct author entries
+in the dropdown menu. Sometimes Gutenberg texts also contain additional titles in front of a name
+(e.g. “Baron”, “Captain”, “Earl”). We try to use the format that is/was most commonly used for the
+author. Most important is, though, to use one format consistently for the same author.</p></li>
+<li><p>Both the <strong>book title</strong> and the <strong>book author</strong> should be in title case
+(<em>not</em> in all capitals! - that would confuse the CLiC client), for example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>American Notes for General Circulation
+Charles Dickens
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<div class="section" id="reformat-chapter-headings-to-make-consistent-across-all-texts">
+<h2>Reformat chapter headings to make consistent across all texts<a class="headerlink" href="#reformat-chapter-headings-to-make-consistent-across-all-texts" title="Permalink to this headline">¶</a></h2>
+<ul>
+<li><p><strong>Chapter headings</strong> are formatted as follows: If the chapter heading
+begins with ‘CHAPTER’ or ‘BOOK’ it must be followed by a number or
+roman numerals and then a dot. The chapter or book number cannot be
+written in word form. The heading can optionaly be followed by a
+chapter title; the chapter title must not break onto a new line.
+Here are some examples:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>CHAPTER 1. The Old Sea-dog at the Admiral Benbow
+
+CHAPTER 2. TRAVELLING COMPANIONS.
+
+CHAPTER 3.
+
+CHAPTER IV. Little Meg&#39;s Treat to Her Children
+
+CHAPTER V.
+
+BOOK 1.
+
+BOOK II. Jessica&#39;s Mother
+</pre></div>
+</div>
+<p>Sections beginning with ‘INTRODUCTION’, ‘PREFACE’, ‘CONCLUSION’,
+‘PROLOGUE’, ‘PRELUDE’ or ‘MORAL’ are also be treated as seperate
+chapters. These do not require numbers, but do require the dot.
+Again the heading can optionaly be followed by a title; the title
+must not break onto a new line. Here are some examples:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>PREFACE.
+
+INTRODUCTION.
+
+PROLOGUE. THE OLYMPIANS
+
+MORAL.--_There is no moral to this chapter._
+</pre></div>
+</div>
+<p>In all cases there must be no space at the beginning of the line.</p>
+</li>
+<li><p><strong>Part headings</strong> are on a line before the first chapter of that part,
+in the same format (i.e. “PART” has to be followed by a Roman or Arabic
+numeral). Blank lines are allowed between the part heading and the chapter
+heading. The following example is from <cite>treasure</cite>:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>PART 2. The Sea-cook
+
+
+
+
+CHAPTER 7. I Go to Bristol
+
+IT was longer than the squire imagined ere we were ready for the sea,
+and none of our first plans--not even Dr. Livesey&#39;s, of keeping me
+</pre></div>
+</div>
+<p>In the CLiC dropdown menu, the part and chapter headings are joined together,
+i.e. this <cite>treasure</cite> chapter is shown as “PART 2. The Sea-cook CHAPTER 7. I Go to Bristol”.
+Whereas <cite>treasure</cite> contains “PART” headings in the original text that only had to
+be <a class="reference external" href="https://github.com/birmingham-ccr/corpora/commit/b3bf771a72a523554fbec011dfaf6e44d35b1ae8#diff-833d382b4e9e60c1c7f9182dd7ebd234">reformatted</a>, sometimes “PART” (and a number) has to be added
+to the existing headings in order to represent the structure of the book correctly
+in the CLiC dropdown menu. An example where the headings had to be adjusted accordingly
+is <cite>sketches</cite>. The table of contents in a <a class="reference external" href="https://archive.org/details/in.ernet.dli.2015.501383/page/n7">scanned copy of the book</a>
+illustrates its nested structure. This table of contents does not reproduce all levels;
+for example, the chapters within “CHARACTERS” and “TALES” contain a further level of chapters.
+As CLiC can only handle parts and chapters but no third level, we solved this issue by first adding
+the numbered parts to the headings (“PART 4.” in the following), joining it with the top
+chapter level (“CHAPTER I. THE BOARDING-HOUSE”) and therefore accounting for the extra chapter level (CHAPTER I.)
+on level 2:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>PART 4. TALES CHAPTER I. THE BOARDING-HOUSE
+
+
+ CHAPTER I.
+</pre></div>
+</div>
+<p>These extra levels are not very frequent in <cite>sketches</cite>, but when they occur, they are not
+necessarily numbered conventionally but e.g. “CHAPTER THE SECOND”. In that instance, we added
+only “CHAPTER” to count this as a chapter:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>The advertisement has again appeared in the morning papers.  Results must
+be reserved for another chapter.
+
+
+CHAPTER. CHAPTER THE SECOND.
+
+
+‘Well!’ said little Mrs. Tibbs to herself, as she sat in the front
+parlour of the Coram-street mansion one morning, mending a piece of
+stair-carpet off the first Landings;—‘Things have not turned out so
+badly, either, and if I only get a favourable answer to the
+advertisement, we shall be full again.’
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<div class="section" id="manual-corrections">
+<h2>Manual corrections<a class="headerlink" href="#manual-corrections" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../">clictagger</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../clictagger.taggedtext/">clictagger.taggedtext: Region-tag text</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../clictagger.script/">clictagger.script: Command line interface</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Preparing texts for CLiCTagger</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#convert-to-unix-line-endings">Convert to unix line endings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#remove-non-authorial-text">Remove non-authorial text</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#reformat-the-book-title-and-author-to-make-consistent-across-all-texts">Reformat the book title and author to make consistent across all texts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#reformat-chapter-headings-to-make-consistent-across-all-texts">Reformat chapter headings to make consistent across all texts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#manual-corrections">Manual corrections</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../clictagger.region/">clictagger.region package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../clictagger.tokenizer/">clic.tokenizer: Tokenize strings to types</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../references/">References</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../">Documentation overview</a><ul>
+      <li>Previous: <a href="../clictagger.script/" title="previous chapter">clictagger.script: Command line interface</a></li>
+      <li>Next: <a href="../clictagger.region/" title="next chapter">clictagger.region package</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search/" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2021, Michaela Mahlberg, Viola Wiegand, Jamie Lentin & Anthony Hennessey.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.5.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/text-cleaning.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
