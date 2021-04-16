@@ -1,0 +1,155 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Importing CLiCTagger CSVs into Excel &#8212; clictagger  documentation</title>
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex/" />
+    <link rel="search" title="Search" href="../search/" />
+    <link rel="next" title="clictagger.region package" href="../clictagger.region/" />
+    <link rel="prev" title="Preparing texts for CLiCTagger" href="../text-cleaning/" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="importing-clictagger-csvs-into-excel">
+<h1>Importing CLiCTagger CSVs into Excel<a class="headerlink" href="#importing-clictagger-csvs-into-excel" title="Permalink to this headline">¶</a></h1>
+<p>CLiCtagger CSVs are encoded as <a class="reference external" href="https://en.wikipedia.org/wiki/UTF-8">UTF-8</a>,
+so all characters from source texts, e.g. curly quotes, can be represented.</p>
+<p>To import these into Excel, you need to tell it to use UTF-8 when reading CSVs.
+This varies depending on the version of Excel you are using.</p>
+<div class="section" id="excel-for-windows">
+<h2>Excel for Windows<a class="headerlink" href="#excel-for-windows" title="Permalink to this headline">¶</a></h2>
+<p>You need to use <a class="reference external" href="https://support.microsoft.com/en-us/office/import-data-from-external-data-sources-power-query-be4330b3-5356-486c-a168-b68e9e616f5a">Power Query</a>:</p>
+<ol class="arabic simple">
+<li><p>Open a new Excel file</p></li>
+<li><p>Open the “Data” tab</p></li>
+<li><p>In the “Get Data” menu on the left, click on “From Text/CSV”</p></li>
+<li><p>Select a file in the explorer</p></li>
+<li><p>Click “Import”</p></li>
+<li><p>Under “File origin”, choose “65001: Unicode (UTF-8)”</p></li>
+<li><p>Under “Delimiter”, choose “Comma”</p></li>
+<li><p>Click ”Load”</p></li>
+<li><p>Save file</p></li>
+</ol>
+</div>
+<div class="section" id="excel-for-mac">
+<h2>Excel for Mac<a class="headerlink" href="#excel-for-mac" title="Permalink to this headline">¶</a></h2>
+<p>You need to use the <a class="reference external" href="https://support.microsoft.com/en-us/office/import-data-from-a-csv-html-or-text-file-b62efe49-4d5b-4429-b788-e1211b5e90f6">File / Import menu</a>:</p>
+<ol class="arabic simple">
+<li><p>Click “File”</p></li>
+<li><p>Click “Import”</p></li>
+<li><p>Choose  “CSV file”</p></li>
+<li><p>Select a file in the finder</p></li>
+<li><p>Click “Get Data”</p></li>
+<li><p>In the Text Wizard, choose “Delimited”</p></li>
+<li><p>Choose “File origin” “Unicode (UTF-8)”</p></li>
+<li><p>Click “Next”</p></li>
+<li><p>Under “Delimiters”, choose “Comma”</p></li>
+<li><p>Click “Next”</p></li>
+<li><p>Under “Column data format”, choose “General” (I think)</p></li>
+<li><p>Click “Finish”</p></li>
+<li><p>Save file</p></li>
+</ol>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../">clictagger</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../clictagger.taggedtext/">clictagger.taggedtext: Region-tag text</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../clictagger.script/">clictagger.script: Command line interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../text-cleaning/">Preparing texts for CLiCTagger</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Importing CLiCTagger CSVs into Excel</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#excel-for-windows">Excel for Windows</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#excel-for-mac">Excel for Mac</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../clictagger.region/">clictagger.region package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../clictagger.tokenizer/">clic.tokenizer: Tokenize strings to types</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../references/">References</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../">Documentation overview</a><ul>
+      <li>Previous: <a href="../text-cleaning/" title="previous chapter">Preparing texts for CLiCTagger</a></li>
+      <li>Next: <a href="../clictagger.region/" title="next chapter">clictagger.region package</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search/" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2021, Michaela Mahlberg, Viola Wiegand, Jamie Lentin & Anthony Hennessey.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.5.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/import-csv-excel.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
