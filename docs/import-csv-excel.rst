@@ -37,6 +37,6 @@ You need to use the `File / Import menu <https://support.microsoft.com/en-us/off
 8. Click "Next"
 9. Under "Delimiters", choose "Comma"
 10. Click "Next"
-11. Under "Column data format", choose "General" (I think)
+11. Under "Column data format", choose "General" (unless you require another format for further data processing)
 12. Click "Finish"
 13. Save file
