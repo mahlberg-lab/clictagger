@@ -57,3 +57,8 @@ Command line
 You should now have the ``clictagger`` command available. See ``--help`` for usage.
 
 For more examples, see the `clictagger.script <https://birmingham-ccr.github.io/clictagger/clictagger.script>`__ documentation.
+
+Acknowledgements
+================
+
+This work is released under `MIT <LICENSE.rst>`__.
