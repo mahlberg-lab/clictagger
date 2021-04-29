@@ -17,6 +17,7 @@ test: compile
 	./bin/pytest $(EGG_NAME) tests
 
 lint: lib/.requirements
+	./bin/python setup.py check -rs
 	./bin/black --diff $(EGG_NAME)/ tests/ conftest.py
 
 lint-apply: lib/.requirements

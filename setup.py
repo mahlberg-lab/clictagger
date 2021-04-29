@@ -12,6 +12,7 @@ tests_require = [
 
 setup(
     name="clictagger",
+    version="0.0.1",
     description='CLiC region tagging',
     author='Jamie Lentin',
     author_email='jamie.lentin@shuttlethread.com',
