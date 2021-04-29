@@ -45,7 +45,9 @@ Usage
 Python notebook
 ---------------
 
-See the example notebook here: https://mybinder.org/v2/gh/birmingham-ccr/clictagger/HEAD?filepath=getting_started.ipynb
+See `getting_started.ipynb <https://mybinder.org/v2/gh/birmingham-ccr/clictagger/HEAD?filepath=getting_started.ipynb>`__.
+
+To region-tag your own examples, use `file-upload.ipynb <https://mybinder.org/v2/gh/birmingham-ccr/clictagger/HEAD?filepath=file-upload.ipynb>`__
 
 Command line
 ------------
