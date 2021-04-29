@@ -7,7 +7,7 @@ Once clictagger is installed, you will have a command-line interface ``clictagge
 Basic examples
 --------------
 
-To see the contents of ``alice.txt`` with default regions coloured::
+To see the contents of ``alice.txt`` with :py:data:`default region tags <clictagger.taggedtext.DEFAULT_HIGHLIGHT_REGIONS>` coloured::
 
     clictagger alice.txt
 
@@ -19,7 +19,7 @@ Output all suspensions in ``alice.txt`` into ``alice.csv``::
 
     clictagger --csv alice.csv alice.txt quote.suspension.short quote.suspension.long
     
-Output default regions in ``alice.txt`` into ``alice.csv``::
+Output :py:data:`default region tags <clictagger.taggedtext.DEFAULT_HIGHLIGHT_REGIONS>` in ``alice.txt`` into ``alice.csv``::
 
     clictagger --csv alice.csv alice.txt
     

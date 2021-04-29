@@ -112,6 +112,12 @@ DEFAULT_HIGHLIGHT_REGIONS = [
     "quote.suspension.long",
     "chapter.title",
 ]
+"""
+The default region tags to list or display if not otherwise supplied.
+
+For example, these region tags will be outputted when running ``clictagger --csv alice.csv alice.txt``
+without specifying which region tags you want in your CSV.
+"""
 
 
 class TaggedText:
