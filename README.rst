@@ -63,4 +63,4 @@ For more examples, see the `clictagger.script <https://birmingham-ccr.github.io/
 Acknowledgements
 ================
 
-This work is released under `MIT <LICENSE.rst>`__.
+This work is released under `MIT <LICENSE>`__.
