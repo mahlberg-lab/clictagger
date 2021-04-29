@@ -3,8 +3,10 @@ CLiCTagger Region-tagging
 
 Python module to identify regions in text.
 
-![Tests](https://github.com/birmingham-ccr/clictagger/actions/workflows/ci.yml/badge.svg)
-![Documentation](https://github.com/birmingham-ccr/clictagger/actions/workflows/gh-pages.yml/badge.svg)
+|ci| |gh-pages|
+
+.. |ci| image:: https://github.com/birmingham-ccr/clictagger/actions/workflows/ci.yml/badge.svg
+.. |gh-pages| image:: https://github.com/birmingham-ccr/clictagger/actions/workflows/gh-pages.yml/badge.svg
 
 Part of the `CLiC project <https://www.birmingham.ac.uk/schools/edacs/departments/englishlanguage/research/projects/clic/index.aspx>`__
 
