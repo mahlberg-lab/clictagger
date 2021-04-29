@@ -18,6 +18,11 @@ To see the contents of ``alice.txt`` with quotes coloured::
 Output all suspensions in ``alice.txt`` into ``alice.csv``::
 
     clictagger --csv alice.csv alice.txt quote.suspension.short quote.suspension.long
+    
+Output default regions in ``alice.txt`` into ``alice.csv``::
+
+    clictagger --csv alice.csv alice.txt
+    
 
 Using clictagger as a webserver for cleaning text
 -------------------------------------------------
