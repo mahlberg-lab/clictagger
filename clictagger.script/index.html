@@ -37,7 +37,7 @@
 <p>Once clictagger is installed, you will have a command-line interface <code class="docutils literal notranslate"><span class="pre">clictagger</span></code> available.</p>
 <div class="section" id="basic-examples">
 <h2>Basic examples<a class="headerlink" href="#basic-examples" title="Permalink to this headline">¶</a></h2>
-<p>To see the contents of <code class="docutils literal notranslate"><span class="pre">alice.txt</span></code> with default regions coloured:</p>
+<p>To see the contents of <code class="docutils literal notranslate"><span class="pre">alice.txt</span></code> with <a class="reference internal" href="../clictagger.taggedtext/#clictagger.taggedtext.DEFAULT_HIGHLIGHT_REGIONS" title="clictagger.taggedtext.DEFAULT_HIGHLIGHT_REGIONS"><code class="xref py py-data docutils literal notranslate"><span class="pre">default</span> <span class="pre">region</span> <span class="pre">tags</span></code></a> coloured:</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>clictagger alice.txt
 </pre></div>
 </div>
@@ -49,7 +49,7 @@
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>clictagger --csv alice.csv alice.txt quote.suspension.short quote.suspension.long
 </pre></div>
 </div>
-<p>Output default regions in <code class="docutils literal notranslate"><span class="pre">alice.txt</span></code> into <code class="docutils literal notranslate"><span class="pre">alice.csv</span></code>:</p>
+<p>Output <a class="reference internal" href="../clictagger.taggedtext/#clictagger.taggedtext.DEFAULT_HIGHLIGHT_REGIONS" title="clictagger.taggedtext.DEFAULT_HIGHLIGHT_REGIONS"><code class="xref py py-data docutils literal notranslate"><span class="pre">default</span> <span class="pre">region</span> <span class="pre">tags</span></code></a> in <code class="docutils literal notranslate"><span class="pre">alice.txt</span></code> into <code class="docutils literal notranslate"><span class="pre">alice.csv</span></code>:</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>clictagger --csv alice.csv alice.txt
 </pre></div>
 </div>
@@ -58,7 +58,7 @@
 <h2>Using clictagger as a webserver for cleaning text<a class="headerlink" href="#using-clictagger-as-a-webserver-for-cleaning-text" title="Permalink to this headline">¶</a></h2>
 <p>For optimal use with clictagger, text needs to be cleaned up first.
 For instance, text downloaded from the Gutenberg project will have large sections of non-authorial text.
-The standard process <cite>is outlined here &lt;https://github.com/birmingham-ccr/corpora#cleaning-of-corpora-texts&gt;</cite>.</p>
+See <a class="reference internal" href="../text-cleaning/#preparing-texts-for-clictagger"><span class="std std-ref">Preparing texts for CLiCTagger</span></a> for how best to prepare text.</p>
 <p>clictagger can be used to assist this process by creating a preview of the tagged regions with the following steps, given a text file <code class="docutils literal notranslate"><span class="pre">new.txt</span></code>:</p>
 <ol class="arabic simple">
 <li><p>Open <code class="docutils literal notranslate"><span class="pre">new.txt</span></code> in a text-editor, e.g. Notepad.</p></li>

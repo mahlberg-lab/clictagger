@@ -121,6 +121,14 @@ by pretty printed by IPython using <code class="docutils literal notranslate"><s
 &lt;a download=&quot;regions.csv&quot; href=&quot;data:text/csv;base64,IlJlZ2lvbiBjbGFzcyIsIlN0YXJ0IiwiRW5kIiwiUmVnaW9uIHZhbHVlIiwiQ29udGVudCINCmNoYXB0ZXIuc2VudGVuY2UsMCw3LCIxIiwi4oCYV2VsbCHigJkiDQpjaGFwdGVyLnNlbnRlbmNlLDgsMTA5LCIyIiwidGhvdWdodCBBbGljZSB0byBoZXJzZWxmLCDigJhhZnRlciBzdWNoIGEgZmFsbCBhcyB0aGlzLCBJIHNoYWxsIHRoaW5rIG5vdGhpbmcgb2YgdHVtYmxpbmcgZG93biBzdGFpcnMh4oCZIg0KcXVvdGUucXVvdGUsMCw3LCIiLCLigJhXZWxsIeKAmSINCnF1b3RlLnF1b3RlLDM0LDEwOSwiIiwi4oCYYWZ0ZXIgc3VjaCBhIGZhbGwgYXMgdGhpcywgSSBzaGFsbCB0aGluayBub3RoaW5nIG9mIHR1bWJsaW5nIGRvd24gc3RhaXJzIeKAmSINCnF1b3RlLnN1c3BlbnNpb24uc2hvcnQsOCwzMywiIiwidGhvdWdodCBBbGljZSB0byBoZXJzZWxmLCINCg==&quot; target=&quot;_blank&quot;&gt;Download regions.csv&lt;/a&gt;
 </pre></div>
 </div>
+<dl class="py data">
+<dt id="clictagger.taggedtext.DEFAULT_HIGHLIGHT_REGIONS">
+<code class="sig-prename descclassname"><span class="pre">clictagger.taggedtext.</span></code><code class="sig-name descname"><span class="pre">DEFAULT_HIGHLIGHT_REGIONS</span></code><em class="property"> <span class="pre">=</span> <span class="pre">['metadata.title',</span> <span class="pre">'metadata.author',</span> <span class="pre">'chapter.sentence',</span> <span class="pre">'quote.quote',</span> <span class="pre">'quote.suspension.short',</span> <span class="pre">'quote.suspension.long',</span> <span class="pre">'chapter.title']</span></em><a class="headerlink" href="#clictagger.taggedtext.DEFAULT_HIGHLIGHT_REGIONS" title="Permalink to this definition">¶</a></dt>
+<dd><p>The default region tags to list or display if not otherwise supplied.</p>
+<p>For example, these region tags will be outputted when running <code class="docutils literal notranslate"><span class="pre">clictagger</span> <span class="pre">--csv</span> <span class="pre">alice.csv</span> <span class="pre">alice.txt</span></code>
+without specifying which region tags you want in your CSV.</p>
+</dd></dl>
+
 <dl class="py class">
 <dt id="clictagger.taggedtext.TaggedText">
 <em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">clictagger.taggedtext.</span></code><code class="sig-name descname"><span class="pre">TaggedText</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">content</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clictagger.taggedtext.TaggedText" title="Permalink to this definition">¶</a></dt>
