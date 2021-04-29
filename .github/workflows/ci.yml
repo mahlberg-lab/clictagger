@@ -1,4 +1,4 @@
-name: Test / lint
+name: Unit tests
 on:
   push:
      branches:
