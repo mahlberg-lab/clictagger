@@ -29,7 +29,7 @@ Using clictagger as a webserver for cleaning text
 
 For optimal use with clictagger, text needs to be cleaned up first.
 For instance, text downloaded from the Gutenberg project will have large sections of non-authorial text.
-The standard process `is outlined here <https://github.com/birmingham-ccr/corpora#cleaning-of-corpora-texts>`.
+See :ref:`Preparing texts for CLiCTagger` for how best to prepare text.
 
 clictagger can be used to assist this process by creating a preview of the tagged regions with the following steps, given a text file ``new.txt``:
 
