@@ -6,23 +6,30 @@ Any texts added to the `corpora repository <https://github.com/birmingham-ccr/co
 
 To clean texts so they are ready for use with CLiCTagger, the following steps need to be followed.
 
-1. `Convert to unix line endings`_.
+1. `Save as/convert to UTF-8 and use typographical ('curly') quote marks`_.
 
-2. `Remove non-authorial text`_.
+2. `Convert to unix line endings`_.
 
-3. `Reformat the book title and author to make consistent across all texts`_.
+3. `Remove non-authorial text`_.
 
-4. `Reformat chapter headings to make consistent across all texts`_.
+4. `Reformat the book title and author to make consistent across all texts`_.
 
-5. `Manual corrections`_.
+5. `Reformat chapter headings to make consistent across all texts`_.
+
+6. `Manual corrections`_.
 
 If committing to the corpora repository, each editing stage is committed and clearly documented with a commit message.
 Accordingly, it is possible to see the history of a single file, see for example the `history of willows.txt <https://github.com/birmingham-ccr/corpora/commits/master/ChiLit/willows.txt>`__.
 
+Save as/convert to UTF-8 and use typographical ('curly') quote marks
+-----------------------------------------------------------------------
+
+The CLiC Tagger expects files in UTF-8. Ideally, typographical ('curly') quote marks should be used to avoid confusion between quote marks and apostrophes.
+
 Convert to unix line endings
 ----------------------------
 
-Step [1] is achieved using the following command::
+Step [2] is achieved using the following command::
 
      for f in ChiLit/*.txt; do dos2unix -m $f; done 
 
@@ -223,4 +230,3 @@ Reformat chapter headings to make consistent across all texts
 
 Manual corrections
 ------------------
-

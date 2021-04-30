@@ -38,6 +38,7 @@
 Any texts added to the <a class="reference external" href="https://github.com/birmingham-ccr/corpora">corpora repository</a> should follow this process.</p>
 <p>To clean texts so they are ready for use with CLiCTagger, the following steps need to be followed.</p>
 <ol class="arabic simple">
+<li><p><a class="reference internal" href="#save-as-convert-to-utf-8-and-use-typographical-curly-quote-marks">Save as/convert to UTF-8 and use typographical (‘curly’) quote marks</a>.</p></li>
 <li><p><a class="reference internal" href="#convert-to-unix-line-endings">Convert to unix line endings</a>.</p></li>
 <li><p><a class="reference internal" href="#remove-non-authorial-text">Remove non-authorial text</a>.</p></li>
 <li><p><a class="reference internal" href="#reformat-the-book-title-and-author-to-make-consistent-across-all-texts">Reformat the book title and author to make consistent across all texts</a>.</p></li>
@@ -46,9 +47,13 @@ Any texts added to the <a class="reference external" href="https://github.com/bi
 </ol>
 <p>If committing to the corpora repository, each editing stage is committed and clearly documented with a commit message.
 Accordingly, it is possible to see the history of a single file, see for example the <a class="reference external" href="https://github.com/birmingham-ccr/corpora/commits/master/ChiLit/willows.txt">history of willows.txt</a>.</p>
+<div class="section" id="save-as-convert-to-utf-8-and-use-typographical-curly-quote-marks">
+<h2>Save as/convert to UTF-8 and use typographical (‘curly’) quote marks<a class="headerlink" href="#save-as-convert-to-utf-8-and-use-typographical-curly-quote-marks" title="Permalink to this headline">¶</a></h2>
+<p>The CLiC Tagger expects files in UTF-8. Ideally, typographical (‘curly’) quote marks should be used to avoid confusion between quote marks and apostrophes.</p>
+</div>
 <div class="section" id="convert-to-unix-line-endings">
 <h2>Convert to unix line endings<a class="headerlink" href="#convert-to-unix-line-endings" title="Permalink to this headline">¶</a></h2>
-<p>Step [1] is achieved using the following command:</p>
+<p>Step [2] is achieved using the following command:</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>for f in ChiLit/*.txt; do dos2unix -m $f; done
 </pre></div>
 </div>
@@ -280,6 +285,7 @@ advertisement, we shall be full again.’
 <li class="toctree-l1"><a class="reference internal" href="../clictagger.taggedtext/">clictagger.taggedtext: Region-tag text</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../clictagger.script/">clictagger.script: Command line interface</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Preparing texts for CLiCTagger</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#save-as-convert-to-utf-8-and-use-typographical-curly-quote-marks">Save as/convert to UTF-8 and use typographical (‘curly’) quote marks</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#convert-to-unix-line-endings">Convert to unix line endings</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#remove-non-authorial-text">Remove non-authorial text</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#reformat-the-book-title-and-author-to-make-consistent-across-all-texts">Reformat the book title and author to make consistent across all texts</a></li>
