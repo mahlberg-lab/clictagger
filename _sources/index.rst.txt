@@ -7,6 +7,7 @@ CLiCTagger Region-tagging
    clictagger.taggedtext
    clictagger.script
    text-cleaning.rst
+   python-notebooks.rst
    import-csv-excel.rst
    clictagger.region
    clictagger.tokenizer
