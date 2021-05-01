@@ -23,7 +23,11 @@ Output :py:data:`default region tags <clictagger.taggedtext.DEFAULT_HIGHLIGHT_RE
 
     clictagger --csv alice.csv alice.txt
 
-To tag all text files in the current directory at once (tested on MacOS)::
+On Windows, to tag all text files in the current directory at once::
+
+    for %f in (*.txt) do (clictagger --csv %f.csv %f)
+
+On MacOs, to tag all text files in the current directory at once::
 
     for f in *.txt ; do clictagger --csv $f.csv $f; done
 
