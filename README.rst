@@ -34,7 +34,7 @@ Under either you can install clictagger via. `Anaconda <https://docs.conda.io/pr
 2. Download `environment-windows.yml <https://github.com/birmingham-ccr/clictagger/raw/HEAD/environment-windows.yml>`__
    if running windows, `environment.yml <https://github.com/birmingham-ccr/clictagger/raw/HEAD/environment.yml>`__ otherwise.
 3. Start an `Anaconda prompt <https://docs.conda.io/projects/conda/en/latest/user-guide/getting-started.html>`__
-4. Run ``conda env create -f environment.yml``
+4. On windows, run ``conda env create -f environment-windows.yml``, otherwise run ``conda env create -f environment.yml``
 5. ``conda activate clictagger``
 
 You can now use ``clictagger``.
