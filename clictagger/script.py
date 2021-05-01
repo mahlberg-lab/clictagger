@@ -22,7 +22,12 @@ Output all suspensions in ``alice.txt`` into ``alice.csv``::
 Output :py:data:`default region tags <clictagger.taggedtext.DEFAULT_HIGHLIGHT_REGIONS>` in ``alice.txt`` into ``alice.csv``::
 
     clictagger --csv alice.csv alice.txt
-    
+
+To tag all text files in the current directory at once (tested on MacOS)::
+    for f in *.txt ; do clictagger --csv $f.csv $f; done
+
+If the previous step does not work for you on Linux, to tag all text files in the current directory at once, try the following::
+    for f in *.txt ; do ./bin/clictagger --csv $f.csv $f; done
 
 Using clictagger as a webserver for cleaning text
 -------------------------------------------------
