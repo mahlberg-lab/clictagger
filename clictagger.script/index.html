@@ -53,7 +53,11 @@
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>clictagger --csv alice.csv alice.txt
 </pre></div>
 </div>
-<p>To tag all text files in the current directory at once (tested on MacOS):</p>
+<p>On Windows, to tag all text files in the current directory at once:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>for %f in (*.txt) do (clictagger --csv %f.csv %f)
+</pre></div>
+</div>
+<p>On MacOs, to tag all text files in the current directory at once:</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>for f in *.txt ; do clictagger --csv $f.csv $f; done
 </pre></div>
 </div>
