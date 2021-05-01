@@ -53,6 +53,12 @@
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>clictagger --csv alice.csv alice.txt
 </pre></div>
 </div>
+<dl class="simple">
+<dt>To tag all text files in the current directory at once (tested on MacOS)::</dt><dd><p>for f in <a href="#id1"><span class="problematic" id="id2">*</span></a>.txt ; do clictagger –csv $f.csv $f; done</p>
+</dd>
+<dt>If the previous step does not work for you on Linux, to tag all text files in the current directory at once, try the following::</dt><dd><p>for f in <a href="#id3"><span class="problematic" id="id4">*</span></a>.txt ; do ./bin/clictagger –csv $f.csv $f; done</p>
+</dd>
+</dl>
 </div>
 <div class="section" id="using-clictagger-as-a-webserver-for-cleaning-text">
 <h2>Using clictagger as a webserver for cleaning text<a class="headerlink" href="#using-clictagger-as-a-webserver-for-cleaning-text" title="Permalink to this headline">¶</a></h2>
