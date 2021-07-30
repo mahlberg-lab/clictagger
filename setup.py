@@ -23,6 +23,7 @@ setup(
     version="0.0.1",
     description='CLiC region tagging',
     long_description=read('README.rst') + '\n\n' + read('CHANGES.rst'),
+    long_description_content_type='text/x-rst',
     classifiers=[
         # https://pypi.org/classifiers/
         'License :: OSI Approved :: MIT License',

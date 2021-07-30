@@ -1,6 +1,7 @@
 black
 coverage
 wheel
+twine
 sphinx
 -e .
 -e .[testing]
