@@ -3,5 +3,6 @@ coverage
 wheel
 twine
 sphinx
+zest.releaser
 -e .
 -e .[testing]

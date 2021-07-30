@@ -40,4 +40,7 @@ serve-docs: bin/pip
 	 make -C docs clean dirhtml SPHINXBUILD=../bin/sphinx-build
 	 ./bin/python3 -m http.server -d docs/_build/dirhtml
 
-.PHONY: compile test lint lint-apply coverage notebook
+release: test lint
+	./bin/fullrelease
+
+.PHONY: compile test lint lint-apply coverage notebook release
