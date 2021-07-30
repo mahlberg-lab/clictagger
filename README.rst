@@ -60,6 +60,18 @@ You should now have the ``clictagger`` command available. See ``--help`` for usa
 
 For more examples, see the `clictagger.script <https://mahlberg-lab.github.io/clictagger/clictagger.script>`__ documentation.
 
+Development
+===========
+
+There is a Makefile that will setup and perform common development actions, in
+a venv. Once code is checked out you can run::
+
+    make test  # Run all tests
+    make lint  # Check code formatting
+    make coverage  # Check unit-test coverage
+    make notebook  # Install and serve a Jupyter notebook session
+    make release  # Use zest.releaser to make a new release
+
 Acknowledgements
 ================
 
