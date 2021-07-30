@@ -4,11 +4,12 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
     <title>clic.region.chapter: Tag chapter.* regions &#8212; clictagger  documentation</title>
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
-    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
@@ -32,14 +33,14 @@
 
           <div class="body" role="main">
             
-  <span class="target" id="module-clictagger.region.chapter"></span><div class="section" id="clic-region-chapter-tag-chapter-regions">
+  <span class="target" id="module-clictagger.region.chapter"></span><section id="clic-region-chapter-tag-chapter-regions">
 <h1>clic.region.chapter: Tag chapter.* regions<a class="headerlink" href="#clic-region-chapter-tag-chapter-regions" title="Permalink to this headline">¶</a></h1>
 <p>Add chapter.* tags to regions.</p>
 <p>Chapter tagging depends on metadata region tags:</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt; from .metadata import tagger_metadata
 </pre></div>
 </div>
-<div class="section" id="chapter-title-chapter-text-regions">
+<section id="chapter-title-chapter-text-regions">
 <h2>chapter.title / chapter.text regions<a class="headerlink" href="#chapter-title-chapter-text-regions" title="Permalink to this headline">¶</a></h2>
 <p>Any chapter conforming to the definition in corpora gets detected, and the text
 afterwards will be marked as chapter.text:</p>
@@ -133,8 +134,8 @@ afterwards will be marked as chapter.text:</p>
 <span class="go"> (&#39;chapter.sentence&#39;, 299, 305, 5, &#39;Fifth!&#39;)]</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="chapter-part-regions">
+</section>
+<section id="chapter-part-regions">
 <h2>chapter.part regions<a class="headerlink" href="#chapter-part-regions" title="Permalink to this headline">¶</a></h2>
 <p>Chapters can be interleaved with “PART x.” or “BOOK x.” headings, these will
 marked a “chapter.part”. They don’t influence chapter counts, but aren’t part
@@ -172,8 +173,8 @@ of chapter.text. For example:</p>
  (&#39;chapter.text&#39;, 279, 351, 3, &#39;First chapter. Note ...n from previous book&#39;)]
 </pre></div>
 </div>
-</div>
-<div class="section" id="chapter-paragraph-chapter-sentence-regions">
+</section>
+<section id="chapter-paragraph-chapter-sentence-regions">
 <h2>chapter.paragraph / chapter.sentence regions<a class="headerlink" href="#chapter-paragraph-chapter-sentence-regions" title="Permalink to this headline">¶</a></h2>
 <p>All <code class="docutils literal notranslate"><span class="pre">chapter.text</span></code> is broken up into <code class="docutils literal notranslate"><span class="pre">chapter.paragraph</span></code>, paragraph
 boundaries are defined as a sequence of 2 newlines within chapter text (i.e. a
@@ -239,43 +240,43 @@ break anyway. We also don’t break on “Mr. Oliver”:</p>
 </pre></div>
 </div>
 <dl class="py function">
-<dt id="clictagger.region.chapter.tagger_chapter">
-<code class="sig-prename descclassname"><span class="pre">clictagger.region.chapter.</span></code><code class="sig-name descname"><span class="pre">tagger_chapter</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">book</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clictagger.region.chapter.tagger_chapter" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="clictagger.region.chapter.tagger_chapter">
+<span class="sig-prename descclassname"><span class="pre">clictagger.region.chapter.</span></span><span class="sig-name descname"><span class="pre">tagger_chapter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">book</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clictagger.region.chapter.tagger_chapter" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add chapter.* tags to (book)</p>
 </dd></dl>
 
 <dl class="py function">
-<dt id="clictagger.region.chapter.tagger_chapter_paragraph">
-<code class="sig-prename descclassname"><span class="pre">clictagger.region.chapter.</span></code><code class="sig-name descname"><span class="pre">tagger_chapter_paragraph</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">book</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clictagger.region.chapter.tagger_chapter_paragraph" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="clictagger.region.chapter.tagger_chapter_paragraph">
+<span class="sig-prename descclassname"><span class="pre">clictagger.region.chapter.</span></span><span class="sig-name descname"><span class="pre">tagger_chapter_paragraph</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">book</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clictagger.region.chapter.tagger_chapter_paragraph" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add chapter.paragraph tags to (book)</p>
 </dd></dl>
 
 <dl class="py function">
-<dt id="clictagger.region.chapter.tagger_chapter_part">
-<code class="sig-prename descclassname"><span class="pre">clictagger.region.chapter.</span></code><code class="sig-name descname"><span class="pre">tagger_chapter_part</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">book</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clictagger.region.chapter.tagger_chapter_part" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="clictagger.region.chapter.tagger_chapter_part">
+<span class="sig-prename descclassname"><span class="pre">clictagger.region.chapter.</span></span><span class="sig-name descname"><span class="pre">tagger_chapter_part</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">book</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clictagger.region.chapter.tagger_chapter_part" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add chapter.part tags to (book)</p>
 </dd></dl>
 
 <dl class="py function">
-<dt id="clictagger.region.chapter.tagger_chapter_sentence">
-<code class="sig-prename descclassname"><span class="pre">clictagger.region.chapter.</span></code><code class="sig-name descname"><span class="pre">tagger_chapter_sentence</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">book</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clictagger.region.chapter.tagger_chapter_sentence" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="clictagger.region.chapter.tagger_chapter_sentence">
+<span class="sig-prename descclassname"><span class="pre">clictagger.region.chapter.</span></span><span class="sig-name descname"><span class="pre">tagger_chapter_sentence</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">book</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clictagger.region.chapter.tagger_chapter_sentence" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add chapter.sentence tags to (book)</p>
 </dd></dl>
 
 <dl class="py function">
-<dt id="clictagger.region.chapter.tagger_chapter_text">
-<code class="sig-prename descclassname"><span class="pre">clictagger.region.chapter.</span></code><code class="sig-name descname"><span class="pre">tagger_chapter_text</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">book</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clictagger.region.chapter.tagger_chapter_text" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="clictagger.region.chapter.tagger_chapter_text">
+<span class="sig-prename descclassname"><span class="pre">clictagger.region.chapter.</span></span><span class="sig-name descname"><span class="pre">tagger_chapter_text</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">book</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clictagger.region.chapter.tagger_chapter_text" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add chapter.text tags to (book)</p>
 </dd></dl>
 
 <dl class="py function">
-<dt id="clictagger.region.chapter.tagger_chapter_title">
-<code class="sig-prename descclassname"><span class="pre">clictagger.region.chapter.</span></code><code class="sig-name descname"><span class="pre">tagger_chapter_title</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">book</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clictagger.region.chapter.tagger_chapter_title" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="clictagger.region.chapter.tagger_chapter_title">
+<span class="sig-prename descclassname"><span class="pre">clictagger.region.chapter.</span></span><span class="sig-name descname"><span class="pre">tagger_chapter_title</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">book</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clictagger.region.chapter.tagger_chapter_title" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add chapter.title tags to (book)</p>
 </dd></dl>
 
-</div>
-</div>
+</section>
+</section>
 
 
           </div>
@@ -330,7 +331,7 @@ break anyway. We also don’t break on “Mr. Oliver”:</p>
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search/" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
       <input type="submit" value="Go" />
     </form>
     </div>
@@ -352,7 +353,7 @@ break anyway. We also don’t break on “Mr. Oliver”:</p>
       &copy;2021, Michaela Mahlberg, Viola Wiegand, Jamie Lentin & Anthony Hennessey.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.5.4</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.1.2</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |
