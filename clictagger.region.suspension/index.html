@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>clic.region.suspension: Tag quote.suspension.* regions &#8212; clictagger  documentation</title>
+    <title>&lt;no title&gt; &#8212; clictagger  documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
@@ -15,8 +15,8 @@
     <script src="../_static/doctools.js"></script>
     <link rel="index" title="Index" href="../genindex/" />
     <link rel="search" title="Search" href="../search/" />
-    <link rel="next" title="clic.region.tag: Tag a book with all region taggers" href="../clictagger.region.tag/" />
-    <link rel="prev" title="clic.region.quote: Tag quote.* regions" href="../clictagger.region.quote/" />
+    <link rel="next" title="&lt;no title&gt;" href="../clictagger.region.tag/" />
+    <link rel="prev" title="&lt;no title&gt;" href="../clictagger.region.quote/" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
   
@@ -33,195 +33,7 @@
 
           <div class="body" role="main">
             
-  <span class="target" id="module-clictagger.region.suspension"></span><section id="clic-region-suspension-tag-quote-suspension-regions">
-<h1>clic.region.suspension: Tag quote.suspension.* regions<a class="headerlink" href="#clic-region-suspension-tag-quote-suspension-regions" title="Permalink to this headline">¶</a></h1>
-<p>We need paragraph/quote regions before we can do quote tagging:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt; from .chapter import tagger_chapter
-&gt;&gt;&gt; from .metadata import tagger_metadata
-&gt;&gt;&gt; from .quote import tagger_quote
-</pre></div>
-</div>
-<section id="quote-suspension-regions">
-<h2>quote.suspension regions<a class="headerlink" href="#quote-suspension-regions" title="Permalink to this headline">¶</a></h2>
-<p>A suspension is <code class="docutils literal notranslate"><span class="pre">quote.nonquote</span></code> (see <code class="xref py py-mod docutils literal notranslate"><span class="pre">clic.region.quote</span></code>) region that…</p>
-<ul class="simple">
-<li><p>Has at least one word</p></li>
-<li><p>Does not start at a <code class="docutils literal notranslate"><span class="pre">chapter.paragraph</span></code> start.</p></li>
-<li><p>Does not contain the end of a <code class="docutils literal notranslate"><span class="pre">chapter.sentence</span></code> region.</p></li>
-<li><p>Either does not start at a <code class="docutils literal notranslate"><span class="pre">chapter.sentence</span></code> start, or the first letter of the region is lower-case.</p></li>
-</ul>
-<p>This implies that all suspensions are between 2 quote regions. If not, either…</p>
-<ul>
-<li><p>They are at the start of a chapter, thus the start of a paragraph. From <code class="docutils literal notranslate"><span class="pre">ChiLit/stalky.txt</span></code>:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt; [x for x in run_tagger(&#39;&#39;&#39;
-... The black gown tore past like a thunder-storm, and in its wake, three
-... abreast, arms linked, the Aladdin company rolled up the big corridor to
-... prayers, singing with most innocent intention:
-...
-... CHAPTER 3. AN UNSAVORY INTERLUDE.
-...
-... It was a maiden aunt of Stalky who sent him both books, with the
-... inscription, “To dearest Artie, on his sixteenth birthday;” it was
-... McTurk who ordered their hypothecation.
-... &#39;&#39;&#39;.strip(), tagger_chapter, tagger_quote, tagger_quote_suspension) if x[0].startswith(&#39;quote.&#39;) or x[0] == &#39;chapter.title&#39;]
-[(&#39;quote.nonquote&#39;, 0, 188, None, &#39;The black gown tore ... innocent intention:&#39;),
- (&#39;chapter.title&#39;, 190, 223, 1, &#39;CHAPTER 3. AN UNSAVORY INTERLUDE.&#39;),
- (&#39;quote.nonquote&#39;, 225, 302, None, &#39;It was a maiden aunt...ith the\ninscription,&#39;),
- (&#39;quote.quote&#39;, 303, 349, None, &#39;“To dearest Artie, o...sixteenth birthday;”&#39;),
- (&#39;quote.nonquote&#39;, 350, 396, None, &#39;it was\nMcTurk who or...their hypothecation.&#39;)]
-</pre></div>
-</div>
-</li>
-<li><p>They are at the end of a chapter, thus contain the end of a sentence. From <code class="docutils literal notranslate"><span class="pre">ChiLit/daisy.txt</span></code>:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt; [x for x in run_tagger(&#39;&#39;&#39;
-... “Faithful in a little--” said Ethel. “I suppose all good people’s
-... standard is always going higher.”
-...
-... “As they comprehend more of absolute perfection,” said Margaret.
-...
-...
-... CHAPTER XV.
-... &#39;&#39;&#39;.strip(), tagger_chapter, tagger_quote, tagger_quote_suspension) if x[0].startswith(&#39;quote.&#39;)]
-[(&#39;quote.quote&#39;, 0, 24, None, &#39;“Faithful in a little--”&#39;),
- (&#39;quote.nonquote&#39;, 25, 36, None, &#39;said Ethel.&#39;),
- (&#39;quote.suspension.short&#39;, 25, 36, None, &#39;said Ethel.&#39;),
- (&#39;quote.quote&#39;, 37, 99, None, &#39;“I suppose all good ...lways going higher.”&#39;),
- (&#39;quote.quote&#39;, 101, 150, None, &#39;“As they comprehend ...bsolute perfection,”&#39;),
- (&#39;quote.nonquote&#39;, 151, 165, None, &#39;said Margaret.&#39;)]
-</pre></div>
-</div>
-</li>
-</ul>
-<p>If the non-quote region starts a new sentence, we also make sure that it does
-not start with an upper case letter. Thus the preceding quote can still end
-with exclamation mark, or other sentence-final punctuation, but the non-quote
-region will still be considered a suspension. From <code class="docutils literal notranslate"><span class="pre">ChiLit/daisy.txt</span></code>:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt; [x for x in run_tagger(&#39;&#39;&#39;
-... “My dear Miss Flora!” began Miss Rich, adhering to her as they parted
-... with the rest at the end of the street, “how am I to write to a
-... principal? Am I to begin Reverend Sir, or My Lord, or is he Venerable,
-... like an archdeacon? What is his name, and what am I to say?”
-... &#39;&#39;&#39;.strip(), tagger_chapter, tagger_quote, tagger_quote_suspension) if x[0].startswith(&#39;quote.&#39;)]
-[(&#39;quote.quote&#39;, 0, 21, None, &#39;“My dear Miss Flora!”&#39;),
- (&#39;quote.nonquote&#39;, 22, 109, None, &#39;began Miss Rich, adh...e end of the street,&#39;),
- (&#39;quote.suspension.long&#39;, 22, 109, None, &#39;began Miss Rich, adh...e end of the street,&#39;),
- (&#39;quote.quote&#39;, 110, 265, None, &#39;“how am I to write t...d what am I to say?”&#39;)]
-</pre></div>
-</div>
-<p>…and…</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">run_tagger</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
-<span class="gp">... </span><span class="s1">“Oh, thank you!” and, “How she will like it!”</span>
-<span class="gp">... </span><span class="s1">&#39;&#39;&#39;</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span> <span class="n">tagger_chapter</span><span class="p">,</span> <span class="n">tagger_quote</span><span class="p">,</span> <span class="n">tagger_quote_suspension</span><span class="p">)</span> <span class="k">if</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;quote.&#39;</span><span class="p">)]</span>
-<span class="go">[(&#39;quote.quote&#39;, 0, 16, None, &#39;“Oh, thank you!”&#39;),</span>
-<span class="go"> (&#39;quote.nonquote&#39;, 17, 21, None, &#39;and,&#39;),</span>
-<span class="go"> (&#39;quote.suspension.short&#39;, 17, 21, None, &#39;and,&#39;),</span>
-<span class="go"> (&#39;quote.quote&#39;, 22, 45, None, &#39;“How she will like it!”&#39;)]</span>
-</pre></div>
-</div>
-<p>Conversely, the following doesn’t count as it starts with a capital Y. From
-<code class="docutils literal notranslate"><span class="pre">ChiLit/daisy.txt</span></code>:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt; [x for x in run_tagger(&#39;&#39;&#39;
-... sorrowfully moralising and making excuses. “People in former times had
-... not so high an estimate of pastoral duty--poor Mr. Ramsden had not much
-... education--he was already old when better times came in--he might have
-... done better in a less difficult parish with better laity to support him,
-... etc.” Yet after all, he exclaimed with one of his impatient gestures,
-... “Better have my Harry’s seventeen years than his sixty-seven!”
-... &#39;&#39;&#39;.strip(), tagger_chapter, tagger_quote, tagger_quote_suspension) if x[0].startswith(&#39;quote.&#39;)]
-[(&#39;quote.nonquote&#39;, 0, 42, None, &#39;sorrowfully moralisi... and making excuses.&#39;),
- (&#39;quote.quote&#39;, 43, 292, None, &#39;“People in former ti...o support him,\netc.”&#39;),
- (&#39;quote.nonquote&#39;, 293, 356, None, &#39;Yet after all, he ex... impatient gestures,&#39;),
- (&#39;quote.quote&#39;, 357, 419, None, &#39;“Better have my Harr...an his sixty-seven!”&#39;)]
-</pre></div>
-</div>
-<p>Due to the condition of starting with lower case, suspensions will not be
-detected if they start with a name. The following do not count as suspensions.
-From <code class="docutils literal notranslate"><span class="pre">ChiLit/alice.txt</span></code>:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt; [x for x in run_tagger(&#39;&#39;&#39;
-... ‘No, please go on!’ Alice said very humbly; ‘I won’t interrupt again. I
-... dare say there may be ONE.’
-... &#39;&#39;&#39;.strip(), tagger_chapter, tagger_quote, tagger_quote_suspension) if x[0].startswith(&#39;quote.&#39;)]
-[(&#39;quote.quote&#39;, 0, 19, None, &#39;‘No, please go on!’&#39;),
- (&#39;quote.nonquote&#39;, 20, 43, None, &#39;Alice said very humbly;&#39;),
- (&#39;quote.quote&#39;, 44, 99, None, &#39;‘I won’t interrupt a...y there may be ONE.’&#39;)]
-
-&gt;&gt;&gt; [x for x in run_tagger(&#39;&#39;&#39;
-... ‘O Mouse, do you know the way out of this pool? I am very tired
-... of swimming about here, O Mouse!’ (Alice thought this must be the right
-... way of speaking to a mouse: she had never done such a thing before, but
-... she remembered having seen in her brother’s Latin Grammar, ‘A mouse--of
-... a mouse--to a mouse--a mouse--O mouse!’)
-... &#39;&#39;&#39;.strip(), tagger_chapter, tagger_quote, tagger_quote_suspension) if x[0].startswith(&#39;quote.&#39;)]
-[(&#39;quote.quote&#39;, 0, 97, None, &#39;‘O Mouse, do you kno...bout here, O Mouse!’&#39;),
- (&#39;quote.nonquote&#39;, 98, 266, None, &#39;(Alice thought this ...her’s Latin Grammar,&#39;),
- (&#39;quote.quote&#39;, 267, 319, None, &#39;‘A mouse--of\na mouse...--a mouse--O mouse!’&#39;),
- (&#39;quote.nonquote&#39;, 319, 320, None, &#39;)&#39;)]
-</pre></div>
-</div>
-<p>…but if the non-quote region doesn’t start a new sentence, then this is not a
-problem. From <code class="docutils literal notranslate"><span class="pre">ChiLit/winning.txt</span></code>:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt; [x for x in run_tagger(&#39;&#39;&#39;
-... &quot;No, no, Cousin Cnut,&quot; Cuthbert said, &quot;thou canst not say that I have
-... ever broken the forest laws, though I have looked on often and often,
-... whilst you have done so.&quot;
-... &#39;&#39;&#39;.strip(), tagger_chapter, tagger_quote, tagger_quote_suspension) if x[0].startswith(&#39;quote.&#39;)]
-[(&#39;quote.quote&#39;, 0, 22, None, &#39;&quot;No, no, Cousin Cnut,&quot;&#39;),
- (&#39;quote.nonquote&#39;, 23, 37, None, &#39;Cuthbert said,&#39;),
- (&#39;quote.suspension.short&#39;, 23, 37, None, &#39;Cuthbert said,&#39;),
- (&#39;quote.quote&#39;, 38, 165, None, &#39;&quot;thou canst not say ...t you have done so.&quot;&#39;)]
-</pre></div>
-</div>
-<p>If it is longer than 5 words, then it is a long suspension. For example:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt; [x for x in run_tagger(&#39;&#39;&#39;
-... “And on what evidence, Pip,” asked Mr. Jaggers, very coolly, as he
-... paused with his handkerchief half way to his nose, “does Provis make this
-... claim?”
-...
-... “He does not make it,” said I, “and has never made it, and has no knowledge
-... or belief that his daughter is in existence.”
-...
-... ‘And this is Schloss Adlerstein?’ she exclaimed.
-... &#39;&#39;&#39;.strip(), tagger_chapter, tagger_quote, tagger_quote_suspension) if x[0].startswith(&#39;quote.&#39;)]
-[(&#39;quote.quote&#39;, 0, 28, None, &#39;“And on what evidence, Pip,”&#39;),
- (&#39;quote.nonquote&#39;, 29, 117, None, &#39;asked Mr. Jaggers, v...alf way to his nose,&#39;),
- (&#39;quote.suspension.long&#39;, 29, 117, None, &#39;asked Mr. Jaggers, v...alf way to his nose,&#39;),
- (&#39;quote.quote&#39;, 118, 148, None, &#39;“does Provis make this\nclaim?”&#39;),
- (&#39;quote.quote&#39;, 150, 172, None, &#39;“He does not make it,”&#39;),
- (&#39;quote.nonquote&#39;, 173, 180, None, &#39;said I,&#39;),
- (&#39;quote.suspension.short&#39;, 173, 180, None, &#39;said I,&#39;),
- (&#39;quote.quote&#39;, 181, 271, None, &#39;“and has never made ...er is in existence.”&#39;),
- (&#39;quote.quote&#39;, 273, 306, None, &#39;‘And this is Schloss Adlerstein?’&#39;),
- (&#39;quote.nonquote&#39;, 307, 321, None, &#39;she exclaimed.&#39;)]
-
-Please clarify what happens with &quot;suspensions&quot; that do not contain any text, will they be dropped by the lower case rule (they should not be suspensions. but there aren&#39;t many of them and they&#39;re caused by special typesetting so we can live with them if need be).
-</pre></div>
-</div>
-<p>But there has to be at least one word. Pure punctuation will not count as a
-suspension. From <code class="docutils literal notranslate"><span class="pre">ChiLit/daisy.txt</span></code>:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt; [x for x in run_tagger(&#39;&#39;&#39;
-... “I found her far better instructed than her appearance had led
-... me to expect, and more truly impressed with the spirit of what she had
-... learned than it has often been my lot to find children. She was perfect
-... in the New Testament history”--(“Ah! that she was not, when she went
-... away!”)--“and was in the habit of constantly attending church, and using
-... morning and evening prayers.”
-... &#39;&#39;&#39;.strip(), tagger_chapter, tagger_quote, tagger_quote_suspension) if x[0].startswith(&#39;quote.&#39;)]
-[(&#39;quote.quote&#39;, 0, 235, None, &#39;“I found her far bet...w Testament history”&#39;),
- (&#39;quote.nonquote&#39;, 235, 238, None, &#39;--(&#39;),
- (&#39;quote.quote&#39;, 238, 281, None, &#39;“Ah! that she was no...when she went\naway!”&#39;),
- (&#39;quote.nonquote&#39;, 281, 284, None, &#39;)--&#39;),
- (&#39;quote.quote&#39;, 284, 377, None, &#39;“and was in the habi...nd evening prayers.”&#39;)]
-</pre></div>
-</div>
-<dl class="py function">
-<dt class="sig sig-object py" id="clictagger.region.suspension.tagger_quote_suspension">
-<span class="sig-prename descclassname"><span class="pre">clictagger.region.suspension.</span></span><span class="sig-name descname"><span class="pre">tagger_quote_suspension</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">book</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clictagger.region.suspension.tagger_quote_suspension" title="Permalink to this definition">¶</a></dt>
-<dd><p>Add quote.suspension tags to (book)</p>
-</dd></dl>
-
-</section>
-</section>
-
+  
 
           </div>
           
@@ -239,24 +51,11 @@ suspension. From <code class="docutils literal notranslate"><span class="pre">Ch
 
 
 <h3>Navigation</h3>
-<ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../clictagger.taggedtext/">clictagger.taggedtext: Region-tag text</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../clictagger.script/">clictagger.script: Command line interface</a></li>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="../text-cleaning/">Preparing texts for CLiCTagger</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../python-notebooks/">Running CLiCTagger online via a Python notebook</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../import-csv-excel/">Importing CLiCTagger CSVs into Excel</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="../clictagger.region/">clictagger.region package</a><ul class="current">
-<li class="toctree-l2 current"><a class="reference internal" href="../clictagger.region/#submodules">Submodules</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="../clictagger.region.chapter/">clic.region.chapter: Tag chapter.* regions</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../clictagger.region.metadata/">clic.region.metadata: Tag metadata.* regions</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../clictagger.region.quote/">clic.region.quote: Tag quote.* regions</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">clic.region.suspension: Tag quote.suspension.* regions</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../clictagger.region.tag/">clic.region.tag: Tag a book with all region taggers</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../clictagger.tokenizer/">clic.tokenizer: Tokenize strings to types</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../clictagger.region/">clictagger.region package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../references/">References</a></li>
 </ul>
 
@@ -265,8 +64,8 @@ suspension. From <code class="docutils literal notranslate"><span class="pre">Ch
 <ul>
   <li><a href="../">Documentation overview</a><ul>
   <li><a href="../clictagger.region/">clictagger.region package</a><ul>
-      <li>Previous: <a href="../clictagger.region.quote/" title="previous chapter">clic.region.quote: Tag quote.* regions</a></li>
-      <li>Next: <a href="../clictagger.region.tag/" title="next chapter">clic.region.tag: Tag a book with all region taggers</a></li>
+      <li>Previous: <a href="../clictagger.region.quote/" title="previous chapter">&lt;no title&gt;</a></li>
+      <li>Next: <a href="../clictagger.region.tag/" title="next chapter">&lt;no title&gt;</a></li>
   </ul></li>
   </ul></li>
 </ul>

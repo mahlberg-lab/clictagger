@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>clic.region.metadata: Tag metadata.* regions &#8212; clictagger  documentation</title>
+    <title>&lt;no title&gt; &#8212; clictagger  documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
@@ -15,8 +15,8 @@
     <script src="../_static/doctools.js"></script>
     <link rel="index" title="Index" href="../genindex/" />
     <link rel="search" title="Search" href="../search/" />
-    <link rel="next" title="clic.region.quote: Tag quote.* regions" href="../clictagger.region.quote/" />
-    <link rel="prev" title="clic.region.chapter: Tag chapter.* regions" href="../clictagger.region.chapter/" />
+    <link rel="next" title="&lt;no title&gt;" href="../clictagger.region.quote/" />
+    <link rel="prev" title="&lt;no title&gt;" href="../clictagger.region.chapter/" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
   
@@ -33,45 +33,7 @@
 
           <div class="body" role="main">
             
-  <span class="target" id="module-clictagger.region.metadata"></span><section id="clic-region-metadata-tag-metadata-regions">
-<h1>clic.region.metadata: Tag metadata.* regions<a class="headerlink" href="#clic-region-metadata-tag-metadata-regions" title="Permalink to this headline">¶</a></h1>
-<p>Add metadata.* tags to regions.</p>
-<section id="metadata-title-metadata-author-regions">
-<h2>metadata.title / metadata.author regions<a class="headerlink" href="#metadata-title-metadata-author-regions" title="Permalink to this headline">¶</a></h2>
-<p>If there are 2 lines at the start, with an empty line after, we treat this as a
-title / author combination:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt; run_tagger(&#39;&#39;&#39;
-... Fly Fishing
-... J R Hartley
-...
-... INTRODUCTION.
-...
-... Fly Fishing: Memories of Angling Days, also published as Fly Fishing by
-... &#39;&#39;&#39;.strip(), tagger_metadata)
-[(&#39;metadata.title&#39;, 0, 11, None, &#39;Fly Fishing&#39;),
- (&#39;metadata.author&#39;, 12, 23, None, &#39;J R Hartley&#39;)]
-</pre></div>
-</div>
-<p>Anything that doesn’t match this gets ignored:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt; run_tagger(&#39;&#39;&#39;
-... Fly Fishing
-... J R Hartley
-... INTRODUCTION.
-...
-... Fly Fishing: Memories of Angling Days, also published as Fly Fishing by
-... &#39;&#39;&#39;.strip(), tagger_metadata)
-[]
-</pre></div>
-</div>
-<dl class="py function">
-<dt class="sig sig-object py" id="clictagger.region.metadata.tagger_metadata">
-<span class="sig-prename descclassname"><span class="pre">clictagger.region.metadata.</span></span><span class="sig-name descname"><span class="pre">tagger_metadata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">book</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clictagger.region.metadata.tagger_metadata" title="Permalink to this definition">¶</a></dt>
-<dd><p>Add metadata.* tags to regions</p>
-</dd></dl>
-
-</section>
-</section>
-
+  
 
           </div>
           
@@ -89,24 +51,11 @@ title / author combination:</p>
 
 
 <h3>Navigation</h3>
-<ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../clictagger.taggedtext/">clictagger.taggedtext: Region-tag text</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../clictagger.script/">clictagger.script: Command line interface</a></li>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="../text-cleaning/">Preparing texts for CLiCTagger</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../python-notebooks/">Running CLiCTagger online via a Python notebook</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../import-csv-excel/">Importing CLiCTagger CSVs into Excel</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="../clictagger.region/">clictagger.region package</a><ul class="current">
-<li class="toctree-l2 current"><a class="reference internal" href="../clictagger.region/#submodules">Submodules</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="../clictagger.region.chapter/">clic.region.chapter: Tag chapter.* regions</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">clic.region.metadata: Tag metadata.* regions</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../clictagger.region.quote/">clic.region.quote: Tag quote.* regions</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../clictagger.region.suspension/">clic.region.suspension: Tag quote.suspension.* regions</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../clictagger.region.tag/">clic.region.tag: Tag a book with all region taggers</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../clictagger.tokenizer/">clic.tokenizer: Tokenize strings to types</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../clictagger.region/">clictagger.region package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../references/">References</a></li>
 </ul>
 
@@ -115,8 +64,8 @@ title / author combination:</p>
 <ul>
   <li><a href="../">Documentation overview</a><ul>
   <li><a href="../clictagger.region/">clictagger.region package</a><ul>
-      <li>Previous: <a href="../clictagger.region.chapter/" title="previous chapter">clic.region.chapter: Tag chapter.* regions</a></li>
-      <li>Next: <a href="../clictagger.region.quote/" title="next chapter">clic.region.quote: Tag quote.* regions</a></li>
+      <li>Previous: <a href="../clictagger.region.chapter/" title="previous chapter">&lt;no title&gt;</a></li>
+      <li>Next: <a href="../clictagger.region.quote/" title="next chapter">&lt;no title&gt;</a></li>
   </ul></li>
   </ul></li>
 </ul>

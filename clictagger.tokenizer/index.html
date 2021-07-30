@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>clic.tokenizer: Tokenize strings to types &#8212; clictagger  documentation</title>
+    <title>&lt;no title&gt; &#8212; clictagger  documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
@@ -16,7 +16,7 @@
     <link rel="index" title="Index" href="../genindex/" />
     <link rel="search" title="Search" href="../search/" />
     <link rel="next" title="References" href="../references/" />
-    <link rel="prev" title="clic.region.tag: Tag a book with all region taggers" href="../clictagger.region.tag/" />
+    <link rel="prev" title="&lt;no title&gt;" href="../clictagger.region.tag/" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
   
@@ -33,157 +33,7 @@
 
           <div class="body" role="main">
             
-  <span class="target" id="module-clictagger.tokenizer"></span><section id="clic-tokenizer-tokenize-strings-to-types">
-<h1>clic.tokenizer: Tokenize strings to types<a class="headerlink" href="#clic-tokenizer-tokenize-strings-to-types" title="Permalink to this headline">¶</a></h1>
-<p>This module provides the core tokenisation used in CLiC, used both when parsing
-incoming texts and when parsing concordance queries</p>
-<section id="method">
-<h2>Method<a class="headerlink" href="#method" title="Permalink to this headline">¶</a></h2>
-<p>To extract tokens, we use Unicode text segmentation as described in <a class="reference internal" href="../references/#uax29" id="id1"><span>[UAX29]</span></a>,
-using the implementation in the <a class="reference internal" href="../references/#icu" id="id2"><span>[ICU]</span></a> library and standard rules for en_GB, and
-then apply our own additions (see later).</p>
-<p>Please read the document for a full description of ICU word boundaries, however
-as a quick example the following phrase:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>The quick (“brown”) fox can’t jump 32.3 feet in-the-air, right?
-</pre></div>
-</div>
-<p>…would have boundaries at every point marked with a <code class="docutils literal notranslate"><span class="pre">|</span></code>:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>The| |quick| |(||“|brown|”|)| |fox| |can’t| |jump| |32.3| |feet| |in|-|the|-|air|,| |right|?|
-</pre></div>
-</div>
-<p>We consider a boundary mark to be a word-boundary if…</p>
-<ul class="simple">
-<li><p>The “Rule Status value” of the boundary according to ICU (see <a class="reference internal" href="../references/#icu-rsv" id="id3"><span>[ICU_RSV]</span></a>) is at the end of a word (e.g. after <code class="docutils literal notranslate"><span class="pre">jump</span></code>) or the end of a number (e.g. after <code class="docutils literal notranslate"><span class="pre">32.3</span></code>).</p></li>
-</ul>
-<p>In addition, we introduce these rules for CLiC:</p>
-<ul class="simple">
-<li><p>It is after a hyphen character surrounded by alpha-numeric characters, e.g. after all hyphens in <code class="docutils literal notranslate"><span class="pre">|in|-|the|-|air|</span></code>.</p></li>
-<li><p>It is after an apostrophe preceded with s, e.g. after the <code class="docutils literal notranslate"><span class="pre">'</span></code> in <code class="docutils literal notranslate"><span class="pre">3|</span> <span class="pre">|days|'|</span> <span class="pre">|work|</span></code>.</p></li>
-<li><p>It is after an apostrophe followed by one of a whitelist of words (see <a class="reference internal" href="#clictagger.tokenizer.INITIAL_ABBREVIATIONS" title="clictagger.tokenizer.INITIAL_ABBREVIATIONS"><code class="xref py py-const docutils literal notranslate"><span class="pre">INITIAL_ABBREVIATIONS</span></code></a>),
-e.g. after the <code class="docutils literal notranslate"><span class="pre">'</span></code> in <code class="docutils literal notranslate"><span class="pre">'|tis|</span> <span class="pre">|nothing|</span></code>.</p></li>
-</ul>
-<p>Note that these additional rules are because ICU does not handle apostrophes on
-the outside of words, nor hyphenated-words.</p>
-<p>…so if we mark word boundaries in the example above with <code class="docutils literal notranslate"><span class="pre">‖</span></code>:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>The‖ |quick‖ |(||“|brown‖”|)| |fox‖ |can’t‖ |jump‖ |32.3‖ |feet‖ |in‖-‖the‖-‖air‖,| |right‖?|
-</pre></div>
-</div>
-<p>Tokens are then extracted by combining all text before adjacent word-boundaries, e.g.:</p>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">‖</span> <span class="pre">|feet‖</span></code> becomes the token <code class="docutils literal notranslate"><span class="pre">feet</span></code>.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">‖</span> <span class="pre">|in‖-‖the‖-‖air‖,|</span></code> becomes the token <code class="docutils literal notranslate"><span class="pre">in-the-air</span></code></p></li>
-</ul>
-<p>Tokens are then normalised into types by:-</p>
-<ul class="simple">
-<li><p>Lower-casing, <code class="docutils literal notranslate"><span class="pre">The</span></code> -&gt; <code class="docutils literal notranslate"><span class="pre">the</span></code>.</p></li>
-<li><p>Normalising any non-ascii characters with <a class="reference internal" href="../references/#unidecode" id="id4"><span>[UNIDECODE]</span></a>, e.g.</p>
-<ul>
-<li><p><code class="docutils literal notranslate"><span class="pre">can’t</span></code> -&gt; <code class="docutils literal notranslate"><span class="pre">can't</span></code>.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">café</span></code> -&gt; <code class="docutils literal notranslate"><span class="pre">cafe</span></code>.</p></li>
-</ul>
-</li>
-<li><p>Removing any surrounding underscores, e.g. <code class="docutils literal notranslate"><span class="pre">_connoisseur_</span></code> -&gt; <code class="docutils literal notranslate"><span class="pre">connoisseur</span></code>.</p></li>
-</ul>
-<p>Queries for concordance searches are also turned into a list of types by this
-module. In this case we consider <code class="docutils literal notranslate"><span class="pre">*</span></code> as being part of a token for wildcard
-searches. See later examples for more information.</p>
-</section>
-<section id="examples-edge-cases">
-<h2>Examples / edge cases<a class="headerlink" href="#examples-edge-cases" title="Permalink to this headline">¶</a></h2>
-<p>A type is lower-case, ASCII-representable term, and “fancy” apostrophes are normalised:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt; [x[0] for x in types_from_string(&#39;&#39;&#39;
-...     I am a café cat, don’t you k&#39;now.
-... &#39;&#39;&#39;)]
-[&#39;i&#39;, &#39;am&#39;, &#39;a&#39;, &#39;cafe&#39;, &#39;cat&#39;, &quot;don&#39;t&quot;, &#39;you&#39;, &quot;k&#39;now&quot;]
-</pre></div>
-</div>
-<p>Numbers are types too:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt; [x[0] for x in types_from_string(&#39;&#39;&#39;
-...     Just my $0.02, but we&#39;re 12 minutes late.
-... &#39;&#39;&#39;)]
-[&#39;just&#39;, &#39;my&#39;, &#39;0.02&#39;, &#39;but&#39;, &quot;we&#39;re&quot;, &#39;12&#39;, &#39;minutes&#39;, &#39;late&#39;]
-</pre></div>
-</div>
-<p>All surrounding punctuation is filtered out:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt; [x[0] for x in types_from_string(&#39;&#39;&#39;
-...     &quot;I am a cat&quot;, they said, &quot;hear me **roar**!&quot;.
-...
-...     &quot;...or at least mew&quot;.
-... &#39;&#39;&#39;)]
-[&#39;i&#39;, &#39;am&#39;, &#39;a&#39;, &#39;cat&#39;, &#39;they&#39;, &#39;said&#39;, &#39;hear&#39;, &#39;me&#39;, &#39;roar&#39;,
- &#39;or&#39;, &#39;at&#39;, &#39;least&#39;, &#39;mew&#39;]
-</pre></div>
-</div>
-<p>Unicode word-splitting doesn’t combine hypenated words, but we do:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt; [x[0] for x in types_from_string(&#39;&#39;&#39;
-...     It had been a close and sultry day--one of the hottest of the
-...     dog-days--even out in the open country
-... &#39;&#39;&#39;)]
-[&#39;it&#39;, &#39;had&#39;, &#39;been&#39;, &#39;a&#39;, &#39;close&#39;, &#39;and&#39;, &#39;sultry&#39;, &#39;day&#39;,
- &#39;one&#39;, &#39;of&#39;, &#39;the&#39;, &#39;hottest&#39;, &#39;of&#39;, &#39;the&#39;, &#39;dog-days&#39;,
- &#39;even&#39;, &#39;out&#39;, &#39;in&#39;, &#39;the&#39;, &#39;open&#39;, &#39;country&#39;]
-
-&gt;&gt;&gt; [x[0] for x in types_from_string(&#39;&#39;&#39;
-...     so many out-of-the-way things had happened lately
-... &#39;&#39;&#39;)]
-[&#39;so&#39;, &#39;many&#39;, &#39;out-of-the-way&#39;, &#39;things&#39;,
- &#39;had&#39;, &#39;happened&#39;, &#39;lately&#39;]
-</pre></div>
-</div>
-<p>We also consider apostrophes surrounding words to be part of the word, unlike
-the standard. Preceding apostrophes have to be part of our whitelist though:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt; [x[0] for x in types_from_string(&#39;&#39;&#39;
-...     &#39;tis 3 days&#39; work. &#39;twmade-up-word
-... &#39;&#39;&#39;)]
-[&quot;&#39;tis&quot;, &#39;3&#39;, &quot;days&#39;&quot;, &#39;work&#39;, &#39;twmade-up-word&#39;]
-</pre></div>
-</div>
-<p>Preceding apostrophes have to curve the right direction to be included
-as part of the token (and thus the type), so that the first
-<code class="docutils literal notranslate"><span class="pre">’em</span></code> keeps the apostrophe and the second one doesn’t:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt; [x[0] for x in types_from_string(&#39;&#39;&#39;
-...     Closing ’em. Opening ‘em.
-... &#39;&#39;&#39;)]
-[&#39;closing&#39;, &quot;&#39;em&quot;, &#39;opening&#39;, &#39;em&#39;]
-</pre></div>
-</div>
-<p>We strip underscores whilst generating types, which are considered part of a
-word in the unicode standard:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>&gt;&gt;&gt; [x[0] for x in types_from_string(&#39;&#39;&#39;
-... had some reputation as a _connoisseur_.
-... &#39;&#39;&#39;)]
-[&#39;had&#39;, &#39;some&#39;, &#39;reputation&#39;, &#39;as&#39;, &#39;a&#39;, &#39;connoisseur&#39;]
-</pre></div>
-</div>
-<dl class="py data">
-<dt class="sig sig-object py" id="clictagger.tokenizer.INITIAL_ABBREVIATIONS">
-<span class="sig-prename descclassname"><span class="pre">clictagger.tokenizer.</span></span><span class="sig-name descname"><span class="pre">INITIAL_ABBREVIATIONS</span></span><em class="property"> <span class="pre">=</span> <span class="pre">{'em',</span> <span class="pre">'tis',</span> <span class="pre">'twas',</span> <span class="pre">'twill',</span> <span class="pre">'twould'}</span></em><a class="headerlink" href="#clictagger.tokenizer.INITIAL_ABBREVIATIONS" title="Permalink to this definition">¶</a></dt>
-<dd><p>A list of words that, if prepended with an apostrophe, we should consider
-the apostrophe part of the token, rather than the start of a quote.</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="clictagger.tokenizer.tagger_tokens">
-<span class="sig-prename descclassname"><span class="pre">clictagger.tokenizer.</span></span><span class="sig-name descname"><span class="pre">tagger_tokens</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">book</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clictagger.tokenizer.tagger_tokens" title="Permalink to this definition">¶</a></dt>
-<dd><p>Add tokens tags to (book)</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="clictagger.tokenizer.types_from_string">
-<span class="sig-prename descclassname"><span class="pre">clictagger.tokenizer.</span></span><span class="sig-name descname"><span class="pre">types_from_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">additional_word_parts</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clictagger.tokenizer.types_from_string" title="Permalink to this definition">¶</a></dt>
-<dd><p>Extract tuples of (type, start, end) from s, optionally adding (offset) to
-the start and end values</p>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="clictagger.tokenizer.word_boundary_type">
-<span class="sig-prename descclassname"><span class="pre">clictagger.tokenizer.</span></span><span class="sig-name descname"><span class="pre">word_boundary_type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bi</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">last_b</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">additional_word_parts</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clictagger.tokenizer.word_boundary_type" title="Permalink to this definition">¶</a></dt>
-<dd><p>Add our own boundary types atop of what bi.getRuleStatus() returns</p>
-</dd></dl>
-
-</section>
-</section>
-
+  
 
           </div>
           
@@ -201,18 +51,11 @@ the start and end values</p>
 
 
 <h3>Navigation</h3>
-<ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../clictagger.taggedtext/">clictagger.taggedtext: Region-tag text</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../clictagger.script/">clictagger.script: Command line interface</a></li>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="../text-cleaning/">Preparing texts for CLiCTagger</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../python-notebooks/">Running CLiCTagger online via a Python notebook</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../import-csv-excel/">Importing CLiCTagger CSVs into Excel</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../clictagger.region/">clictagger.region package</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">clic.tokenizer: Tokenize strings to types</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#method">Method</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#examples-edge-cases">Examples / edge cases</a></li>
-</ul>
-</li>
 <li class="toctree-l1"><a class="reference internal" href="../references/">References</a></li>
 </ul>
 
@@ -220,7 +63,7 @@ the start and end values</p>
 <h3>Related Topics</h3>
 <ul>
   <li><a href="../">Documentation overview</a><ul>
-      <li>Previous: <a href="../clictagger.region.tag/" title="previous chapter">clic.region.tag: Tag a book with all region taggers</a></li>
+      <li>Previous: <a href="../clictagger.region.tag/" title="previous chapter">&lt;no title&gt;</a></li>
       <li>Next: <a href="../references/" title="next chapter">References</a></li>
   </ul></li>
 </ul>

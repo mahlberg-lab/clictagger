@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>clictagger.script: Command line interface &#8212; clictagger  documentation</title>
+    <title>&lt;no title&gt; &#8212; clictagger  documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
@@ -16,7 +16,7 @@
     <link rel="index" title="Index" href="../genindex/" />
     <link rel="search" title="Search" href="../search/" />
     <link rel="next" title="Preparing texts for CLiCTagger" href="../text-cleaning/" />
-    <link rel="prev" title="clictagger.taggedtext: Region-tag text" href="../clictagger.taggedtext/" />
+    <link rel="prev" title="&lt;no title&gt;" href="../clictagger.taggedtext/" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
   
@@ -33,55 +33,7 @@
 
           <div class="body" role="main">
             
-  <span class="target" id="module-clictagger.script"></span><section id="clictagger-script-command-line-interface">
-<h1>clictagger.script: Command line interface<a class="headerlink" href="#clictagger-script-command-line-interface" title="Permalink to this headline">¶</a></h1>
-<p>Once clictagger is installed, you will have a command-line interface <code class="docutils literal notranslate"><span class="pre">clictagger</span></code> available.</p>
-<section id="basic-examples">
-<h2>Basic examples<a class="headerlink" href="#basic-examples" title="Permalink to this headline">¶</a></h2>
-<p>To see the contents of <code class="docutils literal notranslate"><span class="pre">alice.txt</span></code> with <a class="reference internal" href="../clictagger.taggedtext/#clictagger.taggedtext.DEFAULT_HIGHLIGHT_REGIONS" title="clictagger.taggedtext.DEFAULT_HIGHLIGHT_REGIONS"><code class="xref py py-data docutils literal notranslate"><span class="pre">default</span> <span class="pre">region</span> <span class="pre">tags</span></code></a> coloured:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>clictagger alice.txt
-</pre></div>
-</div>
-<p>To see the contents of <code class="docutils literal notranslate"><span class="pre">alice.txt</span></code> with quotes coloured:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>clictagger alice.txt quote.quote
-</pre></div>
-</div>
-<p>Output all suspensions in <code class="docutils literal notranslate"><span class="pre">alice.txt</span></code> into <code class="docutils literal notranslate"><span class="pre">alice.csv</span></code>:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>clictagger --csv alice.csv alice.txt quote.suspension.short quote.suspension.long
-</pre></div>
-</div>
-<p>Output <a class="reference internal" href="../clictagger.taggedtext/#clictagger.taggedtext.DEFAULT_HIGHLIGHT_REGIONS" title="clictagger.taggedtext.DEFAULT_HIGHLIGHT_REGIONS"><code class="xref py py-data docutils literal notranslate"><span class="pre">default</span> <span class="pre">region</span> <span class="pre">tags</span></code></a> in <code class="docutils literal notranslate"><span class="pre">alice.txt</span></code> into <code class="docutils literal notranslate"><span class="pre">alice.csv</span></code>:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>clictagger --csv alice.csv alice.txt
-</pre></div>
-</div>
-<p>On Windows, to tag all text files in the current directory at once:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>for %f in (*.txt) do (clictagger --csv %f.csv %f)
-</pre></div>
-</div>
-<p>On MacOs, to tag all text files in the current directory at once:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>for f in *.txt ; do clictagger --csv $f.csv $f; done
-</pre></div>
-</div>
-<p>If the previous step does not work for you on Linux, to tag all text files in the current directory at once, try the following:</p>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>for f in *.txt ; do ./bin/clictagger --csv $f.csv $f; done
-</pre></div>
-</div>
-</section>
-<section id="using-clictagger-as-a-webserver-for-cleaning-text">
-<h2>Using clictagger as a webserver for cleaning text<a class="headerlink" href="#using-clictagger-as-a-webserver-for-cleaning-text" title="Permalink to this headline">¶</a></h2>
-<p>For optimal use with clictagger, text needs to be cleaned up first.
-For instance, text downloaded from the Gutenberg project will have large sections of non-authorial text.
-See <a class="reference internal" href="../text-cleaning/#preparing-texts-for-clictagger"><span class="std std-ref">Preparing texts for CLiCTagger</span></a> for how best to prepare text.</p>
-<p>clictagger can be used to assist this process by creating a preview of the tagged regions with the following steps, given a text file <code class="docutils literal notranslate"><span class="pre">new.txt</span></code>:</p>
-<ol class="arabic simple">
-<li><p>Open <code class="docutils literal notranslate"><span class="pre">new.txt</span></code> in a text-editor, e.g. Notepad.</p></li>
-<li><p>In a terminal window, run <code class="docutils literal notranslate"><span class="pre">clictagger</span> <span class="pre">--serve</span> <span class="pre">new.txt</span></code></p></li>
-<li><p>If a web-browser window hasn’t automatically opened, open <a class="reference external" href="http://localhost:8080/">http://localhost:8080/</a> in your web browser.</p></li>
-</ol>
-<p>Now you can make edits to <code class="docutils literal notranslate"><span class="pre">new.txt</span></code>, reload your browser window, and changes will be visible.</p>
-</section>
-</section>
-
+  
 
           </div>
           
@@ -99,18 +51,11 @@ See <a class="reference internal" href="../text-cleaning/#preparing-texts-for-cl
 
 
 <h3>Navigation</h3>
-<ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../clictagger.taggedtext/">clictagger.taggedtext: Region-tag text</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">clictagger.script: Command line interface</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#basic-examples">Basic examples</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#using-clictagger-as-a-webserver-for-cleaning-text">Using clictagger as a webserver for cleaning text</a></li>
-</ul>
-</li>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="../text-cleaning/">Preparing texts for CLiCTagger</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../python-notebooks/">Running CLiCTagger online via a Python notebook</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../import-csv-excel/">Importing CLiCTagger CSVs into Excel</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../clictagger.region/">clictagger.region package</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../clictagger.tokenizer/">clic.tokenizer: Tokenize strings to types</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../references/">References</a></li>
 </ul>
 
@@ -118,7 +63,7 @@ See <a class="reference internal" href="../text-cleaning/#preparing-texts-for-cl
 <h3>Related Topics</h3>
 <ul>
   <li><a href="../">Documentation overview</a><ul>
-      <li>Previous: <a href="../clictagger.taggedtext/" title="previous chapter">clictagger.taggedtext: Region-tag text</a></li>
+      <li>Previous: <a href="../clictagger.taggedtext/" title="previous chapter">&lt;no title&gt;</a></li>
       <li>Next: <a href="../text-cleaning/" title="next chapter">Preparing texts for CLiCTagger</a></li>
   </ul></li>
 </ul>
