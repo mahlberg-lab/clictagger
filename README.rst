@@ -23,7 +23,7 @@ First make sure you have the following prerequisites installed::
 
 Then install via. pip::
 
-    pip install git+https://github.com/mahlberg-lab/clictagger
+    pip install clictagger
 
 Windows / MacOS
 ---------------
