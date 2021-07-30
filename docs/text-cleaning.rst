@@ -2,7 +2,7 @@ Preparing texts for CLiCTagger
 ******************************
 
 Whilst CLiCTagger can work on any plain text, for best results text should be prepared using the method below.
-Any texts added to the `corpora repository <https://github.com/birmingham-ccr/corpora>`__ should follow this process.
+Any texts added to the `corpora repository <https://github.com/mahlberg-lab/corpora>`__ should follow this process.
 
 To clean texts so they are ready for use with CLiCTagger, the following steps need to be followed.
 
@@ -19,7 +19,7 @@ To clean texts so they are ready for use with CLiCTagger, the following steps ne
 6. `Manual corrections`_.
 
 If committing to the corpora repository, each editing stage is committed and clearly documented with a commit message.
-Accordingly, it is possible to see the history of a single file, see for example the `history of willows.txt <https://github.com/birmingham-ccr/corpora/commits/master/ChiLit/willows.txt>`__.
+Accordingly, it is possible to see the history of a single file, see for example the `history of willows.txt <https://github.com/mahlberg-lab/corpora/commits/master/ChiLit/willows.txt>`__.
 
 Save as/convert to UTF-8 and use typographical ('curly') quote marks
 -----------------------------------------------------------------------
@@ -67,19 +67,19 @@ Remove non-authorial text
           [Picture which cannot be reproduced]
 
     was removed during editing, because other editions suggested that the line was 
-    not part of the text but rather an editorial remark (see the `comment on the change <https://github.com/birmingham-ccr/corpora/commit/c72cc1809c22c3f45f2e3158df87545fdce58d28#r32025083>`__).
+    not part of the text but rather an editorial remark (see the `comment on the change <https://github.com/mahlberg-lab/corpora/commit/c72cc1809c22c3f45f2e3158df87545fdce58d28#r32025083>`__).
     
 -  **Footnotes** are removed if they are attached to the end of a text but left in if the footnote text
-   is included in main text. (This rule was formally introduced for the `expansion of the ArTs corpus, 2019-01 <https://github.com/birmingham-ccr/corpora/commit/c72cc1809c22c3f45f2e3158df87545fdce58d28#diff-b90e831a9520a85b9e7620aa1fac6591L25366>`__, although it was likely also followed implicitly for the previous corpora).
+   is included in main text. (This rule was formally introduced for the `expansion of the ArTs corpus, 2019-01 <https://github.com/mahlberg-lab/corpora/commit/c72cc1809c22c3f45f2e3158df87545fdce58d28#diff-b90e831a9520a85b9e7620aa1fac6591L25366>`__, although it was likely also followed implicitly for the previous corpora).
    When removing footnotes, delete both the in-text footnote indicator and the footnote itself.
-   In the following example from `sketches`, the {161} in the text `was removed <https://github.com/birmingham-ccr/corpora/commit/c72cc1809c22c3f45f2e3158df87545fdce58d28#diff-b90e831a9520a85b9e7620aa1fac6591L7281>`__::
+   In the following example from `sketches`, the {161} in the text `was removed <https://github.com/mahlberg-lab/corpora/commit/c72cc1809c22c3f45f2e3158df87545fdce58d28#diff-b90e831a9520a85b9e7620aa1fac6591L7281>`__::
    
         On both sides of the gaol, is a small
         receiving-room, to which prisoners are conducted on their first
         reception, and whence they cannot be removed until they have been
         examined by the surgeon of the prison. {161}
     
-   `along with the footnote text <https://github.com/birmingham-ccr/corpora/commit/c72cc1809c22c3f45f2e3158df87545fdce58d28#diff-b90e831a9520a85b9e7620aa1fac6591L26670>`__::
+   `along with the footnote text <https://github.com/mahlberg-lab/corpora/commit/c72cc1809c22c3f45f2e3158df87545fdce58d28#diff-b90e831a9520a85b9e7620aa1fac6591L26670>`__::
    
         {161}  The regulations of the prison relative to the confinement of
         prisoners during the day, their sleeping at night, their taking their
@@ -87,12 +87,12 @@ Remove non-authorial text
         for the better—since this sketch was first published.  Even the
         construction of the prison itself has been changed.
         
-   Note this is just one of the `four footnotes removed in "sketches" <https://github.com/birmingham-ccr/corpora/commit/c72cc1809c22c3f45f2e3158df87545fdce58d28#diff-b90e831a9520a85b9e7620aa1fac6591L26663>`__. 
-   Other books for which footnotes were removed include `"americannotes" <https://github.com/birmingham-ccr/corpora/commit/c72cc1809c22c3f45f2e3158df87545fdce58d28#diff-97c35dfce2b9f9b909ebb3f89ae43e2c>`__, 
-   `"pictures" <https://github.com/birmingham-ccr/corpora/commit/c72cc1809c22c3f45f2e3158df87545fdce58d28#diff-dae9e8214d88284bc935c3a2b5ebce82>`__ and `"uncommercial" <https://github.com/birmingham-ccr/corpora/commit/c72cc1809c22c3f45f2e3158df87545fdce58d28#diff-f573870f5118cfc91ff22ca3de87a75f>`__.
+   Note this is just one of the `four footnotes removed in "sketches" <https://github.com/mahlberg-lab/corpora/commit/c72cc1809c22c3f45f2e3158df87545fdce58d28#diff-b90e831a9520a85b9e7620aa1fac6591L26663>`__. 
+   Other books for which footnotes were removed include `"americannotes" <https://github.com/mahlberg-lab/corpora/commit/c72cc1809c22c3f45f2e3158df87545fdce58d28#diff-97c35dfce2b9f9b909ebb3f89ae43e2c>`__, 
+   `"pictures" <https://github.com/mahlberg-lab/corpora/commit/c72cc1809c22c3f45f2e3158df87545fdce58d28#diff-dae9e8214d88284bc935c3a2b5ebce82>`__ and `"uncommercial" <https://github.com/mahlberg-lab/corpora/commit/c72cc1809c22c3f45f2e3158df87545fdce58d28#diff-f573870f5118cfc91ff22ca3de87a75f>`__.
    
    By contrast, an example of a footnote that was retained because it was fully included
-   in the main text is the following in `"timemachine" <https://github.com/birmingham-ccr/corpora/blob/ca01d2ae9731b7a43d469422b85deb0bc1c486f3/ArTs/timemachine.txt#L2231>`__::
+   in the main text is the following in `"timemachine" <https://github.com/mahlberg-lab/corpora/blob/ca01d2ae9731b7a43d469422b85deb0bc1c486f3/ArTs/timemachine.txt#L2231>`__::
    
        “Suddenly Weena came very close to my side. So suddenly that she
        startled me. Had it not been for her I do not think I should have
@@ -101,7 +101,7 @@ Remove non-authorial text
        built into the side of a hill.—ED.]
        
    ChiLit also contains examples of retained footnotes, for example several in *rival*,
-   such as the following (`see location in text <https://github.com/birmingham-ccr/corpora/blob/ca01d2ae9731b7a43d469422b85deb0bc1c486f3/ChiLit/rival.txt#L2504>`__)::
+   such as the following (`see location in text <https://github.com/mahlberg-lab/corpora/blob/ca01d2ae9731b7a43d469422b85deb0bc1c486f3/ChiLit/rival.txt#L2504>`__)::
    
        "By the mercy of Heaven, we met some Brazilian proas, which took us on
        board, and the Diomede in tow; and, having favourable winds and a smooth
@@ -194,7 +194,7 @@ Reformat chapter headings to make consistent across all texts
     In the CLiC dropdown menu, the part and chapter headings are joined together,
     i.e. this `treasure` chapter is shown as "PART 2. The Sea-cook CHAPTER 7. I Go to Bristol".
     Whereas `treasure` contains "PART" headings in the original text that only had to
-    be `reformatted <https://github.com/birmingham-ccr/corpora/commit/b3bf771a72a523554fbec011dfaf6e44d35b1ae8#diff-833d382b4e9e60c1c7f9182dd7ebd234>`__, sometimes "PART" (and a number) has to be added
+    be `reformatted <https://github.com/mahlberg-lab/corpora/commit/b3bf771a72a523554fbec011dfaf6e44d35b1ae8#diff-833d382b4e9e60c1c7f9182dd7ebd234>`__, sometimes "PART" (and a number) has to be added
     to the existing headings in order to represent the structure of the book correctly
     in the CLiC dropdown menu. An example where the headings had to be adjusted accordingly 
     is `sketches`. The table of contents in a `scanned copy of the book <https://archive.org/details/in.ernet.dli.2015.501383/page/n7>`__
@@ -231,4 +231,4 @@ Reformat chapter headings to make consistent across all texts
 Manual corrections
 ------------------
 
-When previewing the output of the CLiC tagger output, you might notice that manual corrections are necessary. These could relate to correcting the format to properly follow the steps listed above, or might point to instances of, for example, missing quote marks. See `this example <https://github.com/birmingham-ccr/corpora/commit/e452aa520a8503df63b1628d5863e4c3c2f6f4da#diff-151a8e57bf7163871654b38b87fc1444f677d617882e10297abe2f700862303e>`_ of a manual correction (adding a missing closing quote mark) in the CLiC ArTs corpus.
+When previewing the output of the CLiC tagger output, you might notice that manual corrections are necessary. These could relate to correcting the format to properly follow the steps listed above, or might point to instances of, for example, missing quote marks. See `this example <https://github.com/mahlberg-lab/corpora/commit/e452aa520a8503df63b1628d5863e4c3c2f6f4da#diff-151a8e57bf7163871654b38b87fc1444f677d617882e10297abe2f700862303e>`_ of a manual correction (adding a missing closing quote mark) in the CLiC ArTs corpus.

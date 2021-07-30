@@ -5,8 +5,8 @@ Python module to identify regions in text.
 
 |ci| |gh-pages|
 
-.. |ci| image:: https://github.com/birmingham-ccr/clictagger/actions/workflows/ci.yml/badge.svg
-.. |gh-pages| image:: https://github.com/birmingham-ccr/clictagger/actions/workflows/gh-pages.yml/badge.svg
+.. |ci| image:: https://github.com/mahlberg-lab/clictagger/actions/workflows/ci.yml/badge.svg
+.. |gh-pages| image:: https://github.com/mahlberg-lab/clictagger/actions/workflows/gh-pages.yml/badge.svg
 
 Part of the `CLiC project <https://www.birmingham.ac.uk/schools/edacs/departments/englishlanguage/research/projects/clic/index.aspx>`__
 
@@ -23,7 +23,7 @@ First make sure you have the following prerequisites installed::
 
 Then install via. pip::
 
-    pip install git+https://github.com/birmingham-ccr/clictagger
+    pip install git+https://github.com/mahlberg-lab/clictagger
 
 Windows / MacOS
 ---------------
@@ -31,8 +31,8 @@ Windows / MacOS
 Under either you can install clictagger via. `Anaconda <https://docs.conda.io/projects/conda/en/latest/user-guide/index.html>`__:
 
 1. Install `Miniconda <https://docs.conda.io/en/latest/miniconda.html>`__ if you haven't already.
-2. Download `environment-windows.yml <https://github.com/birmingham-ccr/clictagger/raw/HEAD/environment-windows.yml>`__
-   if running windows, `environment.yml <https://github.com/birmingham-ccr/clictagger/raw/HEAD/environment.yml>`__ otherwise.
+2. Download `environment-windows.yml <https://github.com/mahlberg-lab/clictagger/raw/HEAD/environment-windows.yml>`__
+   if running windows, `environment.yml <https://github.com/mahlberg-lab/clictagger/raw/HEAD/environment.yml>`__ otherwise.
 3. Start an `Anaconda prompt <https://docs.conda.io/projects/conda/en/latest/user-guide/getting-started.html>`__
 4. On windows, run ``conda env create -f environment-windows.yml``, otherwise run ``conda env create -f environment.yml``
 5. ``conda activate clictagger``
@@ -45,9 +45,9 @@ Usage
 Python notebook
 ---------------
 
-See `getting_started.ipynb <https://mybinder.org/v2/gh/birmingham-ccr/clictagger/HEAD?filepath=getting_started.ipynb>`__.
+See `getting_started.ipynb <https://mybinder.org/v2/gh/mahlberg-lab/clictagger/HEAD?filepath=getting_started.ipynb>`__.
 
-To region-tag your own examples, use `file-upload.ipynb <https://mybinder.org/v2/gh/birmingham-ccr/clictagger/HEAD?filepath=file-upload.ipynb>`__
+To region-tag your own examples, use `file-upload.ipynb <https://mybinder.org/v2/gh/mahlberg-lab/clictagger/HEAD?filepath=file-upload.ipynb>`__
 
 Command line
 ------------
@@ -58,7 +58,7 @@ Command line
 
 You should now have the ``clictagger`` command available. See ``--help`` for usage.
 
-For more examples, see the `clictagger.script <https://birmingham-ccr.github.io/clictagger/clictagger.script>`__ documentation.
+For more examples, see the `clictagger.script <https://mahlberg-lab.github.io/clictagger/clictagger.script>`__ documentation.
 
 Acknowledgements
 ================

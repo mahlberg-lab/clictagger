@@ -28,7 +28,7 @@ jobs:
         # NB: We can't use an enviroment for this, since we can't easily activate it in following steps
         run: |
           conda install icu>=68.1 Python~=3.9.0 pip
-          pip install https://github.com/birmingham-ccr/clictagger/raw/main/PyICU-2.6-cp39-cp39-win_amd64.whl
+          pip install https://github.com/mahlberg-lab/clictagger/raw/main/PyICU-2.6-cp39-cp39-win_amd64.whl
           pip install .
         if: ${{ matrix.os == 'windows-latest' }}
       - name: Tests

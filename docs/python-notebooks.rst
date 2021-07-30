@@ -3,9 +3,9 @@ Running CLiCTagger online via a Python notebook
 
 You can run CLiCTagger online via a Python notebook. There are currently two notebooks:
 
-1. The `getting_started.ipynb notebook <https://mybinder.org/v2/gh/birmingham-ccr/clictagger/HEAD?filepath=getting_started.ipynb>`__: this notebook allows you to load text from a) a string (i.e. copy and paste), b). the `corpora repository <https://github.com/birmingham-ccr/corpora>`_, or c) your own (online) repository
+1. The `getting_started.ipynb notebook <https://mybinder.org/v2/gh/mahlberg-lab/clictagger/HEAD?filepath=getting_started.ipynb>`__: this notebook allows you to load text from a) a string (i.e. copy and paste), b). the `corpora repository <https://github.com/mahlberg-lab/corpora>`_, or c) your own (online) repository
 
-2. The `file-upload.ipynb notebook <https://mybinder.org/v2/gh/birmingham-ccr/clictagger/HEAD?filepath=file-upload.ipynb>`__: this notebook allows you to upload files from your computer
+2. The `file-upload.ipynb notebook <https://mybinder.org/v2/gh/mahlberg-lab/clictagger/HEAD?filepath=file-upload.ipynb>`__: this notebook allows you to upload files from your computer
 
 How to run the notebooks
 ========================

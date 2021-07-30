@@ -9,8 +9,8 @@ dependencies:
   - git
   - pip:
     # Wheel saved from https://www.lfd.uci.edu/~gohlke/pythonlibs/#pyicu, who don't want direct linking
-    - https://github.com/birmingham-ccr/clictagger/raw/main/PyICU-2.6-cp39-cp39-win_amd64.whl
-    - git+https://github.com/birmingham-ccr/clictagger
+    - https://github.com/mahlberg-lab/clictagger/raw/main/PyICU-2.6-cp39-cp39-win_amd64.whl
+    - git+https://github.com/mahlberg-lab/clictagger
 
 
 # To install PyICU by building yourself:-
@@ -23,4 +23,4 @@ dependencies:
 # conda env config vars set LDFLAGS=-L...icu4c/lib
 # conda env config vars set CPPFLAGS=-I${CONDA_PREFIX}/pkgs/icu-*/Library/include/
 # conda env config vars set DYLD_LIBRARY_PATH=-L...icu4c/lib
-# pip install git+https://github.com/birmingham-ccr/clictagger
+# pip install git+https://github.com/mahlberg-lab/clictagger

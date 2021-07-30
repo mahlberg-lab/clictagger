@@ -1,4 +1,4 @@
-[ -f alice.txt ] || wget https://raw.githubusercontent.com/birmingham-ccr/corpora/80d00e4/ChiLit/alice.txt
+[ -f alice.txt ] || wget https://raw.githubusercontent.com/mahlberg-lab/corpora/80d00e4/ChiLit/alice.txt
 
 echo "===== Type this into the recorded prompt"
 cat <<EOF

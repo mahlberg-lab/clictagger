@@ -49,9 +49,9 @@ You can also import text from a file::
 
 ... or from a github repository::
 
-    >>> tt = TaggedText.from_github("ChiLit/alice.txt", repo="birmingham-ccr/corpora", tag="80d00e4")
+    >>> tt = TaggedText.from_github("ChiLit/alice.txt", repo="mahlberg-lab/corpora", tag="80d00e4")
     >>> print(tt)
-    TaggedText: https://raw.githubusercontent.com/birmingham-ccr/corpora/80d00e4/ChiLit/alice.txt
+    TaggedText: https://raw.githubusercontent.com/mahlberg-lab/corpora/80d00e4/ChiLit/alice.txt
         characters=144396
         metadata.title=1
         metadata.author=1
@@ -160,12 +160,12 @@ class TaggedText:
             return cls(f.read(), name=text_path)
 
     @classmethod
-    def from_github(cls, file_path, repo="birmingham-ccr/corpora", tag="HEAD"):
+    def from_github(cls, file_path, repo="mahlberg-lab/corpora", tag="HEAD"):
         """
         Initialise a TaggedText object from a github repository
 
         - file_path: Path to the file within the repository
-        - repo: The repo name & organisation, defaults to "birmingham-ccr/corpora"
+        - repo: The repo name & organisation, defaults to "mahlberg-lab/corpora"
         - tag: The branch/tag/version to download, defaults to "HEAD"
 
         For example::
@@ -173,7 +173,7 @@ class TaggedText:
             TaggedText.from_github("ChiLit/alice.txt", tag = "80d00e4")
         """
 
-        if repo == "birmingham-ccr/corpora" and not file_path.endswith(".txt"):
+        if repo == "mahlberg-lab/corpora" and not file_path.endswith(".txt"):
             file_path += ".txt"
         return cls.from_url(
             "/".join(("https://raw.githubusercontent.com", repo, tag, file_path))

@@ -8,4 +8,4 @@ dependencies:
   - pip
   - git
   - pip:
-    - git+https://github.com/birmingham-ccr/clictagger
+    - git+https://github.com/mahlberg-lab/clictagger
