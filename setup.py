@@ -22,7 +22,7 @@ setup(
     name="clictagger",
     version="0.0.1",
     description='CLiC region tagging',
-    long_description=read('README.rst'),
+    long_description=read('README.rst') + '\n\n' + read('CHANGES.rst'),
     classifiers=[
         # https://pypi.org/classifiers/
         'License :: OSI Approved :: MIT License',
