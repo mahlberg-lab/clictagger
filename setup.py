@@ -20,7 +20,7 @@ tests_require = [
 
 setup(
     name="clictagger",
-    version="0.0.1",
+    version="0.9.0",
     description='CLiC region tagging',
     long_description=read('README.rst') + '\n\n' + read('CHANGES.rst'),
     long_description_content_type='text/x-rst',
