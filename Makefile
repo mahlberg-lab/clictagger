@@ -44,4 +44,7 @@ serve-docs: bin/pip
 release: test lint
 	./bin/fullrelease
 
-.PHONY: compile test lint lint-apply coverage notebook release
+clean:
+	rm -rf -- bin include lib lib64 share pyvenv.cfg
+
+.PHONY: compile test lint lint-apply coverage notebook release clean
