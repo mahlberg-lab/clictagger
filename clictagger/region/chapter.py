@@ -209,13 +209,13 @@ break anyway. We also don't break on "Mr. Oliver"::
      ('chapter.paragraph', 238, 395, 2, 'So if you wish to st...et all these things.'),
      ('chapter.sentence', 238, 395, 3, 'So if you wish to st...et all these things.')]
 """
+
 import re
 
 import icu
 
 from ..icuconfig import DEFAULT_LOCALE
 from .utils import region_append_without_whitespace
-
 
 PART_BREAK_REGEX = re.compile(
     r"^" + r"(PART|BOOK)" + r" ([0-9IVXLC]+)\." + ".*", re.MULTILINE

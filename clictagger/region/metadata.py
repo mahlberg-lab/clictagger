@@ -33,6 +33,7 @@ Anything that doesn't match this gets ignored::
     []
 
 """
+
 import re
 
 TITLE_AUTHOR_REGEX = re.compile(r"^(.+)\n(.+)\n\n")

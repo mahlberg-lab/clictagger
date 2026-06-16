@@ -280,6 +280,7 @@ Embedded quotes can also be found in multi-paragraph quotes, example from ChiLit
 
 .. http://unicode.org/reports/tr29/#Word_Boundaries
 """
+
 import re
 
 import icu
@@ -287,7 +288,6 @@ import icu
 from ..icuconfig import DEFAULT_LOCALE
 from ..tokenizer import word_boundary_type
 from .utils import region_append_without_whitespace, regions_invert
-
 
 QUOTES = {
     "“": "”",  # English double.

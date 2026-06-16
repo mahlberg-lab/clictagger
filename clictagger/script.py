@@ -18,7 +18,7 @@ To see the contents of ``alice.txt`` with quotes coloured::
 Output all suspensions in ``alice.txt`` into ``alice.csv``::
 
     clictagger --csv alice.csv alice.txt quote.suspension.short quote.suspension.long
-    
+
 Output :py:data:`default region tags <clictagger.taggedtext.DEFAULT_HIGHLIGHT_REGIONS>` in ``alice.txt`` into ``alice.csv``::
 
     clictagger --csv alice.csv alice.txt
@@ -50,6 +50,7 @@ clictagger can be used to assist this process by creating a preview of the tagge
 
 Now you can make edits to ``new.txt``, reload your browser window, and changes will be visible.
 """
+
 import argparse
 import http.server
 import subprocess

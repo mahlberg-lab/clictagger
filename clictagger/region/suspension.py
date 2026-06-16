@@ -178,12 +178,12 @@ suspension. From ``ChiLit/daisy.txt``::
      ('quote.nonquote', 281, 284, None, ')--'),
      ('quote.quote', 284, 377, None, '“and was in the habi...nd evening prayers.”')]
 """
+
 import re
 
 import icu
 
 from ..icuconfig import DEFAULT_LOCALE
-
 
 INITIAL_ALPHANUMERIC_REGEX = re.compile(r"^(?:\W|_)*(.)")
 

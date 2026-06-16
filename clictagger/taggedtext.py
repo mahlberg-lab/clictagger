@@ -89,6 +89,7 @@ The :py:meth:`TaggedText.table` method also supports generating a CSV download l
     >>> display(tt.table(display="csv-download"))
     <a download="regions.csv" href="data:text/csv;base64,IlJlZ2lvbiBjbGFzcyIsIlN0YXJ0IiwiRW5kIiwiUmVnaW9uIHZhbHVlIiwiQ29udGVudCINCmNoYXB0ZXIuc2VudGVuY2UsMCw3LCIxIiwi4oCYV2VsbCHigJkiDQpjaGFwdGVyLnNlbnRlbmNlLDgsMTA5LCIyIiwidGhvdWdodCBBbGljZSB0byBoZXJzZWxmLCDigJhhZnRlciBzdWNoIGEgZmFsbCBhcyB0aGlzLCBJIHNoYWxsIHRoaW5rIG5vdGhpbmcgb2YgdHVtYmxpbmcgZG93biBzdGFpcnMh4oCZIg0KcXVvdGUucXVvdGUsMCw3LCIiLCLigJhXZWxsIeKAmSINCnF1b3RlLnF1b3RlLDM0LDEwOSwiIiwi4oCYYWZ0ZXIgc3VjaCBhIGZhbGwgYXMgdGhpcywgSSBzaGFsbCB0aGluayBub3RoaW5nIG9mIHR1bWJsaW5nIGRvd24gc3RhaXJzIeKAmSINCnF1b3RlLnN1c3BlbnNpb24uc2hvcnQsOCwzMywiIiwidGhvdWdodCBBbGljZSB0byBoZXJzZWxmLCINCg==" target="_blank">Download regions.csv</a>
 """
+
 import base64
 import collections
 import sys
@@ -101,7 +102,6 @@ from .region.suspension import tagger_quote_suspension
 
 from .markup import _gen_markup_ansi, _gen_markup_html
 from .table import _gen_table_csv, _gen_table_html
-
 
 DEFAULT_HIGHLIGHT_REGIONS = [
     "metadata.title",
@@ -364,12 +364,15 @@ class TaggedTextRegionTable:
         if self.display == "html":
             return "".join(self.gen_html())
         elif self.display == "csv-download":
-            return '<a download="%s" href="data:text/csv;base64,%s" target="_blank">Download %s</a>' % (
-                (self.tt.name or "regions") + ".csv",
-                base64.b64encode("".join(self.gen_csv()).encode("utf8")).decode(
-                    "ascii"
-                ),
-                (self.tt.name or "regions") + ".csv",
+            return (
+                '<a download="%s" href="data:text/csv;base64,%s" target="_blank">Download %s</a>'
+                % (
+                    (self.tt.name or "regions") + ".csv",
+                    base64.b64encode("".join(self.gen_csv()).encode("utf8")).decode(
+                        "ascii"
+                    ),
+                    (self.tt.name or "regions") + ".csv",
+                )
             )
         else:
             raise ValueError(

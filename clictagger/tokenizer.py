@@ -126,6 +126,7 @@ word in the unicode standard::
     ... ''')]
     ['had', 'some', 'reputation', 'as', 'a', 'connoisseur']
 """
+
 import re
 
 import icu
@@ -136,7 +137,7 @@ from .icuconfig import DEFAULT_LOCALE
 HYPHEN_WORD_PARTS = set(
     (
         # Hyphens from note in http://www.unicode.org/reports/tr29/
-        "\u002D",  # HYPHEN-MINUS
+        "\u002d",  # HYPHEN-MINUS
         "\u2010",  # HYPHEN
     )
 )

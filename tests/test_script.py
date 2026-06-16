@@ -82,8 +82,7 @@ class TestScript(unittest.TestCase):
 chapter.sentence,0,64,"1","'Hello there, this new line is still part of the quote,' I said."\r
 quote.quote,0,56,"","'Hello there, this new line is still part of the quote,'"\r
 quote.suspension.short,57,64,"","I said."
-        """.strip()
-            + "\r\n",
+        """.strip() + "\r\n",
         )
 
         self.assertEqual(
@@ -95,8 +94,7 @@ quote.suspension.short,57,64,"","I said."
             """
 "Region class","Start","End","Region value","Content"\r
 quote.quote,0,56,"","'Hello there, this new line is still part of the quote,'"\r
-        """.strip()
-            + "\r\n",
+        """.strip() + "\r\n",
         )
 
     def test_html(self):

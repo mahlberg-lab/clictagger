@@ -20,7 +20,7 @@ test: compile
 lint: lib/.requirements
 	./bin/python3 setup.py sdist
 	./bin/twine check dist/*
-	./bin/black --diff $(EGG_NAME)/ tests/ conftest.py
+	./bin/black --diff --check $(EGG_NAME)/ tests/ conftest.py
 
 lint-apply: lib/.requirements
 	./bin/black $(EGG_NAME)/ tests/ conftest.py

@@ -4,7 +4,6 @@ import random
 import re
 import string
 
-
 HTML_CSS = """
 #tt-ID {
   max-width: 960px;
