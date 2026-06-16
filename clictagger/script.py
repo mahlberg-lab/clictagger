@@ -17,7 +17,7 @@ To see the contents of ``alice.txt`` with quotes coloured::
 
 Output all suspensions in ``alice.txt`` into ``alice.csv``::
 
-    clictagger --csv alice.csv alice.txt quote.suspension.short quote.suspension.long
+    clictagger --csv alice.csv alice.txt --region quote.suspension.short quote.suspension.long
 
 Output :py:data:`default region tags <clictagger.taggedtext.DEFAULT_HIGHLIGHT_REGIONS>` in ``alice.txt`` into ``alice.csv``::
 
@@ -53,6 +53,7 @@ Now you can make edits to ``new.txt``, reload your browser window, and changes w
 
 import argparse
 import http.server
+import itertools
 import subprocess
 import shutil
 import sys
@@ -118,17 +119,18 @@ def clictagger():
         action="store_true",
     )
     ap.add_argument(
-        "input",
-        type=str,
-        nargs="?",
-        default="-",
-        help="File containing input text, or '-' for STDIN. Defaults to STDIN",
-    )
-    ap.add_argument(
-        "region",
+        "--region",
         type=str,
         nargs="*",
+        default=[],
         help="Region names to highlight. Defaults to sentences and quotes",
+    )
+    ap.add_argument(
+        "input",
+        type=str,
+        nargs="*",
+        default=["-"],
+        help="File containing input text, or '-' for STDIN. Defaults to STDIN",
     )
     args = ap.parse_args()
 
@@ -138,12 +140,11 @@ def clictagger():
             yield "<!DOCTYPE html>\n<html><head></head><body>\n"
 
             # NB: Re-parse file on every request
-            for h in (
-                TaggedText.from_file(args.input)
-                .markup(highlight=args.region)
-                .gen_html()
-            ):
-                yield h
+            for f in args.input:
+                for h in (
+                    TaggedText.from_file(f).markup(highlight=args.region).gen_html()
+                ):
+                    yield h
 
             yield "</body></html>\n"
 
@@ -161,18 +162,27 @@ def clictagger():
         exit(1)
 
     if args.csv is not None:
-        out_iter = (
-            TaggedText.from_file(args.input).table(highlight=args.region).gen_csv()
+        out_iter = itertools.chain(
+            *(
+                TaggedText.from_file(f).table(highlight=args.region).gen_csv()
+                for f in args.input
+            )
         )
         out_path = args.csv
     elif args.html is not None:
-        out_iter = (
-            TaggedText.from_file(args.input).markup(highlight=args.region).gen_html()
+        out_iter = itertools.chain(
+            *(
+                TaggedText.from_file(f).markup(highlight=args.region).gen_html()
+                for f in args.input
+            )
         )
         out_path = args.html
     else:  # Assume ansi if nothing else given
-        out_iter = (
-            TaggedText.from_file(args.input).markup(highlight=args.region).gen_ansi()
+        out_iter = itertools.chain(
+            *(
+                TaggedText.from_file(f).markup(highlight=args.region).gen_ansi()
+                for i, f in enumerate(args.input)
+            )
         )
         out_path = "-"
 

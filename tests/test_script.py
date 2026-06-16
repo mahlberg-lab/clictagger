@@ -16,7 +16,7 @@ def clictagger_path():
 
 def run_script(content, args=[], regions=[]):
     process = subprocess.Popen(
-        [clictagger_path()] + args + ["-"] + regions,
+        [clictagger_path()] + args + ["-"] + ["--region"] + regions,
         stdin=subprocess.PIPE,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
