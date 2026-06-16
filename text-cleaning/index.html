@@ -1,18 +1,16 @@
-
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>Preparing texts for CLiCTagger &#8212; clictagger  documentation</title>
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-    <script src="../_static/jquery.js"></script>
-    <script src="../_static/underscore.js"></script>
-    <script src="../_static/doctools.js"></script>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=6625fa76" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=039e1c02" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=df4b10f6"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
     <link rel="index" title="Index" href="../genindex/" />
     <link rel="search" title="Search" href="../search/" />
     <link rel="next" title="Running CLiCTagger online via a Python notebook" href="../python-notebooks/" />
@@ -34,7 +32,7 @@
           <div class="body" role="main">
             
   <section id="preparing-texts-for-clictagger">
-<h1>Preparing texts for CLiCTagger<a class="headerlink" href="#preparing-texts-for-clictagger" title="Permalink to this headline">¶</a></h1>
+<h1>Preparing texts for CLiCTagger<a class="headerlink" href="#preparing-texts-for-clictagger" title="Permalink to this heading">¶</a></h1>
 <p>Whilst CLiCTagger can work on any plain text, for best results text should be prepared using the method below.
 Any texts added to the <a class="reference external" href="https://github.com/mahlberg-lab/corpora">corpora repository</a> should follow this process.</p>
 <p>To clean texts so they are ready for use with CLiCTagger, the following steps need to be followed.</p>
@@ -49,18 +47,18 @@ Any texts added to the <a class="reference external" href="https://github.com/ma
 <p>If committing to the corpora repository, each editing stage is committed and clearly documented with a commit message.
 Accordingly, it is possible to see the history of a single file, see for example the <a class="reference external" href="https://github.com/mahlberg-lab/corpora/commits/master/ChiLit/willows.txt">history of willows.txt</a>.</p>
 <section id="save-as-convert-to-utf-8-and-use-typographical-curly-quote-marks">
-<h2>Save as/convert to UTF-8 and use typographical (‘curly’) quote marks<a class="headerlink" href="#save-as-convert-to-utf-8-and-use-typographical-curly-quote-marks" title="Permalink to this headline">¶</a></h2>
+<h2>Save as/convert to UTF-8 and use typographical (‘curly’) quote marks<a class="headerlink" href="#save-as-convert-to-utf-8-and-use-typographical-curly-quote-marks" title="Permalink to this heading">¶</a></h2>
 <p>The CLiC Tagger expects files in UTF-8. Ideally, typographical (‘curly’) quote marks should be used to avoid confusion between quote marks and apostrophes.</p>
 </section>
 <section id="convert-to-unix-line-endings">
-<h2>Convert to unix line endings<a class="headerlink" href="#convert-to-unix-line-endings" title="Permalink to this headline">¶</a></h2>
+<h2>Convert to unix line endings<a class="headerlink" href="#convert-to-unix-line-endings" title="Permalink to this heading">¶</a></h2>
 <p>Step [2] is achieved using the following command:</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>for f in ChiLit/*.txt; do dos2unix -m $f; done
 </pre></div>
 </div>
 </section>
 <section id="remove-non-authorial-text">
-<h2>Remove non-authorial text<a class="headerlink" href="#remove-non-authorial-text" title="Permalink to this headline">¶</a></h2>
+<h2>Remove non-authorial text<a class="headerlink" href="#remove-non-authorial-text" title="Permalink to this heading">¶</a></h2>
 <ul>
 <li><p>Tables of content are removed.</p></li>
 <li><p>Lists of illustrations are removed.</p></li>
@@ -145,7 +143,7 @@ slow and inactive, they perform their work very effectually.&quot;
 </ul>
 </section>
 <section id="reformat-the-book-title-and-author-to-make-consistent-across-all-texts">
-<h2>Reformat the book title and author to make consistent across all texts<a class="headerlink" href="#reformat-the-book-title-and-author-to-make-consistent-across-all-texts" title="Permalink to this headline">¶</a></h2>
+<h2>Reformat the book title and author to make consistent across all texts<a class="headerlink" href="#reformat-the-book-title-and-author-to-make-consistent-across-all-texts" title="Permalink to this heading">¶</a></h2>
 <ul>
 <li><p>The <strong>book title</strong> is put on the first line of the file, without any
 newlines.</p></li>
@@ -167,7 +165,7 @@ Charles Dickens
 </ul>
 </section>
 <section id="reformat-chapter-headings-to-make-consistent-across-all-texts">
-<h2>Reformat chapter headings to make consistent across all texts<a class="headerlink" href="#reformat-chapter-headings-to-make-consistent-across-all-texts" title="Permalink to this headline">¶</a></h2>
+<h2>Reformat chapter headings to make consistent across all texts<a class="headerlink" href="#reformat-chapter-headings-to-make-consistent-across-all-texts" title="Permalink to this heading">¶</a></h2>
 <ul>
 <li><p><strong>Chapter headings</strong> are formatted as follows: If the chapter heading
 begins with ‘CHAPTER’ or ‘BOOK’ it must be followed by a number or
@@ -261,7 +259,7 @@ advertisement, we shall be full again.’
 </ul>
 </section>
 <section id="manual-corrections">
-<h2>Manual corrections<a class="headerlink" href="#manual-corrections" title="Permalink to this headline">¶</a></h2>
+<h2>Manual corrections<a class="headerlink" href="#manual-corrections" title="Permalink to this heading">¶</a></h2>
 <p>When previewing the output of the CLiC tagger output, you might notice that manual corrections are necessary. These could relate to correcting the format to properly follow the steps listed above, or might point to instances of, for example, missing quote marks. See <a class="reference external" href="https://github.com/mahlberg-lab/corpora/commit/e452aa520a8503df63b1628d5863e4c3c2f6f4da#diff-151a8e57bf7163871654b38b87fc1444f677d617882e10297abe2f700862303e">this example</a> of a manual correction (adding a missing closing quote mark) in the CLiC ArTs corpus.</p>
 </section>
 </section>
@@ -317,7 +315,7 @@ advertisement, we shall be full again.’
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
 
 
 
@@ -331,11 +329,11 @@ advertisement, we shall be full again.’
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2021, Michaela Mahlberg, Viola Wiegand, Jamie Lentin & Anthony Hennessey.
+      &copy;2026, Michaela Mahlberg, Viola Wiegand, Jamie Lentin & Anthony Hennessey.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.1.2</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.1.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
       
       |
       <a href="../_sources/text-cleaning.rst.txt"

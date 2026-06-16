@@ -1,18 +1,16 @@
-
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>CLiCTagger Region-tagging &#8212; clictagger  documentation</title>
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
-    <script data-url_root="#" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
-    <script src="_static/doctools.js"></script>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=6625fa76" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=039e1c02" />
+    <script data-url_root="#" id="documentation_options" src="_static/documentation_options.js?v=df4b10f6"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=4825356b"></script>
     <link rel="index" title="Index" href="genindex/" />
     <link rel="search" title="Search" href="search/" />
     <link rel="next" title="&lt;no title&gt;" href="clictagger.taggedtext/" />
@@ -33,7 +31,7 @@
           <div class="body" role="main">
             
   <section id="clictagger-region-tagging">
-<h1>CLiCTagger Region-tagging<a class="headerlink" href="#clictagger-region-tagging" title="Permalink to this headline">¶</a></h1>
+<h1>CLiCTagger Region-tagging<a class="headerlink" href="#clictagger-region-tagging" title="Permalink to this heading">¶</a></h1>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="text-cleaning/">Preparing texts for CLiCTagger</a><ul>
@@ -68,9 +66,9 @@
 <p><img alt="ci" src="https://github.com/mahlberg-lab/clictagger/actions/workflows/ci.yml/badge.svg" /> <img alt="gh-pages" src="https://github.com/mahlberg-lab/clictagger/actions/workflows/gh-pages.yml/badge.svg" /></p>
 <p>Part of the <a class="reference external" href="https://www.birmingham.ac.uk/schools/edacs/departments/englishlanguage/research/projects/clic/index.aspx">CLiC project</a></p>
 <section id="installation">
-<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this heading">¶</a></h2>
 <section id="linux">
-<h3>Linux<a class="headerlink" href="#linux" title="Permalink to this headline">¶</a></h3>
+<h3>Linux<a class="headerlink" href="#linux" title="Permalink to this heading">¶</a></h3>
 <p>First make sure you have the following prerequisites installed:</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>apt-get install python3 python3-dev \
     libicu-dev pkg-config
@@ -82,7 +80,7 @@
 </div>
 </section>
 <section id="windows-macos">
-<h3>Windows / MacOS<a class="headerlink" href="#windows-macos" title="Permalink to this headline">¶</a></h3>
+<h3>Windows / MacOS<a class="headerlink" href="#windows-macos" title="Permalink to this heading">¶</a></h3>
 <p>Under either you can install clictagger via. <a class="reference external" href="https://docs.conda.io/projects/conda/en/latest/user-guide/index.html">Anaconda</a>:</p>
 <ol class="arabic simple">
 <li><p>Install <a class="reference external" href="https://docs.conda.io/en/latest/miniconda.html">Miniconda</a> if you haven’t already.</p></li>
@@ -96,20 +94,20 @@ if running windows, <a class="reference external" href="https://github.com/mahlb
 </section>
 </section>
 <section id="usage">
-<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h2>
+<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this heading">¶</a></h2>
 <section id="python-notebook">
-<h3>Python notebook<a class="headerlink" href="#python-notebook" title="Permalink to this headline">¶</a></h3>
+<h3>Python notebook<a class="headerlink" href="#python-notebook" title="Permalink to this heading">¶</a></h3>
 <p>See <a class="reference external" href="https://mybinder.org/v2/gh/mahlberg-lab/clictagger/HEAD?filepath=getting_started.ipynb">getting_started.ipynb</a>.</p>
 <p>To region-tag your own examples, use <a class="reference external" href="https://mybinder.org/v2/gh/mahlberg-lab/clictagger/HEAD?filepath=file-upload.ipynb">file-upload.ipynb</a></p>
 </section>
 <section id="command-line">
-<h3>Command line<a class="headerlink" href="#command-line" title="Permalink to this headline">¶</a></h3>
+<h3>Command line<a class="headerlink" href="#command-line" title="Permalink to this heading">¶</a></h3>
 <img alt="Animation of command_line usage" class="align-center" src="_images/commandline_example.svg" /><p>You should now have the <code class="docutils literal notranslate"><span class="pre">clictagger</span></code> command available. See <code class="docutils literal notranslate"><span class="pre">--help</span></code> for usage.</p>
 <p>For more examples, see the <a class="reference external" href="https://mahlberg-lab.github.io/clictagger/clictagger.script">clictagger.script</a> documentation.</p>
 </section>
 </section>
 <section id="development">
-<h2>Development<a class="headerlink" href="#development" title="Permalink to this headline">¶</a></h2>
+<h2>Development<a class="headerlink" href="#development" title="Permalink to this heading">¶</a></h2>
 <p>There is a Makefile that will setup and perform common development actions, in
 a venv. Once code is checked out you can run:</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>make test  # Run all tests
@@ -121,7 +119,7 @@ make release  # Use zest.releaser to make a new release
 </div>
 </section>
 <section id="acknowledgements">
-<h2>Acknowledgements<a class="headerlink" href="#acknowledgements" title="Permalink to this headline">¶</a></h2>
+<h2>Acknowledgements<a class="headerlink" href="#acknowledgements" title="Permalink to this heading">¶</a></h2>
 <p>This work is released under <a class="reference external" href="LICENSE">MIT</a>.</p>
 </section>
 </section>
@@ -168,7 +166,7 @@ make release  # Use zest.releaser to make a new release
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
 
 
 
@@ -182,11 +180,11 @@ make release  # Use zest.releaser to make a new release
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2021, Michaela Mahlberg, Viola Wiegand, Jamie Lentin & Anthony Hennessey.
+      &copy;2026, Michaela Mahlberg, Viola Wiegand, Jamie Lentin & Anthony Hennessey.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.1.2</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.1.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
       
       |
       <a href="_sources/index.rst.txt"
