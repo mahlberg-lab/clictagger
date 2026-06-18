@@ -21,6 +21,7 @@ HTML_CSS = """
 #tt-ID .highlight-chapter-sentence {
     border-top: 1px solid #555;
     border-bottom: 1px solid #555;
+    background: #eee;
 }
 
 #tt-ID .highlight-chapter-sentence:first-child {
@@ -84,10 +85,12 @@ def _gen_markup_html(ttrm):
     # Generate CSS
     css = "<style>%s</style>" % html.escape(HTML_CSS.replace("#tt-ID", "#" + tt_id))
     for i, rclass in enumerate(ttrm.highlight):
-        css = css.replace(".highlight-%d" % i, "." + rclass_css(rclass))
         css = css.replace(
             ".highlight-%s" % rclass_css(rclass), "." + rclass_css(rclass)
         )
+        # chapter.sentence has it's own custom highlight rules
+        if rclass != "chapter.sentence":
+            css = css.replace(".highlight-%d" % i, "." + rclass_css(rclass))
     yield css
 
     start = 0
