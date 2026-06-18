@@ -4,12 +4,14 @@ channels:
   - defaults
 dependencies:
   - icu>=68.1  # NB: No PyICU in conda-forge for windows
-  - Python~=3.9.0  # Pin python version to match our wheel
+  - python=3.11.*|3.12.*|3.13.*|3.14.*  # Pin python version to match an available wheel
   - pip
   - git
   - pip:
-    # Wheel saved from https://www.lfd.uci.edu/~gohlke/pythonlibs/#pyicu, who don't want direct linking
-    - https://github.com/mahlberg-lab/clictagger/raw/main/PyICU-2.6-cp39-cp39-win_amd64.whl
+    - pyicu @ https://github.com/cgohlke/pyicu-build/releases/download/v2.16.2/pyicu-2.16.2-cp311-cp311-win_amd64.whl ; python_version == "3.11"
+    - pyicu @ https://github.com/cgohlke/pyicu-build/releases/download/v2.16.2/pyicu-2.16.2-cp312-cp312-win_amd64.whl ; python_version == "3.12"
+    - pyicu @ https://github.com/cgohlke/pyicu-build/releases/download/v2.16.2/pyicu-2.16.2-cp313-cp313-win_amd64.whl ; python_version == "3.13"
+    - pyicu @ https://github.com/cgohlke/pyicu-build/releases/download/v2.16.2/pyicu-2.16.2-cp314-cp314-win32.whl ; python_version == "3.14"
     - git+https://github.com/mahlberg-lab/clictagger
 
 

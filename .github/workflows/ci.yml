@@ -3,42 +3,35 @@ on:
   push:
      branches:
        - main
+  pull_request:
+  workflow_dispatch:
+
 jobs:
   build:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macOS-latest]
-        python-version: [3.9]
+        os: [ubuntu-latest, macOS-latest, windows-latest]
+        python-version: ["3.11", "3.13"]
     name: clictagger CI ${{ matrix.os }} / ${{ matrix.python-version }}
     steps:
-      - uses: actions/checkout@v2
-      - name: Setup conda
-        uses: s-weigand/setup-conda@v1
+      - uses: actions/checkout@v6
+      # https://github.com/conda-incubator/setup-miniconda
+      - uses: conda-incubator/setup-miniconda@26edbf943b735d99317800282664c1ab4025e686
         with:
-          update-conda: true
+          auto-update-conda: true
           python-version: ${{ matrix.python-version }}
-          conda-channels: anaconda, conda-forge
-      - name: Install clictagger for UNIX
+          activate-environment: clictagger
+          environment-file: ${{ matrix.os == 'windows-latest' && 'environment-windows.yml' || 'environment.yml' }}
+      - name: Install clictagger via conda
         run: |
-          conda install icu>=68.1 pyicu>=2.6 Python~=3.9.0 pip
-          pip install .
-        if: ${{ matrix.os != 'windows-latest' }}
-      - name: Install clictagger for Windows
-        # NB: We can't use an enviroment for this, since we can't easily activate it in following steps
-        run: |
-          conda install icu>=68.1 Python~=3.9.0 pip
-          pip install https://github.com/mahlberg-lab/clictagger/raw/main/PyICU-2.6-cp39-cp39-win_amd64.whl
-          pip install .
-        if: ${{ matrix.os == 'windows-latest' }}
+          conda run -n clictagger -v pip install -r dev-requirements.txt
       - name: Tests
         run: |
-          pip install pytest
-          pytest clictagger tests
+          conda run -n clictagger pytest clictagger tests
       - name: Lint
         run: |
-          pip install black
-          black --diff clictagger/ tests/
+          conda run -n clictagger make lint
         if: ${{ matrix.os == 'ubuntu-latest' }}
 #      - name: Setup tmate session
 #        uses: mxschmitt/action-tmate@v3
