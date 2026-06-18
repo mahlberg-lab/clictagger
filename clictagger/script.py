@@ -54,12 +54,50 @@ Now you can make edits to ``new.txt``, reload your browser window, and changes w
 import argparse
 import http.server
 import itertools
+import re
 import subprocess
 import shutil
 import sys
 import webbrowser
 
 from .taggedtext import TaggedText
+
+
+def _full_html(files, regions):
+    def to_anchor(f):
+        return re.sub(r"\W", "-", f)
+
+    if len(files) > 1:
+        yield '<h2><a name="contents">Contents</a></h2><ul>'
+        for f in files:
+            yield '<li><a href="#%s">%s</a></li>' % (to_anchor(f), f)
+        yield "</ul><hr>"
+
+    yield """<!DOCTYPE html>
+    <html><head><meta charset="utf-8" /><style>
+      body { font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans","Liberation Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji"; }
+      .legend {
+        position: fixed;
+        top: 2rem; right: 2rem;
+        padding: 1rem 2rem;
+        list-style: none;
+        border: 1px solid #333;
+        border-radius: 3px;
+        background: #EEE;
+      }
+      .clictagger-tt ~ .clictagger-tt > .legend { display: none }
+    </style></head><body>
+    """
+    for f in files:
+        if len(files) > 1 and f != "-":
+            yield '<h2><a name="%s">%s</a> <small>(<a href="#contents">up</a>)</small></h2>' % (
+                to_anchor(f),
+                f,
+            )
+        yield from TaggedText.from_file(f).markup(highlight=regions).gen_html()
+        if len(files) > 1:
+            yield "<hr>"
+    yield "</body></html>\n"
 
 
 def _serve_method(fn):
@@ -137,16 +175,7 @@ def clictagger():
     if args.serve:
 
         def serve_iter():
-            yield "<!DOCTYPE html>\n<html><head></head><body>\n"
-
-            # NB: Re-parse file on every request
-            for f in args.input:
-                for h in (
-                    TaggedText.from_file(f).markup(highlight=args.region).gen_html()
-                ):
-                    yield h
-
-            yield "</body></html>\n"
+            yield from _full_html(args.input, args.region)
 
         _serve_method(serve_iter)
         exit(0)
@@ -170,12 +199,7 @@ def clictagger():
         )
         out_path = args.csv
     elif args.html is not None:
-        out_iter = itertools.chain(
-            *(
-                TaggedText.from_file(f).markup(highlight=args.region).gen_html()
-                for f in args.input
-            )
-        )
+        out_iter = _full_html(args.input, args.region)
         out_path = args.html
     else:  # Assume ansi if nothing else given
         out_iter = itertools.chain(
