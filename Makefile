@@ -7,7 +7,7 @@ bin/pip:
 	# 3.13+ adds "--without-scm-ignore-files", without which we blat .gitignore
 	if python3 -m venv --help | grep -q -- "--without-scm-ignore-files"; then python3 -m venv --without-scm-ignore-files . ; else python3 -m venv .; fi
 
-lib/.requirements: dev-requirements.txt setup.py bin/pip
+lib/.requirements: dev-requirements.txt pyproject.toml bin/pip
 	# Install requirements
 	./bin/pip install -r dev-requirements.txt
 	touch lib/.requirements
@@ -18,9 +18,9 @@ test: compile
 	./bin/pytest $(EGG_NAME) tests
 
 lint: lib/.requirements
-	./bin/python3 setup.py sdist
+	./bin/python3 -m build --sdist
 	./bin/twine check dist/*
-	./bin/black --diff --check $(EGG_NAME)/ tests/ conftest.py
+	./bin/black --diff --check --target-version py313 $(EGG_NAME)/ tests/ conftest.py
 
 lint-apply: lib/.requirements
 	./bin/black $(EGG_NAME)/ tests/ conftest.py

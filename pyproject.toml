@@ -1,0 +1,47 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "clictagger"
+version = "0.9.1.dev0"
+description = "CLiC region tagging"
+requires-python = ">=3.6"
+license = {text = "MIT"}
+authors = [
+    {name = "Jamie Lentin", email = "jamie.lentin@shuttlethread.com"},
+]
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+]
+dependencies = [
+    "pyicu>=2.6",
+    "unidecode",
+]
+dynamic = ["readme"]
+
+[project.optional-dependencies]
+testing = [
+    "pytest",
+    "pytest-cov",
+]
+
+[project.urls]
+Homepage = "https://github.com/mahlberg-lab/clictagger"
+
+[project.scripts]
+clictagger = "clictagger.script:clictagger"
+
+[tool.setuptools.dynamic]
+readme = {file = ["README.rst", "CHANGES.rst"], content-type = "text/x-rst"}
+
+[tool.setuptools.packages.find]
+include = ["clictagger*"]
+
+[tool.pytest.ini_options]
+addopts = "--doctest-modules"
+doctest_optionflags = "NORMALIZE_WHITESPACE"
+
+[tool.zest-releaser]
+create-wheel = false
