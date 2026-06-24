@@ -234,6 +234,21 @@ Non-quote regions don't run outside chapters, so Titles aren't part of them::
      ('quote.nonquote', 314, 340, None, 'said the Otter cheerfully.'),
      ('quote.quote', 342, 429, None, '‘They were all in a ...rived\\nthis morning.’')]
 
+Quotes can also use guillemets or Anführungszeichen::
+
+    >>> [x for x in run_tagger('''
+    ... Andreas fragte mich: „Hast du den Artikel ‚EU-Erweiterung‘ gelesen?“
+    ... '''.strip(), tagger_chapter, tagger_quote) if x[0] in set(('quote.quote', 'quote.nonquote'))]
+    [('quote.nonquote', 0, 20, None, 'Andreas fragte mich:'),
+     ('quote.quote', 21, 68, None, '„Hast du den Artikel...weiterung‘ gelesen?“')]
+
+    >>> [x for x in run_tagger('''
+    ... »Bettine, warum sind Sie so unliebenswürdig?« – Ich frag: »Wie soll ich's machen, um liebenswürdig zu sein?«
+    ... '''.strip(), tagger_chapter, tagger_quote) if x[0] in set(('quote.quote', 'quote.nonquote'))]
+    [('quote.quote', 0, 45, None, '»Bettine, warum sind...so unliebenswürdig?«'),
+     ('quote.nonquote', 46, 57, None, '– Ich frag:'),
+     ('quote.quote', 58, 108, None, "»Wie soll ich's mach...benswürdig zu sein?«")]
+
 quote.embedded regions
 ----------------------
 
@@ -294,6 +309,10 @@ QUOTES = {
     "‘": "’",  # English Single.
     '"': '"',  # Double universal.
     "'": "'",  # Single universal.
+    "„": "“",  # German primary.
+    "‚": "‘",  # German secondary.
+    "»": "«",  # German-alt primary.
+    "›": "‹",  # German-alt secondary.
 }
 
 
