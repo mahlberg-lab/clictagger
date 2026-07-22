@@ -99,6 +99,7 @@ from .region.metadata import tagger_metadata
 from .region.chapter import tagger_chapter
 from .region.quote import tagger_quote
 from .region.suspension import tagger_quote_suspension
+from .region.changes import tagger_changes, git_oldrev
 
 from .markup import _gen_markup_ansi, _gen_markup_html
 from .table import _gen_table_csv, _gen_table_html
@@ -148,16 +149,24 @@ class TaggedText:
         self.regions = book
 
     @classmethod
-    def from_file(cls, text_path):
+    def from_file(cls, text_path, compare_to_revision=None):
         """
         Initialise a TaggedText object from a file.
 
         - text_path: The path of the file to read. Should be a UTF-8 encoded file
+        - compare_to_revision: Optional Compare file to this version in git, include regions that have changed
         """
         if text_path == "-":
+            if compare_to_revision is not None:
+                raise ValueError("Cannot compare revisions of stdin")
             return cls(sys.stdin.read(), name="stdin")
         with open(text_path, "r", encoding="utf8") as f:
-            return cls(f.read(), name=text_path)
+            out = cls(f.read(), name=text_path)
+            if compare_to_revision is not None:
+                tagger_changes(
+                    out.regions, out.content, git_oldrev(text_path, compare_to_revision)
+                )
+            return out
 
     @classmethod
     def from_github(cls, file_path, repo="mahlberg-lab/corpora", tag="HEAD"):

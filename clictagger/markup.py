@@ -36,6 +36,12 @@ HTML_CSS = """
     border-inline-end: 1px solid #555;
 }
 
+#tt-ID .highlight-changes-changed {
+   text-decoration-style: wavy;
+   text-decoration-line: underline;
+   text-decoration-color: darkgreen;
+}
+
 #tt-ID .highlight-0 { background: cornflowerblue }
 #tt-ID .highlight-1 { background: yellowgreen }
 #tt-ID .highlight-2 { background: palevioletred }
@@ -44,6 +50,12 @@ HTML_CSS = """
 #tt-ID .highlight-5 { background: goldenrod }
 """.strip()
 
+RCLASS_CUSTOM_CSS_RULES = set(
+    (
+        "chapter.sentence",
+        "changes.changed",
+    )
+)
 
 REGION_COLOURS = [
     "\x1b[0m",
@@ -89,7 +101,7 @@ def _gen_markup_html(ttrm):
             ".highlight-%s" % rclass_css(rclass), "." + rclass_css(rclass)
         )
         # chapter.sentence has it's own custom highlight rules
-        if rclass != "chapter.sentence":
+        if rclass not in RCLASS_CUSTOM_CSS_RULES:
             css = css.replace(".highlight-%d" % i, "." + rclass_css(rclass))
     yield css
 
