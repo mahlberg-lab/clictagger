@@ -229,6 +229,15 @@ class TaggedText:
             "".join("<tr><th>%s</th><td>%s</td></tr>" % p for p in str_parts),
         )
 
+    def _highlight_regions(self, highlight):
+        if highlight is not None and len(highlight) > 0:
+            return highlight
+        highlight = DEFAULT_HIGHLIGHT_REGIONS[:]
+
+        if "changes.changed" in self.regions:
+            highlight.append("changes.changed")
+        return highlight
+
     def __html__(self):
         """Inform other modules we are HTML safe"""
         # https://github.com/ipython/ipython/blob/master/IPython/core/display.py#L419
@@ -238,26 +247,24 @@ class TaggedText:
         """Return a list of all region classes searched for in the document"""
         return list(self.regions.keys())
 
-    def markup(self, highlight=DEFAULT_HIGHLIGHT_REGIONS):
+    def markup(self, highlight=None):
         """
         Return a :py:class:`TaggedTextRegionMarkup` object for displaying text with region tags highlighted
 
         - highlight: List of region tag classes to highlight
         """
-        if len(highlight) == 0:
-            highlight = DEFAULT_HIGHLIGHT_REGIONS
-        return TaggedTextRegionMarkup(self, highlight)
+        return TaggedTextRegionMarkup(self, self._highlight_regions(highlight))
 
-    def table(self, highlight=DEFAULT_HIGHLIGHT_REGIONS, display="html"):
+    def table(self, highlight=None, display="html"):
         """
         Return a :py:class:`TaggedTextRegionTable` object for displaying region tags in tables
 
         - highlight: List of region tag classes to highlight
         - display: The type of HTML that will be generated. Either "html" or "csv-download"
         """
-        if len(highlight) == 0:
-            highlight = DEFAULT_HIGHLIGHT_REGIONS
-        return TaggedTextRegionTable(self, highlight, display=display)
+        return TaggedTextRegionTable(
+            self, self._highlight_regions(highlight), display=display
+        )
 
 
 class TaggedTextRegionMarkup:
