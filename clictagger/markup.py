@@ -32,7 +32,7 @@ HTML_CSS = """
     border-inline-start: 1px solid #555;
 }
 
-#tt-ID .highlight-chapter-sentence-close {
+#tt-ID .highlight-chapter-sentence:not(:has(+ .highlight-chapter-sentence)) {
     border-inline-end: 1px solid #555;
 }
 
@@ -98,10 +98,9 @@ def _gen_markup_html(ttrm):
     yield '<div class="clictagger-tt" id="%s">' % tt_id
     yield '<ul class="legend">'
     for rclass in ttrm.highlight:
-        yield '<li><span class="%s">%s</span><span class="%s"></span></li>' % (
+        yield '<li><span class="%s">%s</span></li>' % (
             rclass_css(rclass),
             html.escape(rclass),
-            rclass_css(rclass) + "-close",
         )
     yield "</ul>"
     yield "<span>"
@@ -117,11 +116,6 @@ def _gen_markup_html(ttrm):
         if insert.opening:
             open_regions[insert.rclass] = insert
         else:
-            if insert.rclass == "chapter.sentence":
-                # NB: We need closing markers since CSS can't say "a sentence that is followed by non-sentence"
-                yield '</span><span class="%s">' % (
-                    rclass_css(insert.rclass) + "-close",
-                )
             del open_regions[insert.rclass]
     yield "</span></div>"
 
