@@ -63,7 +63,7 @@ import webbrowser
 from .taggedtext import TaggedText
 
 
-def _full_html(files, regions):
+def _full_html(files, regions, compare_to_revision=None):
     def to_anchor(f):
         return re.sub(r"\W", "-", f)
 
@@ -79,7 +79,7 @@ def _full_html(files, regions):
       .legend {
         position: fixed;
         top: 2rem; right: 2rem;
-        padding: 1rem 2rem;
+        padding: 1rem 1rem;
         list-style: none;
         border: 1px solid #333;
         border-radius: 3px;
@@ -94,13 +94,15 @@ def _full_html(files, regions):
                 to_anchor(f),
                 f,
             )
-        yield from TaggedText.from_file(f).markup(highlight=regions).gen_html()
+        yield from TaggedText.from_file(
+            f, compare_to_revision=compare_to_revision
+        ).markup(highlight=regions).gen_html()
         if len(files) > 1:
             yield "<hr>"
     yield "</body></html>\n"
 
 
-def _serve_method(fn):
+def _serve_method(fn, server_name="0.0.0.0", server_port=8080):
     """Start a server that serves the single-page result. fn is a function that returns an iterator"""
 
     class RequestHandler(http.server.BaseHTTPRequestHandler):
@@ -117,7 +119,7 @@ def _serve_method(fn):
                 self.end_headers()
                 self.wfile.write("NOT FOUND".encode("utf8"))
 
-    server_address = ("0.0.0.0", 8080)
+    server_address = (server_name, server_port)
     httpd = http.server.HTTPServer(server_address, RequestHandler)
     print("Starting webserver. Press Ctrl-C to stop.")
     print(
@@ -153,8 +155,16 @@ def clictagger():
     )
     ap_mode.add_argument(
         "--serve",
-        help="Start a webserver to view output",
-        action="store_true",
+        help="Start a webserver to view output on the given port (default 8080)",
+        type=int,
+        nargs="?",
+        const=8080,
+        default=None,
+    )
+    ap.add_argument(
+        "--compare-to",
+        type=str,
+        help="Compare file(s) to the copy at the given git revision",
     )
     ap.add_argument(
         "--region",
@@ -175,9 +185,9 @@ def clictagger():
     if args.serve:
 
         def serve_iter():
-            yield from _full_html(args.input, args.region)
+            yield from _full_html(args.input, args.region, args.compare_to)
 
-        _serve_method(serve_iter)
+        _serve_method(serve_iter, server_port=args.serve)
         exit(0)
 
     if args.input == "-" and sys.stdin.isatty():
@@ -193,18 +203,22 @@ def clictagger():
     if args.csv is not None:
         out_iter = itertools.chain(
             *(
-                TaggedText.from_file(f).table(highlight=args.region).gen_csv()
+                TaggedText.from_file(f, compare_to_revision=args.compare_to)
+                .table(highlight=args.region)
+                .gen_csv()
                 for f in args.input
             )
         )
         out_path = args.csv
     elif args.html is not None:
-        out_iter = _full_html(args.input, args.region)
+        out_iter = _full_html(args.input, args.region, args.compare_to)
         out_path = args.html
     else:  # Assume ansi if nothing else given
         out_iter = itertools.chain(
             *(
-                TaggedText.from_file(f).markup(highlight=args.region).gen_ansi()
+                TaggedText.from_file(f, compare_to_revision=args.compare_to)
+                .markup(highlight=args.region)
+                .gen_ansi()
                 for i, f in enumerate(args.input)
             )
         )

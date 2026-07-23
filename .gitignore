@@ -15,6 +15,7 @@
 /.coverage
 /htmlcov/
 /dist/
+/build/
 
 /*.txt
 /*.csv

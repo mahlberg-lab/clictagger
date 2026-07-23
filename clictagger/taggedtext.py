@@ -73,7 +73,7 @@ by pretty printed by IPython using ``IPython.display``::
     >>> # from IPython.display import display
     >>> tt = TaggedText('''‘Well!’ thought Alice to herself, ‘after such a fall as this, I shall think nothing of tumbling down stairs!’''')
     >>> display(tt.markup())
-    <span title="chapter.paragraph:1 chapter.sentence:1 chapter.text:0 quote.quote" class="chapter-paragraph chapter-sentence chapter-text quote-quote">‘Well!’</span><span class="chapter-sentence-close"></span><span title="chapter.paragraph:1 chapter.text:0" class="chapter-paragraph chapter-text"> </span><span title="chapter.paragraph:1 chapter.text:0 chapter.sentence:2 quote.nonquote quote.suspension.short" class="chapter-paragraph chapter-text chapter-sentence quote-nonquote quote-suspension-short">thought Alice to herself,</span><span title="chapter.paragraph:1 chapter.text:0 chapter.sentence:2" class="chapter-paragraph chapter-text chapter-sentence"> </span><span title="chapter.paragraph:1 chapter.text:0 chapter.sentence:2 quote.quote" class="chapter-paragraph chapter-text chapter-sentence quote-quote">‘after such a fall as this, I shall think nothing of tumbling down stairs!’</span><span class="chapter-sentence-close"></span>
+    <span title="chapter.paragraph:1 chapter.sentence:1 chapter.text:0 quote.quote" class="chapter-paragraph chapter-sentence chapter-text quote-quote">‘Well!’</span><span title="chapter.paragraph:1 chapter.text:0" class="chapter-paragraph chapter-text"> </span><span title="chapter.paragraph:1 chapter.text:0 chapter.sentence:2 quote.nonquote quote.suspension.short" class="chapter-paragraph chapter-text chapter-sentence quote-nonquote quote-suspension-short">thought Alice to herself,</span><span title="chapter.paragraph:1 chapter.text:0 chapter.sentence:2" class="chapter-paragraph chapter-text chapter-sentence"> </span><span title="chapter.paragraph:1 chapter.text:0 chapter.sentence:2 quote.quote" class="chapter-paragraph chapter-text chapter-sentence quote-quote">‘after such a fall as this, I shall think nothing of tumbling down stairs!’</span>
     >>> display(tt.table())
     <table>
     <tr><th>Region class</th><th>Start</th><th>End</th><th>Region value</th><th>Content</th></tr>
@@ -99,6 +99,7 @@ from .region.metadata import tagger_metadata
 from .region.chapter import tagger_chapter
 from .region.quote import tagger_quote
 from .region.suspension import tagger_quote_suspension
+from .region.changes import tagger_changes, git_oldrev
 
 from .markup import _gen_markup_ansi, _gen_markup_html
 from .table import _gen_table_csv, _gen_table_html
@@ -148,16 +149,24 @@ class TaggedText:
         self.regions = book
 
     @classmethod
-    def from_file(cls, text_path):
+    def from_file(cls, text_path, compare_to_revision=None):
         """
         Initialise a TaggedText object from a file.
 
         - text_path: The path of the file to read. Should be a UTF-8 encoded file
+        - compare_to_revision: Optional Compare file to this version in git, include regions that have changed
         """
         if text_path == "-":
+            if compare_to_revision is not None:
+                raise ValueError("Cannot compare revisions of stdin")
             return cls(sys.stdin.read(), name="stdin")
         with open(text_path, "r", encoding="utf8") as f:
-            return cls(f.read(), name=text_path)
+            out = cls(f.read(), name=text_path)
+            if compare_to_revision is not None:
+                tagger_changes(
+                    out.regions, out.content, git_oldrev(text_path, compare_to_revision)
+                )
+            return out
 
     @classmethod
     def from_github(cls, file_path, repo="mahlberg-lab/corpora", tag="HEAD"):
@@ -220,6 +229,15 @@ class TaggedText:
             "".join("<tr><th>%s</th><td>%s</td></tr>" % p for p in str_parts),
         )
 
+    def _highlight_regions(self, highlight):
+        if highlight is not None and len(highlight) > 0:
+            return highlight
+        highlight = DEFAULT_HIGHLIGHT_REGIONS[:]
+
+        if "changes.changed" in self.regions:
+            highlight.append("changes.changed")
+        return highlight
+
     def __html__(self):
         """Inform other modules we are HTML safe"""
         # https://github.com/ipython/ipython/blob/master/IPython/core/display.py#L419
@@ -229,26 +247,24 @@ class TaggedText:
         """Return a list of all region classes searched for in the document"""
         return list(self.regions.keys())
 
-    def markup(self, highlight=DEFAULT_HIGHLIGHT_REGIONS):
+    def markup(self, highlight=None):
         """
         Return a :py:class:`TaggedTextRegionMarkup` object for displaying text with region tags highlighted
 
         - highlight: List of region tag classes to highlight
         """
-        if len(highlight) == 0:
-            highlight = DEFAULT_HIGHLIGHT_REGIONS
-        return TaggedTextRegionMarkup(self, highlight)
+        return TaggedTextRegionMarkup(self, self._highlight_regions(highlight))
 
-    def table(self, highlight=DEFAULT_HIGHLIGHT_REGIONS, display="html"):
+    def table(self, highlight=None, display="html"):
         """
         Return a :py:class:`TaggedTextRegionTable` object for displaying region tags in tables
 
         - highlight: List of region tag classes to highlight
         - display: The type of HTML that will be generated. Either "html" or "csv-download"
         """
-        if len(highlight) == 0:
-            highlight = DEFAULT_HIGHLIGHT_REGIONS
-        return TaggedTextRegionTable(self, highlight, display=display)
+        return TaggedTextRegionTable(
+            self, self._highlight_regions(highlight), display=display
+        )
 
 
 class TaggedTextRegionMarkup:

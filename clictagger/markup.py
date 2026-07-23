@@ -18,6 +18,25 @@ HTML_CSS = """
   float: right;
 }
 
+#tt-ID .legend button:first-child {
+  float: left;
+  margin-right: 0.5rem;
+}
+
+#tt-ID .legend button:last-child {
+  float: right;
+  margin-left: 0.5rem;
+}
+
+@keyframes tt-blink {
+  from { outline: 3px solid orangered; }
+  to { outline: 3px solid transparent; }
+}
+
+#tt-ID .tt-blink {
+  animation: tt-blink 1.5s ease-out;
+}
+
 #tt-ID .highlight-chapter-sentence {
     border-top: 1px solid #555;
     border-bottom: 1px solid #555;
@@ -32,8 +51,14 @@ HTML_CSS = """
     border-inline-start: 1px solid #555;
 }
 
-#tt-ID .highlight-chapter-sentence-close {
+#tt-ID .highlight-chapter-sentence:not(:has(+ .highlight-chapter-sentence)) {
     border-inline-end: 1px solid #555;
+}
+
+#tt-ID .highlight-changes-changed {
+   text-decoration-style: wavy;
+   text-decoration-line: underline;
+   text-decoration-color: darkgreen;
 }
 
 #tt-ID .highlight-0 { background: cornflowerblue }
@@ -44,6 +69,120 @@ HTML_CSS = """
 #tt-ID .highlight-5 { background: goldenrod }
 """.strip()
 
+HTML_JS = """
+function selectMatch(newMatches) {
+  (window.lastMatches || []).forEach(function (el) {
+    // Remove any previous blink and force reflow (in case we're the only element)
+    el.classList.remove("tt-blink");
+    void el.offsetWidth;
+  });
+  window.lastMatches = newMatches;
+
+  window.lastMatches[0].scrollIntoView({behaviour: "smooth", block: "center"});
+  window.lastMatches.forEach(function (el) {
+    el.classList.add("tt-blink");
+  });
+  window.setTimeout(function (elsPrev) {
+    elsPrev.forEach(function (el) {
+      el.classList.remove("tt-blink");
+    });
+  }, 1500, window.lastMatches);
+}
+
+document.querySelectorAll("ul.legend button[data-dir='right']").forEach(function (elButton) {
+  elButton.onclick = function (event) {
+    var searchForClass = event.target.parentElement.querySelector(":scope > span").className;
+    var lastMatch = window.lastMatches ? window.lastMatches[window.lastMatches.length - 1] : null;
+    let nextMatch;
+
+    if (lastMatch) {
+      for (let s = lastMatch.nextElementSibling; s && !nextMatch; s = s.nextElementSibling) {
+        // Look for following matches in the same document
+        if (s.matches("span." + searchForClass)) nextMatch = s;
+      }
+      if (!nextMatch) {
+        const currentDoc = lastMatch.parentElement;
+        for (let s = currentDoc.nextElementSibling; s && !nextMatch; s = s.nextElementSibling) {
+          // Look for matches in following documents
+          nextMatch = s.querySelector(":scope > span." + searchForClass);
+        }
+      }
+    }
+    if (!nextMatch) {
+      // Look for matches everywhere
+      nextMatch = window.document.querySelector("div.clictagger-tt > span." + searchForClass);
+    }
+    if (!nextMatch) {
+      window.alert("There are no instances of " + searchForClass + " in the document");
+      return;
+    }
+
+    // Collect subsequent spans with the same class
+    nextMatch = [nextMatch];
+    for (let s = nextMatch[nextMatch.length - 1].nextElementSibling; s; s = s.nextElementSibling) {
+      if (s.matches("span." + searchForClass)) {
+        nextMatch.push(s);
+      } else {
+        break;
+      }
+    }
+
+    selectMatch(nextMatch);
+  };
+});
+
+document.querySelectorAll("ul.legend button[data-dir='left']").forEach(function (elButton) {
+  elButton.onclick = function (event) {
+    var searchForClass = event.target.parentElement.querySelector(":scope > span").className;
+    var lastMatch = window.lastMatches ? window.lastMatches[0] : null;
+    let nextMatch;
+
+    if (lastMatch) {
+      for (let s = lastMatch.previousElementSibling; s && !nextMatch; s = s.previousElementSibling) {
+        // Look for preceding matches in the same document
+        if (s.matches("span." + searchForClass)) nextMatch = s;
+      }
+      if (!nextMatch) {
+        const currentDoc = lastMatch.parentElement;
+        for (let s = currentDoc.previousElementSibling; s && !nextMatch; s = s.previousElementSibling) {
+          // Look for matches in preceding documents, take the last match in each
+          const matches = s.querySelectorAll(":scope > span." + searchForClass);
+          nextMatch = matches[matches.length - 1];
+        }
+      }
+    }
+    if (!nextMatch) {
+      // Look for matches everywhere, take the last one
+      const matches = window.document.querySelectorAll("div.clictagger-tt > span." + searchForClass);
+      nextMatch = matches[matches.length - 1];
+    }
+    if (!nextMatch) {
+      window.alert("There are no instances of " + searchForClass + " in the document");
+      return;
+    }
+
+    // Collect previous spans with the same class
+    nextMatch = [nextMatch];
+    for (let s = nextMatch[0].previousElementSibling; s; s = s.previousElementSibling) {
+      if (s.matches("span." + searchForClass)) {
+        nextMatch.push(s);
+      } else {
+        break;
+      }
+    }
+    nextMatch.reverse();
+
+    selectMatch(nextMatch);
+  };
+});
+""".strip()
+
+RCLASS_CUSTOM_CSS_RULES = set(
+    (
+        "chapter.sentence",
+        "changes.changed",
+    )
+)
 
 REGION_COLOURS = [
     "\x1b[0m",
@@ -89,7 +228,7 @@ def _gen_markup_html(ttrm):
             ".highlight-%s" % rclass_css(rclass), "." + rclass_css(rclass)
         )
         # chapter.sentence has it's own custom highlight rules
-        if rclass != "chapter.sentence":
+        if rclass not in RCLASS_CUSTOM_CSS_RULES:
             css = css.replace(".highlight-%d" % i, "." + rclass_css(rclass))
     yield css
 
@@ -98,10 +237,9 @@ def _gen_markup_html(ttrm):
     yield '<div class="clictagger-tt" id="%s">' % tt_id
     yield '<ul class="legend">'
     for rclass in ttrm.highlight:
-        yield '<li><span class="%s">%s</span><span class="%s"></span></li>' % (
+        yield '<li><button data-dir="left">◄</button><span class="%s">%s</span><button data-dir="right">►</button></li>' % (
             rclass_css(rclass),
             html.escape(rclass),
-            rclass_css(rclass) + "-close",
         )
     yield "</ul>"
     yield "<span>"
@@ -117,13 +255,11 @@ def _gen_markup_html(ttrm):
         if insert.opening:
             open_regions[insert.rclass] = insert
         else:
-            if insert.rclass == "chapter.sentence":
-                # NB: We need closing markers since CSS can't say "a sentence that is followed by non-sentence"
-                yield '</span><span class="%s">' % (
-                    rclass_css(insert.rclass) + "-close",
-                )
             del open_regions[insert.rclass]
     yield "</span></div>"
+
+    # Generate JS
+    yield "<script>%s</script>" % HTML_JS
 
 
 def _gen_markup_ansi(ttrm):

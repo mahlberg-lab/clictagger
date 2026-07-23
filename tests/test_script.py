@@ -113,11 +113,11 @@ quote.quote,0,56,"","'Hello there, this new line is still part of the quote,'"\r
             f.flush()
 
             process = subprocess.Popen(
-                [clictagger_path(), "--serve", f.name],
+                [clictagger_path(), "--serve", "9123", f.name],
             )
             try:
                 time.sleep(1)
-                with urllib.request.urlopen("http://localhost:8080") as out:
+                with urllib.request.urlopen("http://localhost:9123") as out:
                     self.assertIn("Hello there,", out.read().decode("utf8"))
             finally:
                 process.kill()
