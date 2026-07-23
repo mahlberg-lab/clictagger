@@ -79,7 +79,7 @@ def _full_html(files, regions, compare_to_revision=None):
       .legend {
         position: fixed;
         top: 2rem; right: 2rem;
-        padding: 1rem 2rem;
+        padding: 1rem 1rem;
         list-style: none;
         border: 1px solid #333;
         border-radius: 3px;

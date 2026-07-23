@@ -7,6 +7,7 @@ def display(obj):
     """Fake IPython.display for tests"""
     content = obj.__html__()
     content = re.sub(r"<style>[^<]+</style>", "", content)
+    content = re.sub(r"<script>[^<]+</script>", "", content)
     content = re.sub(r'<ul class="legend">.+</ul>', "", content)
     # Remove containing divs, since they'll have random IDs in
     content = re.sub(r"<div[^<]+>", "", content)
