@@ -12,6 +12,7 @@ Submodules
 .. toctree::
    :maxdepth: 10
 
+   clictagger.region.changes
    clictagger.region.chapter
    clictagger.region.metadata
    clictagger.region.quote
