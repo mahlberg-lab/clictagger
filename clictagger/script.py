@@ -100,7 +100,7 @@ def _full_html(files, regions):
     yield "</body></html>\n"
 
 
-def _serve_method(fn):
+def _serve_method(fn, server_name="0.0.0.0", server_port=8080):
     """Start a server that serves the single-page result. fn is a function that returns an iterator"""
 
     class RequestHandler(http.server.BaseHTTPRequestHandler):
@@ -117,7 +117,7 @@ def _serve_method(fn):
                 self.end_headers()
                 self.wfile.write("NOT FOUND".encode("utf8"))
 
-    server_address = ("0.0.0.0", 8080)
+    server_address = (server_name, server_port)
     httpd = http.server.HTTPServer(server_address, RequestHandler)
     print("Starting webserver. Press Ctrl-C to stop.")
     print(
@@ -153,8 +153,11 @@ def clictagger():
     )
     ap_mode.add_argument(
         "--serve",
-        help="Start a webserver to view output",
-        action="store_true",
+        help="Start a webserver to view output on the given port (default 8080)",
+        type=int,
+        nargs="?",
+        const=8080,
+        default=None,
     )
     ap.add_argument(
         "--region",
@@ -177,7 +180,7 @@ def clictagger():
         def serve_iter():
             yield from _full_html(args.input, args.region)
 
-        _serve_method(serve_iter)
+        _serve_method(serve_iter, server_port=args.serve)
         exit(0)
 
     if args.input == "-" and sys.stdin.isatty():
