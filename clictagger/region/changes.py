@@ -5,26 +5,18 @@ clictagger.region.changes: Regions that have changed since a previous revision
 Uses :mod:`difflib` from the standard library to identify changes between a
 previous revision of the content and the current version.
 
-:func:`tagger_changes` reads pre-existing ``chapter.paragraph`` regions to know
-where paragraph boundaries fall, then adds:
+:func:`tagger_changes` adds:
 
 - ``changes.changed``: Character ranges in the current content that are
   inserted or altered relative to the previous revision.
-- ``changes.paragraph.changed``: Paragraphs overlapping a change.
-- ``changes.paragraph.unchanged``: Paragraphs untouched by any change.
-
-We need paragraph regions before we can compare revisions::
 
     >>> from functools import partial
-    >>> from .chapter import tagger_chapter
-    >>> from .metadata import tagger_metadata
 
 No changes between revisions
 ----------------------------
 
-If the previous revision is identical to the current content, every paragraph
-is marked ``changes.paragraph.unchanged`` and no ``changes.changed`` ranges are
-produced::
+If the previous revision is identical to the current content, no
+``changes.changed`` ranges are produced::
 
     >>> previous = '''
     ... First paragraph.
@@ -32,18 +24,16 @@ produced::
     ... Second paragraph.
     ... '''.strip()
     >>> current = previous
-    >>> [x for x in run_tagger(current, tagger_metadata, tagger_chapter,
+    >>> [x for x in run_tagger(current,
     ...     partial(tagger_changes, content=current, previous_content=previous))
     ...  if x[0].startswith('changes.')]
-    [('changes.paragraph.unchanged', 0, 16, 1, 'First paragraph.'),
-     ('changes.paragraph.unchanged', 18, 35, 2, 'Second paragraph.')]
+    []
 
 Character-level edit within a paragraph
 ---------------------------------------
 
 A single-character substitution is narrowed down to just the changed
-character(s), and the containing paragraph moves to
-``changes.paragraph.changed``::
+character(s)::
 
     >>> previous = '''
     ... First paragraph.
@@ -59,13 +49,10 @@ character(s), and the containing paragraph moves to
     ...
     ... Third paragraph.
     ... '''.strip()
-    >>> [x for x in run_tagger(current, tagger_metadata, tagger_chapter,
+    >>> [x for x in run_tagger(current,
     ...     partial(tagger_changes, content=current, previous_content=previous))
     ...  if x[0].startswith('changes.')]
-    [('changes.paragraph.unchanged', 0, 16, 1, 'First paragraph.'),
-     ('changes.paragraph.changed', 18, 35, 2, 'Second paragraph!'),
-     ('changes.changed', 34, 35, None, '!'),
-     ('changes.paragraph.unchanged', 37, 53, 3, 'Third paragraph.')]
+    [('changes.changed', 34, 35, None, '!')]
 
 Text appended to an existing paragraph
 --------------------------------------
@@ -82,19 +69,16 @@ Only the appended run of characters is flagged as changed::
     ...
     ... Second paragraph, with extra words.
     ... '''.strip()
-    >>> [x for x in run_tagger(current, tagger_metadata, tagger_chapter,
+    >>> [x for x in run_tagger(current,
     ...     partial(tagger_changes, content=current, previous_content=previous))
     ...  if x[0].startswith('changes.')]
-    [('changes.paragraph.unchanged', 0, 16, 1, 'First paragraph.'),
-     ('changes.paragraph.changed', 18, 53, 2, 'Second paragraph, with extra words.'),
-     ('changes.changed', 34, 52, None, ', with extra words')]
+    [('changes.changed', 34, 52, None, ', with extra words')]
 
 Inserted paragraph
 ------------------
 
-Inserting a new paragraph between existing ones marks only the inserted
-paragraph as changed. The surrounding paragraphs remain unchanged, even though
-the trailing boundary of the change abuts the start of the following one::
+Inserting a new paragraph between existing ones flags the inserted range,
+including the trailing blank line separator::
 
     >>> previous = '''
     ... First paragraph.
@@ -108,13 +92,10 @@ the trailing boundary of the change abuts the start of the following one::
     ...
     ... Third paragraph.
     ... '''.strip()
-    >>> [x for x in run_tagger(current, tagger_metadata, tagger_chapter,
+    >>> [x for x in run_tagger(current,
     ...     partial(tagger_changes, content=current, previous_content=previous))
     ...  if x[0].startswith('changes.')]
-    [('changes.paragraph.unchanged', 0, 16, 1, 'First paragraph.'),
-     ('changes.changed', 18, 40, None, 'Brand new paragraph.\\n\\n'),
-     ('changes.paragraph.changed', 18, 38, 2, 'Brand new paragraph.'),
-     ('changes.paragraph.unchanged', 40, 56, 3, 'Third paragraph.')]
+    [('changes.changed', 18, 40, None, 'Brand new paragraph.\\n\\n')]
 """
 
 import difflib
@@ -174,24 +155,7 @@ def _iter_added_ranges(old_text, new_text):
 
 
 def tagger_changes(regions, content, previous_content):
-    regions["changes.changed"] = []
-    regions["changes.paragraph.changed"] = []
-    paras = regions["chapter.paragraph"][:]
-    for start_ch, end_ch in _iter_added_ranges(previous_content, content):
-        regions["changes.changed"].append((start_ch, end_ch))
-        # Move any paragraphs in this change to the changed list
-        for i, p in enumerate(paras):
-            if p[0] <= start_ch < p[1]:
-                regions["changes.paragraph.changed"].append(p)
-                del paras[i]
-                break
-        for i, p in enumerate(paras):
-            if p[0] < end_ch <= p[1]:
-                regions["changes.paragraph.changed"].append(p)
-                del paras[i]
-                break
-    # Anything remaining is unchanged
-    regions["changes.paragraph.unchanged"] = paras
+    regions["changes.changed"] = list(_iter_added_ranges(previous_content, content))
 
 
 def git_oldrev(file_path, git_ref, git_exec="git"):
