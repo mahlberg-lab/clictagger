@@ -61,6 +61,15 @@ HTML_CSS = """
    text-decoration-color: darkgreen;
 }
 
+#tt-ID .highlight-changes-changed:empty {
+   position: relative;
+   top: 3px;
+   display: inline-block;
+   width: 3px;
+   height: 1.1rem;
+   background: red;
+}
+
 #tt-ID .highlight-0 { background: cornflowerblue }
 #tt-ID .highlight-1 { background: yellowgreen }
 #tt-ID .highlight-2 { background: palevioletred }
@@ -254,6 +263,13 @@ def _gen_markup_html(ttrm):
             start = insert.pos
         if insert.closing:
             opened = open_regions[insert.rclass]
+            if opened.pos == insert.pos:
+                # Region opened and immediately closed with no text between:
+                # emit an empty span so the marker still appears in the output.
+                yield '</span><span title="%s" class="%s"></span><span>' % (
+                    " ".join(region_title(r) for r in open_regions.values()),
+                    " ".join(rclass_css(r.rclass) for r in open_regions.values()),
+                )
             del open_regions[insert.rclass]
         else:
             open_regions[insert.rclass] = insert
