@@ -8,7 +8,8 @@ previous revision of the content and the current version.
 :func:`tagger_changes` adds:
 
 - ``changes.changed``: Character ranges in the current content that are
-  inserted or altered relative to the previous revision.
+  inserted or altered relative to the previous revision, or zero-width
+  ranges at the positions where content was removed.
 
     >>> from functools import partial
 
@@ -96,6 +97,53 @@ including the trailing blank line separator::
     ...     partial(tagger_changes, content=current, previous_content=previous))
     ...  if x[0].startswith('changes.')]
     [('changes.changed', 18, 40, None, 'Brand new paragraph.\\n\\n')]
+
+Removed paragraph
+-----------------
+
+Removing a paragraph flags the position where it used to sit with a
+zero-width range::
+
+    >>> previous = '''
+    ... First paragraph.
+    ...
+    ... Brand new paragraph.
+    ...
+    ... Third paragraph.
+    ... '''.strip()
+    >>> current = '''
+    ... First paragraph.
+    ...
+    ... Third paragraph.
+    ... '''.strip()
+    >>> [x for x in run_tagger(current,
+    ...     partial(tagger_changes, content=current, previous_content=previous))
+    ...  if x[0].startswith('changes.')]
+    [('changes.changed', 18, 18, None, '')]
+
+Character removed within a paragraph
+------------------------------------
+
+A single-character deletion is also flagged with a zero-width range::
+
+    >>> previous = '''
+    ... First paragraph.
+    ...
+    ... Second paragraph!
+    ...
+    ... Third paragraph.
+    ... '''.strip()
+    >>> current = '''
+    ... First paragraph.
+    ...
+    ... Second paragraph
+    ...
+    ... Third paragraph.
+    ... '''.strip()
+    >>> [x for x in run_tagger(current,
+    ...     partial(tagger_changes, content=current, previous_content=previous))
+    ...  if x[0].startswith('changes.')]
+    [('changes.changed', 34, 34, None, '')]
 """
 
 import difflib
@@ -112,7 +160,9 @@ def _line_offsets(lines):
 
 def _iter_added_ranges(old_text, new_text):
     """Yield ``(start, end)`` character ranges in ``new_text`` for content
-    that is inserted or replaced relative to ``old_text``.
+    that is inserted or replaced relative to ``old_text``. Pure deletions
+    yield a zero-width range (``start == end``) at the position in
+    ``new_text`` where the removed content used to be.
 
     Diffs at line granularity first, then refines each changed run at
     character granularity so end-of-line substitutions don't highlight
@@ -123,10 +173,20 @@ def _iter_added_ranges(old_text, new_text):
     >>> list(_iter_added_ranges("a\\nb\\n", "a\\nNEW\\nb\\n"))
     [(2, 6)]
 
+    Line deletion:
+
+    >>> list(_iter_added_ranges("a\\nb\\nc\\n", "a\\nc\\n"))
+    [(2, 2)]
+
     Character substitution within a line:
 
     >>> list(_iter_added_ranges("Rudge\\n", "Rudgey\\n"))
     [(5, 6)]
+
+    Character deletion within a line:
+
+    >>> list(_iter_added_ranges("Rudgey\\n", "Rudge\\n"))
+    [(5, 5)]
 
     Unchanged:
 
@@ -137,20 +197,21 @@ def _iter_added_ranges(old_text, new_text):
     new_lines = new_text.splitlines(keepends=True)
     new_offsets = _line_offsets(new_lines)
 
+    # https://docs.python.org/3/library/difflib.html#difflib.SequenceMatcher.get_opcodes
     line_matcher = difflib.SequenceMatcher(a=old_lines, b=new_lines, autojunk=False)
     for tag, i1, i2, j1, j2 in line_matcher.get_opcodes():
-        if tag == "equal" or tag == "delete":
+        if tag == "equal":
             continue
-        if tag == "insert":
+        if tag == "delete" or tag == "insert":
+            # Remove (from end of file, e.g.) or insert brand-new chunk
             yield (new_offsets[j1], new_offsets[j2])
             continue
-        # 'replace': refine at character level within the changed run.
         old_chunk = "".join(old_lines[i1:i2])
         new_chunk = "".join(new_lines[j1:j2])
         base = new_offsets[j1]
         char_matcher = difflib.SequenceMatcher(a=old_chunk, b=new_chunk, autojunk=False)
         for ctag, _, _, cj1, cj2 in char_matcher.get_opcodes():
-            if ctag in ("insert", "replace"):
+            if ctag != "equal":
                 yield (base + cj1, base + cj2)
 
 
