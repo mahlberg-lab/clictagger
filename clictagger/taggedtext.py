@@ -287,12 +287,12 @@ class TaggedTextRegionMarkup:
         An `Insert` object is a namedtuple of:
 
         - pos: Integer character position in text
-        - opening: Boolean, an opening tag or closing tag?
+        - closing: Boolean, an opening tag or closing tag?
         - rclass: Region class this relates to, e.g. ``quote.quote``
         - rvalue: Integer value associated with this rclass, e.g. chapter number
         """
         Insert = collections.namedtuple(
-            "Insert", "pos region_start opening rclass rvalue"
+            "Insert", "pos region_start closing rclass rvalue"
         )
         # Generate opening/closing inserts for each region we are interested in
         inserts = []
@@ -304,7 +304,7 @@ class TaggedTextRegionMarkup:
                     Insert(
                         pos=r[0],
                         region_start=r[0],
-                        opening=True,
+                        closing=False,
                         rclass=rclass,
                         rvalue=r[2] if len(r) > 2 else None,
                     )
@@ -313,12 +313,12 @@ class TaggedTextRegionMarkup:
                     Insert(
                         pos=r[1],
                         region_start=r[0],
-                        opening=False,
+                        closing=True,
                         rclass=rclass,
                         rvalue=r[2] if len(r) > 2 else None,
                     )
                 )
-        # NB: We want to sort by pos, then region_start, so closes happen before opens
+        # NB: We want to sort by pos, then region_start, then closing, so closes happen before opens
         inserts.sort()
         return iter(inserts)
 

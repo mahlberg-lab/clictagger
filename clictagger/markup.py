@@ -252,10 +252,11 @@ def _gen_markup_html(ttrm):
             )
             yield text_to_html(ttrm.tt.content[start : insert.pos])
             start = insert.pos
-        if insert.opening:
-            open_regions[insert.rclass] = insert
-        else:
+        if insert.closing:
+            opened = open_regions[insert.rclass]
             del open_regions[insert.rclass]
+        else:
+            open_regions[insert.rclass] = insert
     yield "</span></div>"
 
     # Generate JS
@@ -295,8 +296,8 @@ def _gen_markup_ansi(ttrm):
                 ]
                 yield part
             start = insert.pos
-        if insert.opening:
-            open_regions[insert.rclass] = True
-        else:
+        if insert.closing:
             del open_regions[insert.rclass]
+        else:
+            open_regions[insert.rclass] = True
     yield REGION_COLOURS[colour_map["__reset"]]
